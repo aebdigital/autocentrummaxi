@@ -18,9 +18,9 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   
   // Get unique values from cars
-  const allBrands = [...new Set(cars.map(car => car.brand))].sort();
-  const allFuelTypes = [...new Set(cars.map(car => car.fuel))].sort();
-  const allTransmissions = [...new Set(cars.map(car => car.transmission))].sort();
+  const allBrands = Array.from(new Set(cars.map(car => car.brand))).sort();
+  const allFuelTypes = Array.from(new Set(cars.map(car => car.fuel))).sort();
+  const allTransmissions = Array.from(new Set(cars.map(car => car.transmission))).sort();
   
   const minPrice = Math.min(...cars.map(car => car.price));
   const maxPrice = Math.max(...cars.map(car => car.price));

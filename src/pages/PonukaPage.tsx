@@ -20,7 +20,7 @@ const PonukaPage: React.FC<PonukaPageProps> = ({ cars, isLoading, onAddCarClick 
   const createCarSlug = (car: Car) => {
     return `${car.brand}-${car.model}-${car.year}-${car.id}`
       .toLowerCase()
-      .replace(/[^a-z0-9\-]/g, '-')
+      .replace(/[^a-z0-9-]/g, '-')
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '');
   };

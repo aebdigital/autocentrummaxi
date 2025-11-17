@@ -19,7 +19,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
       const foundCar = cars.find(c => {
         const carSlug = `${c.brand}-${c.model}-${c.year}-${c.id}`
           .toLowerCase()
-          .replace(/[^a-z0-9\-]/g, '-')
+          .replace(/[^a-z0-9-]/g, '-')
           .replace(/-+/g, '-')
           .replace(/^-|-$/g, '');
         return carSlug === slug;
