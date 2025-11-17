@@ -12,6 +12,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   const [car, setCar] = useState<Car | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxVisible, setLightboxVisible] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
   useEffect(() => {
@@ -76,16 +77,27 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   ].filter(item => item.value && item.value !== 'N/A');
 
   const nextImage = () => {
-    setCurrentImageIndex(prev => prev + 300); // Scroll by 300px to the right
+    // Calculate total width of all photos
+    const mainPhotoWidth = 624 + 4; // 624px + 4px margin
+    const smallPhotoColumns = Math.ceil((images.length - 1) / 2);
+    const smallPhotosWidth = smallPhotoColumns * (336 + 4); // 336px width + 4px gap per column
+    const totalContentWidth = mainPhotoWidth + smallPhotosWidth;
+    
+    // Assume viewport width (you might want to get actual viewport width)
+    const viewportWidth = window.innerWidth - 10; // minus 5px padding on each side
+    const maxScroll = Math.max(0, totalContentWidth - viewportWidth);
+    
+    setCurrentImageIndex(prev => Math.min(prev + 600, maxScroll));
   };
 
   const prevImage = () => {
-    setCurrentImageIndex(prev => Math.max(0, prev - 300)); // Scroll by 300px to the left
+    setCurrentImageIndex(prev => Math.max(0, prev - 600)); // Scroll by 600px to the left
   };
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
     setLightboxOpen(true);
+    setTimeout(() => setLightboxVisible(true), 10);
   };
 
   const nextLightboxImage = () => {
@@ -100,57 +112,68 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
     <div className="min-h-screen bg-white">
       <MiniHero title="DETAIL VOZIDLA" />
       
-      <div className="w-4/5 mx-auto py-8">
+      <div className="py-8">
         {/* Image Gallery */}
-        <div className="relative mb-8">
-          {images.length > 6 && (
-            <>
-              <button 
-                onClick={prevImage}
-                disabled={currentImageIndex === 0}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white border-none text-2xl cursor-pointer px-3 py-1 rounded z-10 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-              >
-                ←
-              </button>
-              <button 
-                onClick={nextImage}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white border-none text-2xl cursor-pointer px-3 py-1 rounded z-10 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-              >
-                →
-              </button>
-            </>
-          )}
+        <div className="relative mb-8 w-full overflow-x-auto" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
+          {images.length > 6 && (() => {
+            const mainPhotoWidth = 624 + 4;
+            const smallPhotoColumns = Math.ceil((images.length - 1) / 2);
+            const smallPhotosWidth = smallPhotoColumns * (336 + 4);
+            const totalContentWidth = mainPhotoWidth + smallPhotosWidth;
+            const viewportWidth = window.innerWidth - 10;
+            const maxScroll = Math.max(0, totalContentWidth - viewportWidth);
+            
+            return (
+              <>
+                <button 
+                  onClick={prevImage}
+                  disabled={currentImageIndex === 0}
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white border-none text-2xl cursor-pointer px-3 py-1 rounded z-10 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                >
+                  ←
+                </button>
+                <button 
+                  onClick={nextImage}
+                  disabled={currentImageIndex >= maxScroll}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white border-none text-2xl cursor-pointer px-3 py-1 rounded z-10 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                >
+                  →
+                </button>
+              </>
+            );
+          })()}
           
           {/* Horizontal Scrolling Container */}
           <div className="overflow-hidden">
             <div 
-              className="flex transition-transform duration-500 ease-in-out h-96"
+              className="flex transition-transform duration-500 ease-in-out"
               style={{ 
+                height: '499px',
                 transform: `translateX(-${currentImageIndex}px)`,
                 width: 'auto'
               }}
             >
               {/* First image - big (2x2) */}
-              <div className="flex-shrink-0 mr-3" style={{ width: '300px', height: '384px' }}>
+              <div className="flex-shrink-0 mr-1" style={{ width: '624px', height: '499px' }}>
                 <img 
                   src={images[0]} 
                   alt={`${car.brand} ${car.model}`}
-                  className="w-full h-full object-cover rounded-lg cursor-pointer hover:opacity-90"
+                  className="w-full h-full object-cover cursor-pointer hover:opacity-90"
                   onClick={() => openLightbox(0)}
                 />
               </div>
               
               {/* Remaining images - small grid continuing to the right */}
-              <div className="flex gap-3">
+              <div className="flex gap-1">
                 {Array.from({ length: Math.ceil((images.length - 1) / 2) }, (_, columnIndex) => (
-                  <div key={columnIndex} className="flex flex-col gap-3" style={{ width: '210px' }}>
+                  <div key={columnIndex} className="flex flex-col gap-1" style={{ width: '336px' }}>
                     {/* Top row image */}
                     {images[columnIndex * 2 + 1] && (
-                      <div style={{ height: '186px' }}>
+                      <div style={{ height: '248px' }}>
                         <img 
                           src={images[columnIndex * 2 + 1]} 
                           alt={`${car.brand} ${car.model} ${columnIndex * 2 + 2}`}
-                          className="w-full h-full object-cover rounded-lg cursor-pointer hover:opacity-80"
+                          className="w-full h-full object-cover cursor-pointer hover:opacity-80"
                           onClick={() => openLightbox(columnIndex * 2 + 1)}
                         />
                       </div>
@@ -158,11 +181,11 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                     
                     {/* Bottom row image */}
                     {images[columnIndex * 2 + 2] && (
-                      <div style={{ height: '186px' }}>
+                      <div style={{ height: '248px' }}>
                         <img 
                           src={images[columnIndex * 2 + 2]} 
                           alt={`${car.brand} ${car.model} ${columnIndex * 2 + 3}`}
-                          className="w-full h-full object-cover rounded-lg cursor-pointer hover:opacity-80"
+                          className="w-full h-full object-cover cursor-pointer hover:opacity-80"
                           onClick={() => openLightbox(columnIndex * 2 + 2)}
                         />
                       </div>
@@ -177,35 +200,46 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
         {/* Lightbox */}
         {lightboxOpen && (
           <div 
-            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
-            onClick={() => setLightboxOpen(false)}
+            className={`fixed inset-0 bg-white backdrop-blur z-50 flex items-center justify-center transition-all duration-500 ease-in-out ${
+              lightboxVisible ? 'bg-opacity-80 opacity-100' : 'bg-opacity-0 opacity-0'
+            }`}
+            onClick={() => {
+              setLightboxVisible(false);
+              setTimeout(() => setLightboxOpen(false), 500);
+            }}
           >
-            <div className="relative max-w-4xl max-h-4xl">
-              <button 
-                onClick={() => setLightboxOpen(false)}
-                className="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 z-10"
-              >
-                ×
-              </button>
-              <button 
-                onClick={(e) => {e.stopPropagation(); prevLightboxImage();}}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl hover:text-gray-300 z-10"
-              >
-                ←
-              </button>
-              <button 
-                onClick={(e) => {e.stopPropagation(); nextLightboxImage();}}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl hover:text-gray-300 z-10"
-              >
-                →
-              </button>
+            <button 
+              onClick={() => {
+                setLightboxVisible(false);
+                setTimeout(() => setLightboxOpen(false), 500);
+              }}
+              className="fixed top-4 right-4 text-black text-4xl hover:text-gray-700 z-50 bg-white bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
+            >
+              ×
+            </button>
+            <button 
+              onClick={(e) => {e.stopPropagation(); prevLightboxImage();}}
+              className="fixed left-8 top-1/2 transform -translate-y-1/2 text-black text-4xl hover:text-gray-700 z-50 bg-white bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
+            >
+              ←
+            </button>
+            <button 
+              onClick={(e) => {e.stopPropagation(); nextLightboxImage();}}
+              className="fixed right-8 top-1/2 transform -translate-y-1/2 text-black text-4xl hover:text-gray-700 z-50 bg-white bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
+            >
+              →
+            </button>
+            
+            <div className={`relative max-w-5xl max-h-5xl transform transition-all duration-500 ease-in-out ${
+              lightboxVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+            }`}>
               <img 
                 src={images[lightboxIndex]} 
                 alt={`${car.brand} ${car.model}`}
-                className="max-w-full max-h-full object-contain"
+                className="max-w-full max-h-full object-contain transition-all duration-200 ease-in-out"
                 onClick={(e) => e.stopPropagation()}
               />
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm">
+              <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 text-black text-sm bg-white bg-opacity-90 px-3 py-1 rounded shadow-lg z-50">
                 {lightboxIndex + 1} / {images.length}
               </div>
             </div>
@@ -213,14 +247,15 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
         )}
 
         {/* Header */}
-        <div className="mb-8 pb-5 border-b border-gray-200">
+        <div className="mb-8 pb-5 border-b border-gray-200 w-4/5 mx-auto">
           <h1 className="text-4xl font-bold mb-2 font-jost">{car.brand} {car.model}</h1>
           <div className="text-3xl text-red-600 font-bold font-montserrat">{car.price.toLocaleString()} €</div>
         </div>
 
         {/* Basic Data */}
-        <h2 className="text-2xl font-semibold mb-5 font-jost">Základné údaje</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+        <div className="w-4/5 mx-auto">
+          <h2 className="text-2xl font-semibold mb-5 font-jost">Základné údaje</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
           {basicData.map((item, index) => (
             <div key={index} className="flex items-center">
               <div className="flex-shrink-0 mr-3">
@@ -232,11 +267,12 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
               </div>
             </div>
           ))}
+          </div>
         </div>
 
         {/* Features */}
         {car.features && car.features.length > 0 && (
-          <>
+          <div className="w-4/5 mx-auto">
             <h2 className="text-2xl font-semibold mb-5 font-jost">Výbava</h2>
             <ul className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-10 p-0 list-none">
               {car.features.map((feature, index) => (
@@ -246,29 +282,29 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                 </li>
               ))}
             </ul>
-          </>
+          </div>
         )}
 
         {/* Additional Info */}
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 list-none p-0 mb-10">
+        <div className="w-4/5 mx-auto mb-10">
           {car.description && (
-            <li className="pb-3 border-b border-gray-200">
+            <div className="pb-3 border-b border-gray-200 mb-4">
               <strong className="block text-xl mb-2 font-jost">Popis</strong>
-              <div className="whitespace-pre-wrap font-montserrat">{car.description}</div>
-            </li>
+              <div className="whitespace-pre-wrap font-montserrat break-words overflow-hidden">{car.description}</div>
+            </div>
           )}
-          <li className="pb-3 border-b border-gray-200">
+          <div className="pb-3 border-b border-gray-200">
             <strong className="block text-xl mb-2 font-jost">Link</strong>
             <div>
               <button className="inline-block bg-gray-800 text-white px-5 py-2 rounded font-bold hover:bg-gray-700 font-montserrat border-none cursor-pointer">
                 <span>Autobazar</span><span className="text-blue-500">.SK</span>
               </button>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
 
         {/* Back Button */}
-        <div className="text-center mt-8">
+        <div className="text-center mt-8 w-4/5 mx-auto">
           <Link 
             to="/ponuka"
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-bold text-lg inline-block font-montserrat"

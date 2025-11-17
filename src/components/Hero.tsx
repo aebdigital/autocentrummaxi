@@ -1,31 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Hero: React.FC = () => {
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const parallaxBg = document.querySelector('.parallax-bg') as HTMLElement;
+      
+      if (parallaxBg) {
+        const speed = 0.5;
+        parallaxBg.style.transform = `translateY(${scrolled * speed}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <section className="relative min-h-[80vh] bg-gray-400 flex items-center justify-center text-white">
+    <section className="relative min-h-[80vh] bg-gray-400 flex items-center justify-center text-white overflow-hidden">
       <div 
-        className="absolute inset-0 bg-cover bg-center"
+        className="parallax-bg absolute inset-0 bg-cover bg-center will-change-transform"
         style={{
           backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/hero section.jpg")',
+          height: '120%',
+          top: '-10%',
         }}
       />
-      <div className="relative container mx-auto px-4">
+      <div className="relative container mx-auto px-4 z-10">
         <div className="text-left max-w-4xl">
           <h1 className="text-7xl font-bold mb-6 font-jost hero-title">
-            VÍTAME VÁS V AUTOBAZÁRI
+            VÍTAME VÁS V AUTOBAZÁRI<br />
+            <span className="text-blue-400">MT AUTOS</span>{' '}
+            <span className="text-4xl text-white underline">Sučany pri Martine!</span>
           </h1>
-          <h2 className="text-5xl text-blue-400 font-bold mb-6 font-jost hero-subtitle">
-            MT AUTOS
-          </h2>
           <p className="text-2xl mb-10 max-w-3xl leading-relaxed font-montserrat">
             Vyberte si spoľahlivé vozidlo z našej ponuky nových, kontrolovaných 
             ojazdených automobilov a nechajte si ho doviesť priamo ku vám.
           </p>
           <div className="flex space-x-6">
-            <button className="bg-red-600 hover:bg-red-700 px-8 py-4 rounded text-white font-bold text-lg font-montserrat cta-btn">
+            <button className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded text-white font-bold text-lg font-montserrat cta-btn border-2 border-white">
               Pozrite si ponuku
             </button>
-            <button className="border-2 border-white hover:bg-white hover:text-black px-8 py-4 rounded text-white font-bold text-lg font-montserrat cta-btn">
+            <button className="bg-black hover:bg-gray-800 px-6 py-3 rounded text-white font-bold text-lg font-montserrat cta-btn border-2 border-white">
               Kontakt
             </button>
           </div>

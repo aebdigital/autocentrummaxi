@@ -11,64 +11,63 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
   
   return (
     <div 
-      className={`bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all car-card ${
+      className={`bg-white shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all car-card ${
         isAdminAdded ? 'ring-2 ring-red-500 shadow-red-200' : ''
       }`}
       onClick={onClick}
     >
-      <div className="relative h-48">
+      <div className="relative h-48 overflow-hidden">
         <img 
           src={car.image} 
           alt={`${car.brand} ${car.model}`}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
         />
+        <div className="absolute top-0 right-0 bg-red-600 text-white px-4 py-2 rounded-bl text-lg font-bold font-jost">
+          {car.price.toLocaleString()} €
+        </div>
         {isAdminAdded && (
-          <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold font-montserrat">
+          <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold font-montserrat">
             ADMIN
           </div>
         )}
       </div>
-      <div className="p-4">
+      <div className="px-4 pt-4">
         <h3 className="text-lg font-bold text-gray-800 mb-2">
           {car.brand} {car.model}
         </h3>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <div className="flex items-center">
-              <img 
-                className="w-4 h-4 mr-2" 
-                src="https://www.aebdigital.com/wp-content/uploads/2025/04/image-4.svg" 
-                alt="Rok"
-              />
-              <span>Rok:</span>
-            </div>
+        <div className="grid gap-1 text-xs text-gray-600 mb-3" style={{ gridTemplateColumns: '1fr 1fr 1.3fr 1fr' }}>
+          <div className="flex items-center">
+            <img 
+              className="w-4 h-4 mr-1" 
+              src="https://www.aebdigital.com/wp-content/uploads/2025/04/image-4.svg" 
+              alt="Rok"
+            />
             <span className="font-bold text-gray-800">{car.year}</span>
           </div>
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <div className="flex items-center">
-              <img 
-                className="w-4 h-4 mr-2" 
-                src="https://www.aebdigital.com/wp-content/uploads/2025/04/image-1.svg" 
-                alt="Palivo"
-              />
-              <span>Palivo:</span>
-            </div>
+          <div className="flex items-center">
+            <img 
+              className="w-4 h-4 mr-1" 
+              src="https://www.aebdigital.com/wp-content/uploads/2025/04/image-1.svg" 
+              alt="Palivo"
+            />
             <span className="font-bold text-gray-800">{car.fuel}</span>
           </div>
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <div className="flex items-center">
-              <img 
-                className="w-4 h-4 mr-2" 
-                src="https://www.aebdigital.com/wp-content/uploads/2025/04/image-3.svg" 
-                alt="Najazdené km"
-              />
-              <span>Najazdené km:</span>
-            </div>
+          <div className="flex items-center">
+            <img 
+              className="w-4 h-4 mr-1" 
+              src="https://www.aebdigital.com/wp-content/uploads/2025/04/image-3.svg" 
+              alt="Najazdené km"
+            />
             <span className="font-bold text-gray-800">{car.mileage.toLocaleString()} km</span>
           </div>
-        </div>
-        <div className="text-xl font-bold text-red-600">
-          {car.price.toLocaleString()} €
+          <div className="flex items-center">
+            <img 
+              className="w-4 h-4 mr-1" 
+              src="https://www.mtautos.sk/wp-content/uploads/2025/05/image-6.svg" 
+              alt="Výkon"
+            />
+            <span className="font-bold text-gray-800">{car.power || 'N/A'}</span>
+          </div>
         </div>
       </div>
     </div>

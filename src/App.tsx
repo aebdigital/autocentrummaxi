@@ -69,6 +69,10 @@ function App() {
     setManualCars(manualCars.filter(car => car.id !== carId));
   };
 
+  const handleEditAdminCar = (updatedCar: Car) => {
+    setManualCars(manualCars.map(car => car.id === updatedCar.id ? updatedCar : car));
+  };
+
   const handleCarClick = () => {
     // This function is now handled by routing
   };
@@ -110,7 +114,7 @@ function App() {
           />
           <Route 
             path="/admin" 
-            element={<AdminPage onAddCar={handleAddAdminCar} onDeleteCar={handleDeleteAdminCar} adminCars={manualCars} />} 
+            element={<AdminPage onAddCar={handleAddAdminCar} onDeleteCar={handleDeleteAdminCar} onEditCar={handleEditAdminCar} adminCars={manualCars} />} 
           />
         </Routes>
 

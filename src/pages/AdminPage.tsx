@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Car } from '../types/car';
+import MiniHero from '../components/MiniHero';
 
 interface AdminPageProps {
   onAddCar: (car: Car) => void;
   onDeleteCar: (carId: string) => void;
+  onEditCar: (car: Car) => void;
   adminCars: Car[];
 }
 
@@ -15,8 +17,9 @@ interface Announcement {
   createdAt: Date;
 }
 
-const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars }) => {
+const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, onEditCar, adminCars }) => {
   const [activeTab, setActiveTab] = useState<'cars' | 'announcements' | 'manage'>('cars');
+  const [editingCar, setEditingCar] = useState<Car | null>(null);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   
   // Car form state
@@ -39,7 +42,7 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
   });
   
   const [newFeature, setNewFeature] = useState('');
-  const [newImage, setNewImage] = useState('');
+  const [isEditMode, setIsEditMode] = useState(false);
   
   // Announcement form state
   const [announcementForm, setAnnouncementForm] = useState({
@@ -68,14 +71,23 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
     }));
   };
 
-  const addImage = () => {
-    if (newImage.trim()) {
-      setCarForm(prev => ({
-        ...prev,
-        images: [...prev.images, newImage.trim()]
-      }));
-      setNewImage('');
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const imageDataUrl = event.target?.result as string;
+          setCarForm(prev => ({
+            ...prev,
+            images: [...prev.images, imageDataUrl]
+          }));
+        };
+        reader.readAsDataURL(file);
+      });
     }
+    // Reset the input
+    e.target.value = '';
   };
 
   const removeImage = (index: number) => {
@@ -83,6 +95,51 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
       ...prev,
       images: prev.images.filter((_, i) => i !== index)
     }));
+  };
+
+  const startEditCar = (car: Car) => {
+    setEditingCar(car);
+    setIsEditMode(true);
+    setCarForm({
+      brand: car.brand,
+      model: car.model,
+      year: car.year,
+      price: car.price,
+      mileage: car.mileage,
+      fuel: car.fuel,
+      transmission: car.transmission,
+      engine: car.engine || '',
+      power: car.power || '',
+      bodyType: car.bodyType || '',
+      drivetrain: car.drivetrain || '',
+      vin: car.vin || '',
+      description: car.description || '',
+      features: car.features || [],
+      images: car.images || []
+    });
+    setActiveTab('cars');
+  };
+
+  const cancelEdit = () => {
+    setEditingCar(null);
+    setIsEditMode(false);
+    setCarForm({
+      brand: '',
+      model: '',
+      year: new Date().getFullYear(),
+      price: 0,
+      mileage: 0,
+      fuel: '',
+      transmission: '',
+      engine: '',
+      power: '',
+      bodyType: '',
+      drivetrain: '',
+      vin: '',
+      description: '',
+      features: [],
+      images: []
+    });
   };
 
   const handleSubmitCar = (e: React.FormEvent) => {
@@ -93,8 +150,8 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
       return;
     }
 
-    const newCar: Car = {
-      id: `admin-${Date.now()}`,
+    const carData: Car = {
+      id: isEditMode && editingCar ? editingCar.id : `admin-${Date.now()}`,
       brand: carForm.brand,
       model: carForm.model,
       year: carForm.year,
@@ -114,7 +171,13 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
       source: 'admin'
     };
 
-    onAddCar(newCar);
+    if (isEditMode && editingCar) {
+      onEditCar(carData);
+      alert('Vozidlo bolo úspešne upravené!');
+    } else {
+      onAddCar(carData);
+      alert('Vozidlo bolo úspešne pridané!');
+    }
     
     // Reset form
     setCarForm({
@@ -135,7 +198,11 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
       images: []
     });
     
-    alert('Vozidlo bolo úspešne pridané!');
+    setIsEditMode(false);
+    setEditingCar(null);
+    
+    // Switch to manage vehicles tab
+    setActiveTab('manage');
   };
 
   const handleSubmitAnnouncement = (e: React.FormEvent) => {
@@ -180,9 +247,9 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
+      <MiniHero title="ADMIN PANEL" />
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8 font-jost">Admin Panel</h1>
         
         {/* Tabs */}
         <div className="flex space-x-4 mb-8">
@@ -221,7 +288,19 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
         {/* Car Addition Tab */}
         {activeTab === 'cars' && (
           <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold mb-6 font-jost">Pridať nové vozidlo</h2>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-semibold font-jost">
+                {isEditMode ? 'Upraviť vozidlo' : 'Pridať nové vozidlo'}
+              </h2>
+              {isEditMode && (
+                <button
+                  onClick={cancelEdit}
+                  className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-montserrat"
+                >
+                  Zrušiť
+                </button>
+              )}
+            </div>
             
             <form onSubmit={handleSubmitCar} className="space-y-6">
               {/* Basic Info */}
@@ -424,35 +503,28 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
               {/* Images */}
               <div>
                 <label className="block text-sm font-semibold mb-2 font-jost">Fotografie</label>
-                <div className="flex gap-2 mb-2">
+                <div className="mb-4">
                   <input
-                    type="url"
-                    value={newImage}
-                    onChange={(e) => setNewImage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addImage())}
-                    placeholder="URL fotografie"
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-montserrat"
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-montserrat file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
-                  <button
-                    type="button"
-                    onClick={addImage}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-montserrat"
-                  >
-                    Pridať
-                  </button>
+                  <p className="text-sm text-gray-500 mt-2 font-montserrat">Vyberte jeden alebo viacero obrázkov (JPG, PNG, GIF)</p>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6" style={{ gap: '5px' }}>
                   {carForm.images.map((image, index) => (
                     <div key={index} className="relative">
                       <img
                         src={image}
                         alt={`Fotografia ${index + 1}`}
-                        className="w-full h-20 object-cover rounded-lg"
+                        className="w-full h-28 object-cover"
                       />
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
-                        className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-700"
+                        className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-700"
                       >
                         ×
                       </button>
@@ -465,7 +537,7 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-bold text-lg font-montserrat transition-colors"
               >
-                Pridať vozidlo
+                {isEditMode ? 'Upraviť vozidlo' : 'Pridať vozidlo'}
               </button>
             </form>
           </div>
@@ -508,6 +580,13 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars 
                       <span className="px-2 py-1 bg-red-100 text-red-800 text-xs font-montserrat rounded-full">
                         ADMIN
                       </span>
+                      <button
+                        onClick={() => startEditCar(car)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded font-montserrat text-sm transition-colors"
+                        title="Upraviť"
+                      >
+                        ✏️
+                      </button>
                       <button
                         onClick={() => deleteCar(car.id)}
                         className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded font-montserrat text-sm transition-colors"
