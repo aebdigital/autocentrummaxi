@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Car } from '../types/car';
 
 interface CarFilterProps {
@@ -35,7 +35,8 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
     transmissionTypes: []
   });
 
-  const applyFilters = () => {
+  // Real-time filtering effect
+  useEffect(() => {
     const filtered = cars.filter(car => {
       // Price filter
       const priceMatch = car.price >= filters.priceRange[0] && car.price <= filters.priceRange[1];
@@ -56,7 +57,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
     });
     
     onFilter(filtered);
-  };
+  }, [filters, cars, onFilter]);
 
   const resetFilters = () => {
     setFilters({
@@ -66,7 +67,6 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
       yearRange: [minYear, maxYear],
       transmissionTypes: []
     });
-    onFilter(cars);
   };
 
   const handleBrandChange = (brand: string) => {
@@ -123,29 +123,86 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
             <label className="block text-sm font-semibold mb-3 font-jost">
               Cena (€): {filters.priceRange[0].toLocaleString()} - {filters.priceRange[1].toLocaleString()}
             </label>
-            <div className="space-y-2">
-              <input
-                type="range"
-                min={minPrice}
-                max={maxPrice}
-                value={filters.priceRange[0]}
-                onChange={(e) => setFilters({
-                  ...filters,
-                  priceRange: [parseInt(e.target.value), filters.priceRange[1]]
-                })}
-                className="w-full"
-              />
-              <input
-                type="range"
-                min={minPrice}
-                max={maxPrice}
-                value={filters.priceRange[1]}
-                onChange={(e) => setFilters({
-                  ...filters,
-                  priceRange: [filters.priceRange[0], parseInt(e.target.value)]
-                })}
-                className="w-full"
-              />
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-xs text-gray-600 font-montserrat">
+                <span>{minPrice.toLocaleString()} €</span>
+                <span>{maxPrice.toLocaleString()} €</span>
+              </div>
+              <div className="relative h-2">
+                {/* Track background */}
+                <div className="absolute w-full h-2 bg-gray-200 rounded-full"></div>
+                
+                {/* Active range */}
+                <div 
+                  className="absolute h-2 bg-blue-500 rounded-full"
+                  style={{
+                    left: `${((filters.priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%`,
+                    right: `${100 - ((filters.priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%`
+                  }}
+                ></div>
+                
+                {/* Min slider */}
+                <input
+                  type="range"
+                  min={minPrice}
+                  max={filters.priceRange[1]}
+                  value={filters.priceRange[0]}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      priceRange: [parseInt(e.target.value), filters.priceRange[1]]
+                    });
+                  }}
+                  className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
+                />
+                
+                {/* Max slider */}
+                <input
+                  type="range"
+                  min={filters.priceRange[0]}
+                  max={maxPrice}
+                  value={filters.priceRange[1]}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      priceRange: [filters.priceRange[0], parseInt(e.target.value)]
+                    });
+                  }}
+                  className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
+                />
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <input
+                  type="number"
+                  min={minPrice}
+                  max={filters.priceRange[1]}
+                  value={filters.priceRange[0]}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || minPrice;
+                    setFilters({
+                      ...filters,
+                      priceRange: [Math.min(value, filters.priceRange[1]), filters.priceRange[1]]
+                    });
+                  }}
+                  className="w-20 px-2 py-1 text-xs border border-gray-300 rounded font-montserrat"
+                />
+                <span className="text-gray-400 font-montserrat">-</span>
+                <input
+                  type="number"
+                  min={filters.priceRange[0]}
+                  max={maxPrice}
+                  value={filters.priceRange[1]}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || maxPrice;
+                    setFilters({
+                      ...filters,
+                      priceRange: [filters.priceRange[0], Math.max(value, filters.priceRange[0])]
+                    });
+                  }}
+                  className="w-20 px-2 py-1 text-xs border border-gray-300 rounded font-montserrat"
+                />
+              </div>
             </div>
           </div>
 
@@ -154,45 +211,102 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
             <label className="block text-sm font-semibold mb-3 font-jost">
               Rok: {filters.yearRange[0]} - {filters.yearRange[1]}
             </label>
-            <div className="space-y-2">
-              <input
-                type="range"
-                min={minYear}
-                max={maxYear}
-                value={filters.yearRange[0]}
-                onChange={(e) => setFilters({
-                  ...filters,
-                  yearRange: [parseInt(e.target.value), filters.yearRange[1]]
-                })}
-                className="w-full"
-              />
-              <input
-                type="range"
-                min={minYear}
-                max={maxYear}
-                value={filters.yearRange[1]}
-                onChange={(e) => setFilters({
-                  ...filters,
-                  yearRange: [filters.yearRange[0], parseInt(e.target.value)]
-                })}
-                className="w-full"
-              />
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-xs text-gray-600 font-montserrat">
+                <span>{minYear}</span>
+                <span>{maxYear}</span>
+              </div>
+              <div className="relative h-2">
+                {/* Track background */}
+                <div className="absolute w-full h-2 bg-gray-200 rounded-full"></div>
+                
+                {/* Active range */}
+                <div 
+                  className="absolute h-2 bg-blue-500 rounded-full"
+                  style={{
+                    left: `${((filters.yearRange[0] - minYear) / (maxYear - minYear)) * 100}%`,
+                    right: `${100 - ((filters.yearRange[1] - minYear) / (maxYear - minYear)) * 100}%`
+                  }}
+                ></div>
+                
+                {/* Min slider */}
+                <input
+                  type="range"
+                  min={minYear}
+                  max={filters.yearRange[1]}
+                  value={filters.yearRange[0]}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      yearRange: [parseInt(e.target.value), filters.yearRange[1]]
+                    });
+                  }}
+                  className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
+                />
+                
+                {/* Max slider */}
+                <input
+                  type="range"
+                  min={filters.yearRange[0]}
+                  max={maxYear}
+                  value={filters.yearRange[1]}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      yearRange: [filters.yearRange[0], parseInt(e.target.value)]
+                    });
+                  }}
+                  className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
+                />
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <input
+                  type="number"
+                  min={minYear}
+                  max={filters.yearRange[1]}
+                  value={filters.yearRange[0]}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || minYear;
+                    setFilters({
+                      ...filters,
+                      yearRange: [Math.min(value, filters.yearRange[1]), filters.yearRange[1]]
+                    });
+                  }}
+                  className="w-16 px-2 py-1 text-xs border border-gray-300 rounded font-montserrat"
+                />
+                <span className="text-gray-400 font-montserrat">-</span>
+                <input
+                  type="number"
+                  min={filters.yearRange[0]}
+                  max={maxYear}
+                  value={filters.yearRange[1]}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || maxYear;
+                    setFilters({
+                      ...filters,
+                      yearRange: [filters.yearRange[0], Math.max(value, filters.yearRange[0])]
+                    });
+                  }}
+                  className="w-16 px-2 py-1 text-xs border border-gray-300 rounded font-montserrat"
+                />
+              </div>
             </div>
           </div>
 
           {/* Brands */}
           <div>
             <label className="block text-sm font-semibold mb-3 font-jost">Značka</label>
-            <div className="space-y-2 max-h-40 overflow-y-auto">
+            <div className="grid grid-cols-2 gap-1 max-h-40 overflow-y-auto">
               {allBrands.map(brand => (
-                <label key={brand} className="flex items-center font-montserrat">
+                <label key={brand} className="flex items-center font-montserrat text-sm">
                   <input
                     type="checkbox"
                     checked={filters.brands.includes(brand)}
                     onChange={() => handleBrandChange(brand)}
-                    className="mr-2"
+                    className="mr-2 scale-75"
                   />
-                  {brand}
+                  <span className="truncate">{brand}</span>
                 </label>
               ))}
             </div>
@@ -234,13 +348,6 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
             </div>
           </div>
 
-          {/* Apply Filter Button */}
-          <button
-            onClick={applyFilters}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-bold font-montserrat transition-colors"
-          >
-            Aplikovať filtre
-          </button>
         </div>
       </div>
     </>

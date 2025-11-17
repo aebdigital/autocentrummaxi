@@ -15,3 +15,49 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Dual-handle range slider styles */
+.slider-thumb::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 3;
+}
+
+.slider-thumb::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 3;
+  border: none;
+}
+
+.slider-thumb {
+  background: transparent;
+  outline: none;
+  pointer-events: auto;
+  position: relative;
+}
+
+.slider-thumb::-webkit-slider-track {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.slider-thumb::-moz-range-track {
+  background: transparent;
+  border: none;
+  outline: none;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative min-h-[70vh] bg-gray-400 flex items-center justify-center text-white">
+    <section className="relative min-h-[80vh] bg-gray-400 flex items-center justify-center text-white">
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{

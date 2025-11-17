@@ -3,6 +3,8 @@ import { Car } from '../types/car';
 
 interface AdminPageProps {
   onAddCar: (car: Car) => void;
+  onDeleteCar: (carId: string) => void;
+  adminCars: Car[];
 }
 
 interface Announcement {
@@ -13,8 +15,8 @@ interface Announcement {
   createdAt: Date;
 }
 
-const AdminPage: React.FC<AdminPageProps> = ({ onAddCar }) => {
-  const [activeTab, setActiveTab] = useState<'cars' | 'announcements'>('cars');
+const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, adminCars }) => {
+  const [activeTab, setActiveTab] = useState<'cars' | 'announcements' | 'manage'>('cars');
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   
   // Car form state
@@ -171,6 +173,12 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar }) => {
     }
   };
 
+  const deleteCar = (carId: string) => {
+    if (window.confirm('Ste si istí, že chcete odstrániť toto vozidlo?')) {
+      onDeleteCar(carId);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
@@ -187,6 +195,16 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar }) => {
             }`}
           >
             Pridať vozidlo
+          </button>
+          <button
+            onClick={() => setActiveTab('manage')}
+            className={`px-6 py-3 rounded-lg font-montserrat ${
+              activeTab === 'manage'
+                ? 'bg-blue-600 text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            Spravovať vozidlá ({adminCars.length})
           </button>
           <button
             onClick={() => setActiveTab('announcements')}
@@ -450,6 +468,57 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar }) => {
                 Pridať vozidlo
               </button>
             </form>
+          </div>
+        )}
+
+        {/* Manage Cars Tab */}
+        {activeTab === 'manage' && (
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-2xl font-semibold mb-6 font-jost">Spravovať vozidlá</h2>
+            
+            {adminCars.length === 0 ? (
+              <p className="text-gray-500 font-montserrat">Žiadne admin vozidlá</p>
+            ) : (
+              <div className="space-y-4">
+                {adminCars.map((car) => (
+                  <div key={car.id} className="border border-gray-200 rounded-lg p-4 flex items-center space-x-4">
+                    <div className="w-20 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                      <img 
+                        src={car.image} 
+                        alt={`${car.brand} ${car.model}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-lg font-semibold font-jost truncate">
+                        {car.brand} {car.model}
+                      </h3>
+                      <div className="flex items-center space-x-4 text-sm text-gray-600 font-montserrat">
+                        <span>Rok: {car.year}</span>
+                        <span>Cena: {car.price.toLocaleString()} €</span>
+                        <span>Najazdené: {car.mileage.toLocaleString()} km</span>
+                      </div>
+                      <div className="text-xs text-gray-500 font-montserrat mt-1">
+                        ID: {car.id}
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                      <span className="px-2 py-1 bg-red-100 text-red-800 text-xs font-montserrat rounded-full">
+                        ADMIN
+                      </span>
+                      <button
+                        onClick={() => deleteCar(car.id)}
+                        className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded font-montserrat text-sm transition-colors"
+                      >
+                        Odstrániť
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
