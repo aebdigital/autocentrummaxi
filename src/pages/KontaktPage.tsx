@@ -136,9 +136,9 @@ const KontaktPage: React.FC = () => {
               
               <p className="text-xs text-gray-500 mt-4 font-montserrat">
                 Odoslaním súhlasíte pohltom spracovaniu v{' '}
-                <a href="#" className="text-blue-600 underline">
+                <button className="text-blue-600 underline bg-transparent border-none cursor-pointer">
                   ochrane osobných údajov
-                </a>
+                </button>
               </p>
             </div>
           </div>

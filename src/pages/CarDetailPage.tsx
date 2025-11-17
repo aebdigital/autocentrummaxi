@@ -28,6 +28,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
     }
   }, [slug, cars]);
 
+
   if (!car) {
     return (
       <div className="min-h-screen bg-white">
@@ -75,15 +76,11 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   ].filter(item => item.value && item.value !== 'N/A');
 
   const nextImage = () => {
-    if (currentImageIndex < images.length - 1) {
-      setCurrentImageIndex(prev => prev + 1);
-    }
+    setCurrentImageIndex(prev => prev + 300); // Scroll by 300px to the right
   };
 
   const prevImage = () => {
-    if (currentImageIndex > 0) {
-      setCurrentImageIndex(prev => prev - 1);
-    }
+    setCurrentImageIndex(prev => Math.max(0, prev - 300)); // Scroll by 300px to the left
   };
 
   const openLightbox = (index: number) => {
@@ -105,8 +102,8 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
       
       <div className="w-4/5 mx-auto py-8">
         {/* Image Gallery */}
-        <div className="relative mb-8 overflow-hidden">
-          {images.length > 1 && (
+        <div className="relative mb-8">
+          {images.length > 6 && (
             <>
               <button 
                 onClick={prevImage}
@@ -117,7 +114,6 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
               </button>
               <button 
                 onClick={nextImage}
-                disabled={currentImageIndex >= images.length - 1}
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white border-none text-2xl cursor-pointer px-3 py-1 rounded z-10 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
               >
                 →
@@ -125,58 +121,57 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             </>
           )}
           
-          {/* Sliding Gallery */}
-          <div className="h-96 relative overflow-hidden rounded-lg">
+          {/* Horizontal Scrolling Container */}
+          <div className="overflow-hidden">
             <div 
-              className="flex transition-transform duration-500 ease-in-out h-full"
+              className="flex transition-transform duration-500 ease-in-out h-96"
               style={{ 
-                transform: `translateX(-${currentImageIndex * 100}%)`,
-                width: `${images.length * 100}%`
+                transform: `translateX(-${currentImageIndex}px)`,
+                width: 'auto'
               }}
             >
-              {images.map((image, index) => (
-                <div 
-                  key={index}
-                  className="w-full h-full flex-shrink-0 cursor-pointer"
-                  onClick={() => openLightbox(index)}
-                >
-                  <img 
-                    src={image} 
-                    alt={`${car.brand} ${car.model} ${index + 1}`}
-                    className="w-full h-full object-cover hover:opacity-90 transition-opacity"
-                  />
-                </div>
-              ))}
-            </div>
-            
-            {/* Image Counter */}
-            <div className="absolute bottom-4 right-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-lg text-sm">
-              {currentImageIndex + 1} / {images.length}
+              {/* First image - big (2x2) */}
+              <div className="flex-shrink-0 mr-3" style={{ width: '300px', height: '384px' }}>
+                <img 
+                  src={images[0]} 
+                  alt={`${car.brand} ${car.model}`}
+                  className="w-full h-full object-cover rounded-lg cursor-pointer hover:opacity-90"
+                  onClick={() => openLightbox(0)}
+                />
+              </div>
+              
+              {/* Remaining images - small grid continuing to the right */}
+              <div className="flex gap-3">
+                {Array.from({ length: Math.ceil((images.length - 1) / 2) }, (_, columnIndex) => (
+                  <div key={columnIndex} className="flex flex-col gap-3" style={{ width: '210px' }}>
+                    {/* Top row image */}
+                    {images[columnIndex * 2 + 1] && (
+                      <div style={{ height: '186px' }}>
+                        <img 
+                          src={images[columnIndex * 2 + 1]} 
+                          alt={`${car.brand} ${car.model} ${columnIndex * 2 + 2}`}
+                          className="w-full h-full object-cover rounded-lg cursor-pointer hover:opacity-80"
+                          onClick={() => openLightbox(columnIndex * 2 + 1)}
+                        />
+                      </div>
+                    )}
+                    
+                    {/* Bottom row image */}
+                    {images[columnIndex * 2 + 2] && (
+                      <div style={{ height: '186px' }}>
+                        <img 
+                          src={images[columnIndex * 2 + 2]} 
+                          alt={`${car.brand} ${car.model} ${columnIndex * 2 + 3}`}
+                          className="w-full h-full object-cover rounded-lg cursor-pointer hover:opacity-80"
+                          onClick={() => openLightbox(columnIndex * 2 + 2)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          
-          {/* Thumbnail Navigation */}
-          {images.length > 1 && (
-            <div className="flex justify-center mt-4 space-x-2 overflow-x-auto pb-2">
-              {images.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                    currentImageIndex === index 
-                      ? 'border-blue-500 opacity-100' 
-                      : 'border-gray-300 opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <img 
-                    src={image} 
-                    alt={`Thumbnail ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Lightbox */}
@@ -265,9 +260,9 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
           <li className="pb-3 border-b border-gray-200">
             <strong className="block text-xl mb-2 font-jost">Link</strong>
             <div>
-              <a href="#" className="inline-block bg-gray-800 text-white px-5 py-2 rounded no-underline font-bold hover:bg-gray-700 font-montserrat">
+              <button className="inline-block bg-gray-800 text-white px-5 py-2 rounded font-bold hover:bg-gray-700 font-montserrat border-none cursor-pointer">
                 <span>Autobazar</span><span className="text-blue-500">.SK</span>
-              </a>
+              </button>
             </div>
           </li>
         </ul>

@@ -114,8 +114,8 @@ export async function fetchAutokazarData(): Promise<Car[]> {
       const id = ad.querySelector('idAdvertisement')?.textContent || '';
       const title = ad.querySelector('title')?.textContent || '';
       const content = ad.querySelector('content')?.textContent || '';
-      const link = ad.querySelector('link')?.textContent || '';
-      const isReserved = ad.querySelector('isReserved')?.textContent || '';
+      // const link = ad.querySelector('link')?.textContent || '';
+      // const isReserved = ad.querySelector('isReserved')?.textContent || '';
 
       // Get photos
       const photos = Array.from(ad.querySelectorAll('photos > photo')).map(

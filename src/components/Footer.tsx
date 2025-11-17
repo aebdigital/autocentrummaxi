@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
               <li><a href="/" className="hover:text-gray-300">Domov</a></li>
               <li><a href="/ponuka" className="hover:text-gray-300">Ponuka</a></li>
               <li><a href="/kontakt" className="hover:text-gray-300">Kontakt</a></li>
-              <li><a href="#" className="hover:text-gray-300">Ochrana osobných údajov</a></li>
+              <li><button className="hover:text-gray-300 bg-transparent border-none cursor-pointer text-white">Ochrana osobných údajov</button></li>
             </ul>
           </div>
           
