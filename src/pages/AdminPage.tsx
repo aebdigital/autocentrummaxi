@@ -62,8 +62,7 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, onEditCar,
     reservedUntil: '',
     showOnHomepage: false
   });
-  
-  const [newFeature, setNewFeature] = useState('');
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   
@@ -93,23 +92,6 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, onEditCar,
       features: prev.features.includes(feature)
         ? prev.features.filter(f => f !== feature)
         : [...prev.features, feature]
-    }));
-  };
-
-  const addFeature = () => {
-    if (newFeature.trim()) {
-      setCarForm(prev => ({
-        ...prev,
-        features: [...prev.features, newFeature.trim()]
-      }));
-      setNewFeature('');
-    }
-  };
-
-  const removeFeature = (index: number) => {
-    setCarForm(prev => ({
-      ...prev,
-      features: prev.features.filter((_, i) => i !== index)
     }));
   };
 
