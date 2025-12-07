@@ -6,7 +6,6 @@ import { getActivePhonesForSite } from '../lib/publicContact';
 const KontaktPage: React.FC = () => {
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
   const [phones, setPhones] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadPhones = async () => {
@@ -15,8 +14,6 @@ const KontaktPage: React.FC = () => {
         setPhones(activePhones);
       } catch (error) {
         console.error('Error loading phones:', error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
