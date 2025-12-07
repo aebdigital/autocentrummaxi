@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import MiniHero from '../components/MiniHero';
 import PrivacyModal from '../components/PrivacyModal';
+import { getActivePhonesForSite } from '../lib/publicContact';
 
 const KontaktPage: React.FC = () => {
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
-  const [vacationPhones, setVacationPhones] = useState<string[]>([]);
+  const [phones, setPhones] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem('mt-autos-vacation-phones');
-      setVacationPhones(stored ? JSON.parse(stored) : []);
-    } catch {
-      setVacationPhones([]);
-    }
+    const loadPhones = async () => {
+      try {
+        const activePhones = await getActivePhonesForSite();
+        setPhones(activePhones);
+      } catch (error) {
+        console.error('Error loading phones:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadPhones();
   }, []);
-
-  const phoneNumbers = [
-    { number: '+421 915 511 111', display: '+421 915 511 111' },
-    { number: '+421 915 834 574', display: '+421 915 834 574' }
-  ];
-
-  const activePhones = phoneNumbers.filter(phone => !vacationPhones.includes(phone.number));
 
   return (
     <div className="min-h-screen bg-white">
@@ -41,12 +42,12 @@ const KontaktPage: React.FC = () => {
               </div>
               
               <div>
-                {activePhones.length > 0 ? (
+                {phones.length > 0 ? (
                   <>
-                    {activePhones.map((phone, index) => (
-                      <p key={phone.number} className={`text-gray-700 ${index === 0 ? '' : 'ml-8'}`}>
+                    {phones.map((phone, index) => (
+                      <p key={phone} className={`text-gray-700 ${index === 0 ? '' : 'ml-8'}`}>
                         {index === 0 && <span className="font-semibold">Tel: </span>}
-                        {phone.display}
+                        {phone}
                       </p>
                     ))}
                   </>

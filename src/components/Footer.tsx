@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import PrivacyModal from './PrivacyModal';
+import { getActivePhonesForSite } from '../lib/publicContact';
 
 const Footer: React.FC = () => {
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
-  const [vacationPhones, setVacationPhones] = useState<string[]>([]);
+  const [phones, setPhones] = useState<string[]>([]);
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem('mt-autos-vacation-phones');
-      setVacationPhones(stored ? JSON.parse(stored) : []);
-    } catch {
-      setVacationPhones([]);
-    }
+    const loadPhones = async () => {
+      try {
+        const activePhones = await getActivePhonesForSite();
+        setPhones(activePhones);
+      } catch (error) {
+        console.error('Error loading phones:', error);
+      }
+    };
+
+    loadPhones();
   }, []);
-
-  const phoneNumbers = [
-    { number: '+421 915 511 111', display: '+421 915 511 111' },
-    { number: '+421 915 834 574', display: '+421 915 834 574' }
-  ];
-
-  const activePhones = phoneNumbers.filter(phone => !vacationPhones.includes(phone.number));
 
   return (
     <footer className="bg-black text-white py-12">
@@ -63,8 +61,8 @@ const Footer: React.FC = () => {
             <h3 className="text-xl font-semibold mb-4 text-gray-300 font-jost">Kontakt</h3>
             <div className="space-y-2 text-gray-400 font-montserrat">
               <p>mtautossro@gmail.com</p>
-              {activePhones.map((phone) => (
-                <p key={phone.number}>{phone.display}</p>
+              {phones.map((phone) => (
+                <p key={phone}>{phone}</p>
               ))}
               <div className="flex justify-start space-x-4 mt-4">
                 <a 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Car } from '../types/car';
 import MiniHero from '../components/MiniHero';
 import { equipmentCategories } from '../data/equipmentOptions';
@@ -22,25 +22,11 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, onEditCar,
   const [activeTab, setActiveTab] = useState<'cars' | 'announcements' | 'manage' | 'vacation'>('cars');
   const [editingCar, setEditingCar] = useState<Car | null>(null);
 
-  // Load announcements from localStorage
-  const [announcements, setAnnouncements] = useState<Announcement[]>(() => {
-    try {
-      const stored = window.localStorage.getItem('mt-autos-announcements');
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
+  // Announcements state (localStorage disabled)
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
-  // Load vacation status from localStorage
-  const [vacationPhones, setVacationPhones] = useState<string[]>(() => {
-    try {
-      const stored = window.localStorage.getItem('mt-autos-vacation-phones');
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
+  // Vacation phones state (localStorage disabled)
+  const [vacationPhones, setVacationPhones] = useState<string[]>([]);
   
   // Car form state
   const [carForm, setCarForm] = useState({
@@ -72,15 +58,6 @@ const AdminPage: React.FC<AdminPageProps> = ({ onAddCar, onDeleteCar, onEditCar,
     message: ''
   });
 
-  // Persist announcements to localStorage
-  useEffect(() => {
-    window.localStorage.setItem('mt-autos-announcements', JSON.stringify(announcements));
-  }, [announcements]);
-
-  // Persist vacation phones to localStorage
-  useEffect(() => {
-    window.localStorage.setItem('mt-autos-vacation-phones', JSON.stringify(vacationPhones));
-  }, [vacationPhones]);
 
   const handleCarFormChange = (field: string, value: any) => {
     setCarForm(prev => ({ ...prev, [field]: value }));

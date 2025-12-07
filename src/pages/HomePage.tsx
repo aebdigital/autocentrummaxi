@@ -17,11 +17,10 @@ interface HomePageProps {
   cars: Car[];
   isLoading: boolean;
   onCarClick: (car: Car) => void;
-  onAddCarClick: () => void;
   announcements?: Announcement[];
 }
 
-const HomePage: React.FC<HomePageProps> = ({ cars, isLoading, onCarClick, onAddCarClick, announcements = [] }) => {
+const HomePage: React.FC<HomePageProps> = ({ cars, isLoading, onCarClick, announcements = [] }) => {
   const navigate = useNavigate();
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   const [currentAnnouncement, setCurrentAnnouncement] = useState<Announcement | null>(null);
@@ -59,12 +58,6 @@ const HomePage: React.FC<HomePageProps> = ({ cars, isLoading, onCarClick, onAddC
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-6xl font-bold font-jost">NAJNOVŠIE VOZIDLÁ</h2>
-            <button
-              onClick={onAddCarClick}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-bold text-lg font-montserrat"
-            >
-              + Pridať vozidlo
-            </button>
           </div>
           
           {isLoading ? (

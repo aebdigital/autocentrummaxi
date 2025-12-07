@@ -8,10 +8,9 @@ import { Car } from '../types/car';
 interface PonukaPageProps {
   cars: Car[];
   isLoading: boolean;
-  onAddCarClick: () => void;
 }
 
-const PonukaPage: React.FC<PonukaPageProps> = ({ cars, isLoading, onAddCarClick }) => {
+const PonukaPage: React.FC<PonukaPageProps> = ({ cars, isLoading }) => {
   const navigate = useNavigate();
   const [filteredCars, setFilteredCars] = useState<Car[]>(cars);
 
@@ -44,12 +43,6 @@ const PonukaPage: React.FC<PonukaPageProps> = ({ cars, isLoading, onAddCarClick 
           <div className="text-xl font-montserrat text-gray-600">
             Zobrazené: {filteredCars.length} z {cars.length} vozidiel
           </div>
-          <button
-            onClick={onAddCarClick}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-bold text-lg font-montserrat"
-          >
-            + Pridať vozidlo
-          </button>
         </div>
         
         {isLoading ? (
