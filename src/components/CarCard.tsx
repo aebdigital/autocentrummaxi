@@ -1,6 +1,12 @@
 import React from 'react';
 import { Car } from '../types/car';
 
+// Import local SVG icons
+import rokIcon from '../images/rok.svg';
+import palivoIcon from '../images/palivo.svg';
+import kmIcon from '../images/km.svg';
+import vykonIcon from '../images/vykon.svg';
+
 interface CarCardProps {
   car: Car;
   onClick: () => void;
@@ -51,33 +57,33 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
         )}
         <div className="grid gap-1 text-xs text-gray-600 mb-3" style={{ gridTemplateColumns: '1fr 1fr 1.3fr 1fr' }}>
           <div className="flex items-center">
-            <img 
-              className="w-4 h-4 mr-1" 
-              src="https://www.aebdigital.com/wp-content/uploads/2025/04/image-4.svg" 
+            <img
+              className="w-4 h-4 mr-1"
+              src={rokIcon}
               alt="Rok"
             />
             <span className="font-bold text-gray-800">{car.year}</span>
           </div>
           <div className="flex items-center">
-            <img 
-              className="w-4 h-4 mr-1" 
-              src="https://www.aebdigital.com/wp-content/uploads/2025/04/image-1.svg" 
+            <img
+              className="w-4 h-4 mr-1"
+              src={palivoIcon}
               alt="Palivo"
             />
             <span className="font-bold text-gray-800">{car.fuel}</span>
           </div>
           <div className="flex items-center">
-            <img 
-              className="w-4 h-4 mr-1" 
-              src="https://www.aebdigital.com/wp-content/uploads/2025/04/image-3.svg" 
+            <img
+              className="w-4 h-4 mr-1"
+              src={kmIcon}
               alt="Najazdené km"
             />
             <span className="font-bold text-gray-800">{car.mileage.toLocaleString()} km</span>
           </div>
           <div className="flex items-center">
-            <img 
-              className="w-4 h-4 mr-1" 
-              src="https://www.mtautos.sk/wp-content/uploads/2025/05/image-6.svg" 
+            <img
+              className="w-4 h-4 mr-1"
+              src={vykonIcon}
               alt="Výkon"
             />
             <span className="font-bold text-gray-800">{car.power || 'N/A'}</span>
