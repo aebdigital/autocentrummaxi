@@ -3,7 +3,7 @@ import React from 'react';
 const Services: React.FC = () => {
   const services = [
     {
-      title: 'Predaj',
+      title: 'Prodej',
       image: '/predaj.jpeg'
     },
     {

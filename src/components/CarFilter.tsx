@@ -98,7 +98,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
           onClick={() => setIsExpanded(!isExpanded)}
           className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 flex items-center justify-between font-montserrat"
         >
-          <span className="font-semibold">Filtre vozidiel</span>
+          <span className="font-semibold">Filtry vozidel</span>
           <span className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
             ↓
           </span>
@@ -108,12 +108,12 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
       {/* Filter Panel */}
       <div className={`bg-white rounded-lg shadow-lg p-6 ${isExpanded ? 'block' : 'hidden'} lg:block`}>
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold font-jost">Filtre</h3>
+          <h3 className="text-xl font-bold font-jost">Filtry</h3>
           <button
             onClick={resetFilters}
             className="text-sm text-blue-600 hover:text-blue-800 font-montserrat"
           >
-            Vymazať
+            Vymazat
           </button>
         </div>
 
@@ -332,7 +332,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
 
           {/* Transmission */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-jost">Prevodovka</label>
+            <label className="block text-sm font-semibold mb-3 font-jost">Převodovka</label>
             <div className="space-y-2">
               {allTransmissions.map(transmission => (
                 <label key={transmission} className="flex items-center font-montserrat">

@@ -21,7 +21,7 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
   // Format reservation date
   const formatReservationDate = (dateStr: string) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString('sk-SK', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    return date.toLocaleDateString('cs-CZ', { day: '2-digit', month: '2-digit', year: 'numeric' });
   };
 
   return (
@@ -38,7 +38,7 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
         />
         <div className="absolute top-0 right-0 bg-red-600 text-white px-4 py-2 rounded-bl text-lg font-bold font-jost">
-          {car.price.toLocaleString()} €
+          {car.price > 0 ? `${car.price.toLocaleString()} Kč` : 'Cena na vyžádání'}
         </div>
         {isAdminAdded && (
           <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold font-montserrat">

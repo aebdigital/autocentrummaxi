@@ -57,12 +57,12 @@ const HomePage: React.FC<HomePageProps> = ({ cars, isLoading, onCarClick, announ
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-6xl font-bold font-jost">NAJNOVŠIE VOZIDLÁ</h2>
+            <h2 className="text-6xl font-bold font-jost">NEJNOVĚJŠÍ VOZIDLA</h2>
           </div>
           
           {isLoading ? (
             <div className="flex justify-center items-center py-20">
-              <div className="text-2xl">Načítavam vozidlá...</div>
+              <div className="text-2xl">Načítám vozidla...</div>
             </div>
           ) : (
             <>
@@ -82,7 +82,7 @@ const HomePage: React.FC<HomePageProps> = ({ cars, isLoading, onCarClick, announ
                     to="/ponuka"
                     className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg font-bold text-lg inline-block"
                   >
-                    Zobraziť všetky vozidlá ({cars.length})
+                    Zobrazit všechna vozidla ({cars.length})
                   </Link>
                 </div>
               )}

@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import MiniHero from '../components/MiniHero';
 import { Car } from '../types/car';
 import { equipmentCategories } from '../data/equipmentOptions';
-import { getCarFullById, PublicCarFull } from '../lib/publicCars';
 
 // Import local SVG icons
 import pohonIcon from '../images/pohon.svg';
@@ -22,8 +21,7 @@ interface CarDetailPageProps {
 
 const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   const { slug } = useParams<{ slug: string }>();
-  const [car, setCar] = useState<PublicCarFull | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [car, setCar] = useState<Car | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxVisible, setLightboxVisible] = useState(false);
@@ -31,55 +29,27 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   const [mobileImageIndex, setMobileImageIndex] = useState(0);
 
   useEffect(() => {
-    const loadCarDetails = async () => {
-      if (!slug) {
-        setIsLoading(false);
-        return;
-      }
-
-      setIsLoading(true);
-
-      // Extract car ID from slug (format: brand-model-year-uuid)
-      // UUID format is xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (36 chars)
-      // Take the last 36 characters to get the full UUID
-      const carId = slug.slice(-36);
-
-      try {
-        // Fetch full details from Supabase
-        const supabaseCar = await getCarFullById(carId);
-        console.log('Loaded car from Supabase:', supabaseCar);
-        setCar(supabaseCar);
-      } catch (error) {
-        console.error('Error fetching car details:', error);
-        setCar(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadCarDetails();
-  }, [slug]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white">
-        <MiniHero title="DETAIL VOZIDLA" />
-        <div className="flex items-center justify-center py-20">
-          <div className="text-center">
-            <p className="text-xl font-montserrat">Načítavam detail vozidla...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    if (!slug) return;
+    
+    // Find car by ID from the slug (last part of the slug)
+    const slugParts = slug.split('-');
+    const carId = slugParts[slugParts.length - 1];
+    
+    // Use the cars prop passed from App.tsx (which now contains our dummy data)
+    const foundCar = cars.find(c => c.id === carId);
+    
+    if (foundCar) {
+      setCar(foundCar);
+    }
+  }, [slug, cars]);
 
   if (!car) {
     return (
       <div className="min-h-screen bg-white">
-        <MiniHero title="Vozidlo sa nenašlo" />
+        <MiniHero title="Hledám vozidlo..." />
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
-            <p className="text-xl mb-4 font-montserrat">Požadované vozidlo sa nenašlo</p>
+            <p className="text-xl mb-4 font-montserrat">Pokud se vozidlo nenačte, zkuste se vrátit na nabídku.</p>
             <Link to="/ponuka" className="text-blue-600 hover:underline font-montserrat">
               Späť na ponuku
             </Link>
@@ -89,9 +59,8 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
     );
   }
 
-  // Build images array: main image + gallery images
-  const allImages = [car.mainImageUrl, ...car.galleryImageUrls].filter(Boolean);
-  const images = allImages.length > 0 ? allImages : [car.image];
+  // Build images array
+  const images = car.images && car.images.length > 0 ? car.images : [car.image];
 
   const icons = {
     'Pohon': pohonIcon,
@@ -118,19 +87,13 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   ].filter(item => item.value && item.value !== 'N/A' && item.value !== '');
 
   const nextImage = () => {
-    const mainPhotoWidth = 624 + 4;
-    const smallPhotoColumns = Math.ceil((images.length - 1) / 2);
-    const smallPhotosWidth = smallPhotoColumns * (336 + 4);
-    const totalContentWidth = mainPhotoWidth + smallPhotosWidth;
-    const viewportWidth = window.innerWidth - 10;
-    const maxScroll = Math.max(0, totalContentWidth - viewportWidth);
-    setCurrentImageIndex(prev => Math.min(prev + 600, maxScroll));
+    // Logic for scrolling gallery would go here
   };
 
   const prevImage = () => {
-    setCurrentImageIndex(prev => Math.max(0, prev - 600));
+    // Logic for scrolling gallery would go here
   };
-
+  
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
     setLightboxOpen(true);
@@ -157,10 +120,10 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
 
   return (
     <div className="min-h-screen bg-white">
-      <MiniHero title="VOZIDLO" />
+      <MiniHero title="DETAIL VOZIDLA" />
 
       <div className="py-8">
-        {/* Mobile Image View (Single Image with Slider) */}
+        {/* Mobile Image View */}
         <div className="block md:hidden mb-8 w-full">
           <div className="w-full h-[40vh] relative">
             <img
@@ -169,111 +132,28 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
               className="w-full h-full object-cover"
               onClick={() => openLightbox(mobileImageIndex)}
             />
-            
             {images.length > 1 && (
               <>
-                <button 
+                 <button 
                   onClick={prevMobileImage}
-                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full z-10 hover:bg-black/70 focus:outline-none"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                </button>
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full z-10"
+                >←</button>
                 <button 
                   onClick={nextMobileImage}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full z-10 hover:bg-black/70 focus:outline-none"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </button>
-                <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-sm pointer-events-none">
-                  {mobileImageIndex + 1} / {images.length}
-                </div>
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full z-10"
+                >→</button>
               </>
             )}
           </div>
         </div>
 
-        {/* Desktop Image Gallery */}
-        <div className="hidden md:block relative mb-8 w-full overflow-x-auto" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
-          {images.length > 6 && (() => {
-            const mainPhotoWidth = 624 + 4;
-            const smallPhotoColumns = Math.ceil((images.length - 1) / 2);
-            const smallPhotosWidth = smallPhotoColumns * (336 + 4);
-            const totalContentWidth = mainPhotoWidth + smallPhotosWidth;
-            const viewportWidth = window.innerWidth - 10;
-            const maxScroll = Math.max(0, totalContentWidth - viewportWidth);
-
-            return (
-              <>
-                <button
-                  onClick={prevImage}
-                  disabled={currentImageIndex === 0}
-                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white border-none text-2xl cursor-pointer px-3 py-1 rounded z-10 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-                >
-                  ←
-                </button>
-                <button
-                  onClick={nextImage}
-                  disabled={currentImageIndex >= maxScroll}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white border-none text-2xl cursor-pointer px-3 py-1 rounded z-10 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-                >
-                  →
-                </button>
-              </>
-            );
-          })()}
-
-          {/* Horizontal Scrolling Container */}
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{
-                height: '499px',
-                transform: `translateX(-${currentImageIndex}px)`,
-                width: 'auto'
-              }}
-            >
-              {/* First image - big (2x2) */}
-              <div className="flex-shrink-0 mr-1" style={{ width: '624px', height: '499px' }}>
-                <img
-                  src={images[0]}
-                  alt={`${car.brand} ${car.model}`}
-                  className="w-full h-full object-cover cursor-pointer hover:opacity-90"
-                  onClick={() => openLightbox(0)}
-                />
-              </div>
-
-              {/* Remaining images - small grid continuing to the right */}
-              <div className="flex gap-1">
-                {Array.from({ length: Math.ceil((images.length - 1) / 2) }, (_, columnIndex) => (
-                  <div key={columnIndex} className="flex flex-col gap-1" style={{ width: '336px' }}>
-                    {/* Top row image */}
-                    {images[columnIndex * 2 + 1] && (
-                      <div style={{ height: '248px' }}>
-                        <img
-                          src={images[columnIndex * 2 + 1]}
-                          alt={`${car.brand} ${car.model} ${columnIndex * 2 + 2}`}
-                          className="w-full h-full object-cover cursor-pointer hover:opacity-80"
-                          onClick={() => openLightbox(columnIndex * 2 + 1)}
-                        />
-                      </div>
-                    )}
-
-                    {/* Bottom row image */}
-                    {images[columnIndex * 2 + 2] && (
-                      <div style={{ height: '248px' }}>
-                        <img
-                          src={images[columnIndex * 2 + 2]}
-                          alt={`${car.brand} ${car.model} ${columnIndex * 2 + 3}`}
-                          className="w-full h-full object-cover cursor-pointer hover:opacity-80"
-                          onClick={() => openLightbox(columnIndex * 2 + 2)}
-                        />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        {/* Desktop Image View (Simplified for now if gallery is small) */}
+        <div className="hidden md:grid grid-cols-2 gap-2 mb-8 container mx-auto px-4">
+           {images.slice(0, 2).map((img, idx) => (
+             <div key={idx} className="h-[400px]">
+               <img src={img} alt="Car" className="w-full h-full object-cover rounded cursor-pointer hover:opacity-90" onClick={() => openLightbox(idx)} />
+             </div>
+           ))}
         </div>
 
         {/* Lightbox */}
@@ -288,149 +168,70 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             }}
           >
             <button
-              onClick={() => {
-                setLightboxVisible(false);
-                setTimeout(() => setLightboxOpen(false), 500);
-              }}
-              className="fixed top-4 right-4 text-black text-4xl hover:text-gray-700 z-50 bg-white bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
+              onClick={() => setLightboxOpen(false)}
+              className="fixed top-4 right-4 text-black text-4xl hover:text-gray-700 z-50"
             >
               ×
             </button>
-            <button
-              onClick={(e) => {e.stopPropagation(); prevLightboxImage();}}
-              className="fixed left-8 top-1/2 transform -translate-y-1/2 text-black text-4xl hover:text-gray-700 z-50 bg-white bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
-            >
-              ←
-            </button>
-            <button
-              onClick={(e) => {e.stopPropagation(); nextLightboxImage();}}
-              className="fixed right-8 top-1/2 transform -translate-y-1/2 text-black text-4xl hover:text-gray-700 z-50 bg-white bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
-            >
-              →
-            </button>
-
-            <div className={`relative max-w-5xl max-h-5xl transform transition-all duration-500 ease-in-out ${
-              lightboxVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
-            }`}>
+             <div className="relative max-w-5xl max-h-5xl">
               <img
                 src={images[lightboxIndex]}
-                alt={`${car.brand} ${car.model}`}
-                className="max-w-full max-h-full object-contain transition-all duration-200 ease-in-out"
+                alt="Detail"
+                className="max-w-full max-h-screen object-contain"
                 onClick={(e) => e.stopPropagation()}
               />
-              <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 text-black text-sm bg-white bg-opacity-90 px-3 py-1 rounded shadow-lg z-50">
-                {lightboxIndex + 1} / {images.length}
-              </div>
             </div>
+            {images.length > 1 && (
+                <>
+                  <button onClick={(e) => {e.stopPropagation(); prevLightboxImage();}} className="fixed left-4 top-1/2 transform -translate-y-1/2 text-5xl text-black">←</button>
+                  <button onClick={(e) => {e.stopPropagation(); nextLightboxImage();}} className="fixed right-4 top-1/2 transform -translate-y-1/2 text-5xl text-black">→</button>
+                </>
+            )}
           </div>
         )}
 
-        {/* Header with Title and Price */}
-        <div className="mb-8 pb-5 border-b border-gray-200 w-[90%] md:w-4/5 mx-auto">
+        {/* Info */}
+        <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold mb-2 font-jost">{car.brand} {car.model}</h1>
-          <p className="text-gray-600 mb-2 font-montserrat">
-            {car.year} • {car.mileage?.toLocaleString()} km • {car.fuel} • {car.transmission}
-          </p>
-          <div className="text-3xl text-red-600 font-bold font-montserrat">{car.price?.toLocaleString()} €</div>
-        </div>
+          <p className="text-gray-600 mb-4 font-montserrat">{car.year} • {car.mileage?.toLocaleString()} km • {car.fuel}</p>
+          <div className="text-3xl text-red-600 font-bold font-montserrat mb-8">
+            {car.price > 0 ? `${car.price.toLocaleString()} Kč` : 'Cena na vyžádání'}
+          </div>
 
-        {/* Basic Data / Specs */}
-        {basicData.length > 0 && (
-          <div className="w-[90%] md:w-4/5 mx-auto">
-            <h2 className="text-2xl font-semibold mb-5 font-jost">Základné údaje</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+          {/* Specs Grid */}
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             {basicData.map((item, index) => (
-              <div key={index} className="flex items-center">
-                <div className="flex-shrink-0 mr-3">
-                  <img src={item.icon} alt={item.label} className="w-10 h-10" />
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-lg mb-0 leading-tight font-montserrat">{item.label}</div>
-                  <div className="text-base font-bold font-montserrat">{item.value}</div>
+              <div key={index} className="flex items-center bg-gray-50 p-3 rounded">
+                <img src={item.icon} alt={item.label} className="w-8 h-8 mr-3 opacity-70" />
+                <div>
+                  <div className="text-xs text-gray-500 uppercase">{item.label}</div>
+                  <div className="font-bold">{item.value}</div>
                 </div>
               </div>
             ))}
-            </div>
-          </div>
-        )}
+           </div>
 
-        {/* Description */}
-        {car.description && (
-          <div className="w-[90%] md:w-4/5 mx-auto mb-10">
-            <h2 className="text-2xl font-semibold mb-5 font-jost">Popis</h2>
-            <div className="whitespace-pre-wrap font-montserrat break-words overflow-hidden bg-gray-50 p-4 rounded-lg">
-              {car.description}
-            </div>
-          </div>
-        )}
+           {/* Features */}
+           {car.features && car.features.length > 0 && (
+             <div className="mb-12">
+               <h3 className="text-2xl font-bold mb-6 font-jost">Výbava</h3>
+               <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                 {car.features.map((feature, i) => (
+                   <li key={i} className="flex items-center text-gray-700 font-montserrat">
+                     <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                     {feature}
+                   </li>
+                 ))}
+               </ul>
+             </div>
+           )}
 
-        {/* Features / Equipment */}
-        {car.features && car.features.length > 0 && (
-          <div className="w-[90%] md:w-4/5 mx-auto mb-10">
-            <h2 className="text-2xl font-semibold mb-5 font-jost">Výbava</h2>
-            <div className="space-y-6">
-              {equipmentCategories.map((category) => {
-                const categoryFeatures = car.features?.filter(feature => category.options.includes(feature)) || [];
+           <div className="text-center mt-12">
+              <Link to="/kontakt" className="bg-black text-white px-8 py-4 rounded font-bold uppercase tracking-wider hover:bg-gray-800 transition-colors">
+                Mám zájem o toto vozidlo
+              </Link>
+           </div>
 
-                if (categoryFeatures.length === 0) return null;
-
-                return (
-                  <div key={category.name}>
-                    <h3 className="text-xl font-semibold mb-3 text-gray-800 font-jost">{category.name}</h3>
-                    <ul className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 p-0 list-none">
-                      {categoryFeatures.map((feature, index) => (
-                        <li key={index} className="flex items-center font-montserrat">
-                          <span className="text-blue-500 font-bold mr-2">✓</span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-              })}
-
-              {/* Show features not in categories */}
-              {(() => {
-                const allCategoryOptions = equipmentCategories.flatMap(c => c.options);
-                const uncategorizedFeatures = car.features?.filter(f => !allCategoryOptions.includes(f)) || [];
-
-                if (uncategorizedFeatures.length === 0) return null;
-
-                return (
-                  <div>
-                    <h3 className="text-xl font-semibold mb-3 text-gray-800 font-jost">Ostatné</h3>
-                    <ul className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 p-0 list-none">
-                      {uncategorizedFeatures.map((feature, index) => (
-                        <li key={index} className="flex items-center font-montserrat">
-                          <span className="text-blue-500 font-bold mr-2">✓</span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-              })()}
-            </div>
-          </div>
-        )}
-
-        {/* Reserved Until Notice */}
-        {car.reservedUntil && new Date(car.reservedUntil) > new Date() && (
-          <div className="w-[90%] md:w-4/5 mx-auto mb-10">
-            <div className="bg-orange-100 border border-orange-300 text-orange-800 px-4 py-3 rounded-lg font-montserrat">
-              <strong>Rezervované</strong> do {new Date(car.reservedUntil).toLocaleDateString('sk-SK')}
-            </div>
-          </div>
-        )}
-
-        {/* Back Button */}
-        <div className="text-center mt-8 w-[90%] md:w-4/5 mx-auto">
-          <Link
-            to="/ponuka"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-bold text-lg inline-block font-montserrat"
-          >
-            ← Späť na ponuku
-          </Link>
         </div>
       </div>
     </div>

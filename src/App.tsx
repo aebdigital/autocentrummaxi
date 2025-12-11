@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -7,61 +7,25 @@ import HomePage from './pages/HomePage';
 import PonukaPage from './pages/PonukaPage';
 import CarDetailPage from './pages/CarDetailPage';
 import KontaktPage from './pages/KontaktPage';
-import { Car } from './types/car';
-import { getCarsForPonuka, PublicCar } from './lib/publicCars';
+import CookiesPage from './pages/CookiesPage';
+import ZarukaPage from './pages/ZarukaPage';
+import FinancovaniPage from './pages/FinancovaniPage';
+import PojisteniPage from './pages/PojisteniPage';
+import { initialCars } from './data/initialCars';
 
 function AppContent() {
-  const [supabaseCars, setSupabaseCars] = useState<Car[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Announcements disabled
+  // Use initialCars directly for now to ensure the user sees the requested data
+  // In a real app, you might merge this with Supabase data or fetch exclusively from Supabase
+  const cars = initialCars;
+  const isLoading = false;
   const [announcements] = useState<any[]>([]);
 
-  // Load cars from Supabase
-  useEffect(() => {
-    const loadCars = async () => {
-      try {
-        setIsLoading(true);
-        console.log('Loading cars from Supabase...');
-        const data = await getCarsForPonuka();
-        console.log('Cars loaded:', data.length);
-
-        // Convert PublicCar to Car type
-        const cars: Car[] = data.map((car: PublicCar) => ({
-          id: car.id,
-          brand: car.brand,
-          model: car.model,
-          year: car.year ?? 0,
-          price: car.price ?? 0,
-          mileage: car.mileage ?? 0,
-          fuel: car.fuel ?? '',
-          transmission: car.transmission ?? '',
-          image: car.image,
-          power: car.power ?? undefined,
-          showOnHomepage: car.showOnHomepage ?? false,
-        }));
-
-        setSupabaseCars(cars);
-      } catch (error) {
-        console.error('Failed to load cars from Supabase:', error);
-        setSupabaseCars([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadCars();
-  }, []);
-
-  // Cars come from Supabase
-  const cars = supabaseCars;
-
   const handleCarClick = () => {
-    // This function is now handled by routing
+    // This function is handled by routing
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 font-sans">
       <Header />
 
       <Routes>
@@ -92,6 +56,22 @@ function AppContent() {
         <Route
           path="/kontakt"
           element={<KontaktPage />}
+        />
+        <Route
+          path="/cookies"
+          element={<CookiesPage />}
+        />
+        <Route
+          path="/zaruka"
+          element={<ZarukaPage />}
+        />
+        <Route
+          path="/financovani"
+          element={<FinancovaniPage />}
+        />
+        <Route
+          path="/pojisteni"
+          element={<PojisteniPage />}
         />
       </Routes>
 
