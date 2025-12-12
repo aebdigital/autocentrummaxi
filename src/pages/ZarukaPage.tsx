@@ -168,9 +168,9 @@ const ZarukaPage: React.FC = () => {
         <section>
           <h3 className="text-2xl font-bold font-exo mb-6">Pojistné podmínky</h3>
           <ul className="space-y-2">
-            <li><a href="#" className="text-blue-600 hover:underline">Všeobecné pojistné podmínky</a></li>
-            <li><a href="#" className="text-blue-600 hover:underline">Pojistný program AutoCheck Platinum</a></li>
-            <li><a href="#" className="text-blue-600 hover:underline">Pojistný program AutoCheck Gold, Silver, Bronze</a></li>
+            <li><a href="/" className="text-blue-600 hover:underline">Všeobecné pojistné podmínky</a></li>
+            <li><a href="/" className="text-blue-600 hover:underline">Pojistný program AutoCheck Platinum</a></li>
+            <li><a href="/" className="text-blue-600 hover:underline">Pojistný program AutoCheck Gold, Silver, Bronze</a></li>
           </ul>
         </section>
 

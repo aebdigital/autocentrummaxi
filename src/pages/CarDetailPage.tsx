@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import MiniHero from '../components/MiniHero';
 import { Car } from '../types/car';
-import { equipmentCategories } from '../data/equipmentOptions';
 
 // Import local SVG icons
 import pohonIcon from '../images/pohon.svg';

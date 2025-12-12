@@ -13,12 +13,6 @@ interface CarCardProps {
 }
 
 const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
-  // Format reservation date
-  const formatReservationDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('cs-CZ', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  };
-
   const isReserved = car.reservedUntil && new Date(car.reservedUntil) > new Date();
 
   return (

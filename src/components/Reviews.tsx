@@ -146,7 +146,7 @@ const Reviews: React.FC = () => {
       
       {/* Add CSS for pause on hover if not supported by Tailwind utility directly */}
       <style>{`
-        .hover\:pause:hover {
+        .hover\\:pause:hover {
           animation-play-state: paused;
         }
       `}</style>
