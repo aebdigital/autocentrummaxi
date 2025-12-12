@@ -78,6 +78,16 @@ const Reviews: React.FC = () => {
         <p className="text-center text-gray-500 mt-4 font-montserrat">
           Co o nás říkají naši spokojení zákazníci na Google
         </p>
+        <div className="text-center mt-8">
+          <a
+            href="https://www.google.com/maps/place/Autocentrum+Maxi+.cz/@49.8471066,18.2639703,17z/data=!4m7!3m6!1s0x4713e31c98cd8651:0xeb942615888194!8m2!3d49.8471066!4d18.266159!9m1!1b1"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition-colors font-montserrat"
+          >
+            Napsat recenzi
+          </a>
+        </div>
       </div>
 
       <div className="relative">
