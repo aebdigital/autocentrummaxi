@@ -11,20 +11,18 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center h-20">
         {/* Left Side: Logo */}
         <div className="flex items-center">
-          <Link to="/" className="text-2xl md:text-3xl font-bold font-jost tracking-tight text-black hover:text-gray-700 transition-colors">
+          <Link to="/" className="text-2xl md:text-3xl font-bold font-exo tracking-tight text-black hover:text-gray-700 transition-colors">
             Autocentrum Maxi .cz
           </Link>
         </div>
         
         {/* Center: Desktop Nav */}
         <nav className="hidden lg:flex items-center space-x-6">
-          <Link to="/" className="text-sm font-bold font-jost uppercase tracking-wider hover:text-red-600 transition-colors">Úvod</Link>
-          <Link to="/ponuka" className="text-sm font-bold font-jost uppercase tracking-wider hover:text-red-600 transition-colors">Nabídka</Link>
-          <Link to="/financovani" className="text-sm font-bold font-jost uppercase tracking-wider hover:text-red-600 transition-colors">Financování</Link>
-          <Link to="/pojisteni" className="text-sm font-bold font-jost uppercase tracking-wider hover:text-red-600 transition-colors">Pojištění</Link>
-          <Link to="/zaruka" className="text-sm font-bold font-jost uppercase tracking-wider hover:text-red-600 transition-colors">Záruka</Link>
-          <Link to="/kontakt" className="text-sm font-bold font-jost uppercase tracking-wider hover:text-red-600 transition-colors">Kontakt</Link>
-          <Link to="/cookies" className="text-sm font-bold font-jost uppercase tracking-wider hover:text-red-600 transition-colors">Cookie</Link>
+          <Link to="/ponuka" className="text-sm font-bold font-exo uppercase tracking-wider hover:text-red-600 transition-colors">Nabídka</Link>
+          <Link to="/financovani" className="text-sm font-bold font-exo uppercase tracking-wider hover:text-red-600 transition-colors">Financování</Link>
+          <Link to="/pojisteni" className="text-sm font-bold font-exo uppercase tracking-wider hover:text-red-600 transition-colors">Pojištění</Link>
+          <Link to="/zaruka" className="text-sm font-bold font-exo uppercase tracking-wider hover:text-red-600 transition-colors">Záruka</Link>
+          <Link to="/kontakt" className="text-sm font-bold font-exo uppercase tracking-wider hover:text-red-600 transition-colors">Kontakt</Link>
         </nav>
         
         {/* Right Side: Contact / Mobile Toggle */}
@@ -51,7 +49,7 @@ const Header: React.FC = () => {
         className={`fixed top-0 left-0 w-full h-[100dvh] bg-white z-[60] transform transition-transform duration-300 ease-in-out lg:hidden ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="container mx-auto px-4 py-4 flex justify-between items-center h-20 border-b border-gray-100 bg-white">
-          <Link to="/" onClick={toggleMenu} className="text-2xl font-bold font-jost">
+          <Link to="/" onClick={toggleMenu} className="text-2xl font-bold font-exo">
              Autocentrum Maxi .cz
           </Link>
           <button onClick={toggleMenu} className="p-2 focus:outline-none">
@@ -62,13 +60,11 @@ const Header: React.FC = () => {
         </div>
         
         <nav className="flex flex-col justify-start p-8 h-full bg-white space-y-6">
-           <Link to="/" className="text-black font-bold font-jost hover:text-red-600 text-3xl" onClick={toggleMenu}>Úvod</Link>
-           <Link to="/ponuka" className="text-black font-bold font-jost hover:text-red-600 text-3xl" onClick={toggleMenu}>Nabídka</Link>
-           <Link to="/financovani" className="text-black font-bold font-jost hover:text-red-600 text-3xl" onClick={toggleMenu}>Financování</Link>
-           <Link to="/pojisteni" className="text-black font-bold font-jost hover:text-red-600 text-3xl" onClick={toggleMenu}>Pojištění</Link>
-           <Link to="/zaruka" className="text-black font-bold font-jost hover:text-red-600 text-3xl" onClick={toggleMenu}>Záruka</Link>
-           <Link to="/kontakt" className="text-black font-bold font-jost hover:text-red-600 text-3xl" onClick={toggleMenu}>Kontakt</Link>
-           <Link to="/cookies" className="text-black font-bold font-jost hover:text-red-600 text-3xl" onClick={toggleMenu}>Cookie</Link>
+           <Link to="/ponuka" className="text-black font-bold font-exo hover:text-red-600 text-3xl" onClick={toggleMenu}>Nabídka</Link>
+           <Link to="/financovani" className="text-black font-bold font-exo hover:text-red-600 text-3xl" onClick={toggleMenu}>Financování</Link>
+           <Link to="/pojisteni" className="text-black font-bold font-exo hover:text-red-600 text-3xl" onClick={toggleMenu}>Pojištění</Link>
+           <Link to="/zaruka" className="text-black font-bold font-exo hover:text-red-600 text-3xl" onClick={toggleMenu}>Záruka</Link>
+           <Link to="/kontakt" className="text-black font-bold font-exo hover:text-red-600 text-3xl" onClick={toggleMenu}>Kontakt</Link>
         </nav>
       </div>
     </header>

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AnnouncementPopup from './components/AnnouncementPopup';
+import ScrollToTop from './components/ScrollToTop';
 import HomePage from './pages/HomePage';
 import PonukaPage from './pages/PonukaPage';
 import CarDetailPage from './pages/CarDetailPage';
@@ -26,6 +27,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
+      <ScrollToTop />
       <Header />
 
       <Routes>

@@ -60,7 +60,7 @@ const PonukaPage: React.FC<PonukaPageProps> = ({ cars, isLoading }) => {
             <div className="lg:col-span-3">
               {filteredCars.length === 0 ? (
                 <div className="text-center py-20">
-                  <h3 className="text-2xl font-bold mb-4 font-jost">Žádná vozidla</h3>
+                  <h3 className="text-2xl font-bold mb-4 font-exo">Žádná vozidla</h3>
                   <p className="text-gray-600 font-montserrat">Zkuste změnit filtry pro zobrazení vozidel.</p>
                 </div>
               ) : (

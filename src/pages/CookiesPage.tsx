@@ -4,144 +4,144 @@ import MiniHero from '../components/MiniHero';
 const CookiesPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
-      <MiniHero title="Cookie Policy" />
+      <MiniHero title="Zásady používání cookies" />
       <div className="container mx-auto px-4 py-12 max-w-4xl font-montserrat text-gray-800">
         <p className="mb-6 italic">
-          This Cookie Policy was last updated on 4. 10. 2024 and applies to citizens and legal permanent residents of the European Economic Area and Switzerland.
+          Tyto zásady používání cookies byly naposledy aktualizovány dne 4. 10. 2024 a platí pro občany a osoby s trvalým pobytem v Evropském hospodářském prostoru a ve Švýcarsku.
         </p>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold font-jost mb-4">1. Introduction</h2>
+          <h2 className="text-2xl font-bold font-exo mb-4">1. Úvod</h2>
           <p>
-            Our website, https://autocentrummaxi.cz (hereinafter: „the website“) uses cookies and other related technologies (for convenience all technologies are referred to as „cookies“). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.
+            Naše webové stránky https://autocentrummaxi.cz (dále jen „webové stránky") používají soubory cookies a další související technologie (pro zjednodušení jsou všechny technologie označovány jako „cookies"). Soubory cookies jsou také umísťovány třetími stranami, které jsme zapojili. V níže uvedeném dokumentu vás informujeme o používání souborů cookies na našich webových stránkách.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold font-jost mb-4">2. What are cookies?</h2>
+          <h2 className="text-2xl font-bold font-exo mb-4">2. Co jsou cookies?</h2>
           <p>
-            A cookie is a small simple file that is sent along with pages of this website and stored by your browser on the hard drive of your computer or another device. The information stored therein may be returned to our servers or to the servers of the relevant third parties during a subsequent visit.
+            Cookie je malý jednoduchý soubor, který je odesílán společně se stránkami tohoto webu a ukládán vaším prohlížečem na pevný disk vašeho počítače nebo jiného zařízení. Informace v něm uložené mohou být při další návštěvě vráceny na naše servery nebo na servery příslušných třetích stran.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold font-jost mb-4">3. What are scripts?</h2>
+          <h2 className="text-2xl font-bold font-exo mb-4">3. Co jsou skripty?</h2>
           <p>
-            A script is a piece of program code that is used to make our website function properly and interactively. This code is executed on our server or on your device.
+            Skript je část programového kódu, která se používá k zajištění správného a interaktivního fungování našich webových stránek. Tento kód je spouštěn na našem serveru nebo na vašem zařízení.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold font-jost mb-4">4. What is a web beacon?</h2>
+          <h2 className="text-2xl font-bold font-exo mb-4">4. Co je webový maják?</h2>
           <p>
-            A web beacon (or a pixel tag) is a small, invisible piece of text or image on a website that is used to monitor traffic on a website. In order to do this, various data about you is stored using web beacons.
+            Webový maják (nebo pixelový tag) je malý, neviditelný kus textu nebo obrázku na webové stránce, který se používá ke sledování provozu na webu. Za tímto účelem jsou pomocí webových majáků ukládány různé údaje o vás.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold font-jost mb-4">5. Cookies</h2>
-          
-          <h3 className="text-xl font-bold font-jost mb-2">5.1 Technical or functional cookies</h3>
+          <h2 className="text-2xl font-bold font-exo mb-4">5. Cookies</h2>
+
+          <h3 className="text-xl font-bold font-exo mb-2">5.1 Technické nebo funkční cookies</h3>
           <p className="mb-4">
-            Some cookies ensure that certain parts of the website work properly and that your user preferences remain known. By placing functional cookies, we make it easier for you to visit our website. This way, you do not need to repeatedly enter the same information when visiting our website and, for example, the items remain in your shopping cart until you have paid. We may place these cookies without your consent.
+            Některé soubory cookies zajišťují, že určité části webových stránek fungují správně a že vaše uživatelské preference zůstanou známé. Umístěním funkčních souborů cookies vám usnadňujeme návštěvu našich webových stránek. Tímto způsobem nemusíte při návštěvě našich webových stránek opakovaně zadávat stejné informace a například položky zůstanou v košíku, dokud nezaplatíte. Tyto soubory cookies můžeme umístit bez vašeho souhlasu.
           </p>
 
-          <h3 className="text-xl font-bold font-jost mb-2">5.2 Marketing/Tracking cookies</h3>
+          <h3 className="text-xl font-bold font-exo mb-2">5.2 Marketingové/sledovací cookies</h3>
           <p className="mb-4">
-            Marketing/Tracking cookies are cookies or any other form of local storage, used to create user profiles to display advertising or to track the user on this website or across several websites for similar marketing purposes.
+            Marketingové/sledovací soubory cookies jsou soubory cookies nebo jakákoli jiná forma místního úložiště, které se používají k vytváření uživatelských profilů pro zobrazování reklamy nebo ke sledování uživatele na těchto webových stránkách či na několika webových stránkách pro podobné marketingové účely.
           </p>
 
-          <h3 className="text-xl font-bold font-jost mb-2">5.3 Social media</h3>
+          <h3 className="text-xl font-bold font-exo mb-2">5.3 Sociální sítě</h3>
           <p>
-            On our website, we have included content from Instagram to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like Instagram. This content is embedded with code derived from Instagram and places cookies. This content might store and process certain information for personalized advertising.
+            Na našich webových stránkách jsme zahrnuli obsah z Instagramu pro propagaci webových stránek (např. „líbí se mi", „připnout") nebo sdílení (např. „tweet") na sociálních sítích jako Instagram. Tento obsah je vložen pomocí kódu odvozeného z Instagramu a umísťuje soubory cookies. Tento obsah může ukládat a zpracovávat určité informace pro personalizovanou reklamu.
           </p>
           <p className="mt-2">
-            Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible. Instagram is located in the United States.
+            Přečtěte si prosím prohlášení o ochraně osobních údajů těchto sociálních sítí (které se mohou pravidelně měnit), abyste zjistili, co dělají s vašimi (osobními) údaji, které zpracovávají pomocí těchto souborů cookies. Získaná data jsou co nejvíce anonymizována. Instagram sídlí ve Spojených státech.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold font-jost mb-4">6. Placed cookies</h2>
+          <h2 className="text-2xl font-bold font-exo mb-4">6. Umístěné cookies</h2>
           <div className="space-y-4">
             <div>
               <h4 className="font-bold">Google Analytics</h4>
-              <p>Purpose pending investigation</p>
-              <p className="text-sm text-gray-600">Consent to service google-analytics</p>
+              <p>Účel čeká na prošetření</p>
+              <p className="text-sm text-gray-600">Souhlas se službou google-analytics</p>
             </div>
             <div>
               <h4 className="font-bold">WordPress</h4>
               <p>Funkční, nezbytně nutné</p>
-              <p className="text-sm text-gray-600">Consent to service wordpress</p>
+              <p className="text-sm text-gray-600">Souhlas se službou wordpress</p>
             </div>
             <div>
               <h4 className="font-bold">iThemes Security</h4>
               <p>Funkční, nezbytně nutné</p>
-              <p className="text-sm text-gray-600">Consent to service ithemes-security</p>
+              <p className="text-sm text-gray-600">Souhlas se službou ithemes-security</p>
             </div>
             <div>
               <h4 className="font-bold">Google Maps</h4>
-              <p>Purpose pending investigation</p>
-              <p className="text-sm text-gray-600">Consent to service google-maps</p>
+              <p>Účel čeká na prošetření</p>
+              <p className="text-sm text-gray-600">Souhlas se službou google-maps</p>
             </div>
             <div>
-              <h4 className="font-bold">Miscellaneous</h4>
+              <h4 className="font-bold">Různé</h4>
               <p>Funkční, nezbytně nutné</p>
-              <p className="text-sm text-gray-600">Consent to service miscellaneous</p>
+              <p className="text-sm text-gray-600">Souhlas se službou miscellaneous</p>
             </div>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold font-jost mb-4">7. Consent</h2>
+          <h2 className="text-2xl font-bold font-exo mb-4">7. Souhlas</h2>
           <p>
-            When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on „Save preferences“, you consent to us using the categories of cookies and plug-ins you selected in the pop-up, as described in this Cookie Policy. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.
+            Při první návštěvě našich webových stránek vám zobrazíme vyskakovací okno s vysvětlením o souborech cookies. Jakmile kliknete na „Uložit předvolby", souhlasíte s tím, že budeme používat kategorie souborů cookies a pluginů, které jste vybrali ve vyskakovacím okně, jak je popsáno v těchto zásadách používání cookies. Používání souborů cookies můžete zakázat prostřednictvím svého prohlížeče, ale upozorňujeme, že naše webové stránky pak nemusí správně fungovat.
           </p>
-          <h3 className="text-xl font-bold font-jost mt-4 mb-2">7.1 Manage your consent settings</h3>
+          <h3 className="text-xl font-bold font-exo mt-4 mb-2">7.1 Správa nastavení souhlasu</h3>
           <ul className="list-disc ml-6">
-            <li>Functional: Always active</li>
-            <li>Marketing</li>
+            <li>Funkční: Vždy aktivní</li>
+            <li>Marketingové</li>
           </ul>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold font-jost mb-4">8. Enabling/disabling and deleting cookies</h2>
+          <h2 className="text-2xl font-bold font-exo mb-4">8. Povolení/zakázání a mazání cookies</h2>
           <p>
-            You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser.
+            K automatickému nebo ručnímu mazání souborů cookies můžete použít svůj internetový prohlížeč. Můžete také určit, že některé soubory cookies nesmí být umístěny. Další možností je změnit nastavení internetového prohlížeče tak, abyste při každém umístění souboru cookie obdrželi zprávu. Další informace o těchto možnostech naleznete v pokynech v části Nápověda vašeho prohlížeče.
           </p>
           <p className="mt-2">
-            Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our website again.
+            Upozorňujeme, že naše webové stránky nemusí správně fungovat, pokud jsou všechny soubory cookies zakázány. Pokud soubory cookies ve svém prohlížeči odstraníte, budou po vašem souhlasu při další návštěvě našich webových stránek znovu umístěny.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold font-jost mb-4">9. Your rights with respect to personal data</h2>
-          <p className="mb-2">You have the following rights with respect to your personal data:</p>
+          <h2 className="text-2xl font-bold font-exo mb-4">9. Vaše práva týkající se osobních údajů</h2>
+          <p className="mb-2">Máte následující práva týkající se vašich osobních údajů:</p>
           <ul className="list-disc ml-6 space-y-2">
-            <li>You have the right to know why your personal data is needed, what will happen to it, and how long it will be retained for.</li>
-            <li>Right of access: You have the right to access your personal data that is known to us.</li>
-            <li>Right to rectification: you have the right to supplement, correct, have deleted or blocked your personal data whenever you wish.</li>
-            <li>If you give us your consent to process your data, you have the right to revoke that consent and to have your personal data deleted.</li>
-            <li>Right to transfer your data: you have the right to request all your personal data from the controller and transfer it in its entirety to another controller.</li>
-            <li>Right to object: you may object to the processing of your data. We comply with this, unless there are justified grounds for processing.</li>
+            <li>Máte právo vědět, proč jsou vaše osobní údaje potřebné, co se s nimi bude dít a jak dlouho budou uchovávány.</li>
+            <li>Právo na přístup: Máte právo na přístup ke svým osobním údajům, které jsou nám známy.</li>
+            <li>Právo na opravu: máte právo kdykoli doplnit, opravit, nechat vymazat nebo zablokovat své osobní údaje.</li>
+            <li>Pokud nám dáte souhlas se zpracováním svých údajů, máte právo tento souhlas odvolat a nechat své osobní údaje vymazat.</li>
+            <li>Právo na přenos údajů: máte právo požadovat všechny své osobní údaje od správce a předat je v celém rozsahu jinému správci.</li>
+            <li>Právo vznést námitku: můžete vznést námitku proti zpracování svých údajů. Vyhovíme, pokud neexistují oprávněné důvody pro zpracování.</li>
           </ul>
           <p className="mt-4">
-            To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you, but you also have the right to submit a complaint to the supervisory authority (the Data Protection Authority).
+            Pro uplatnění těchto práv nás prosím kontaktujte. Kontaktní údaje naleznete na konci těchto zásad používání cookies. Pokud máte stížnost ohledně toho, jak nakládáme s vašimi údaji, rádi si ji vyslechneme, ale máte také právo podat stížnost u dozorového úřadu (Úřad pro ochranu osobních údajů).
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-bold font-jost mb-4">10. Contact details</h2>
-          <p className="mb-2">For questions and/or comments about our Cookie Policy and this statement, please contact us by using the following contact details:</p>
+          <h2 className="text-2xl font-bold font-exo mb-4">10. Kontaktní údaje</h2>
+          <p className="mb-2">V případě dotazů a/nebo připomínek k našim zásadám používání cookies a tomuto prohlášení nás prosím kontaktujte pomocí následujících kontaktních údajů:</p>
           <div className="bg-gray-50 p-6 rounded-lg">
             <p className="font-bold">Lukáš Neuwirth</p>
             <p>Ibsenova 1167/31 Ostrava 702 00</p>
-            <p>Czech Republic</p>
-            <p>Website: <a href="https://autocentrummaxi.cz" className="text-blue-600 hover:underline">https://autocentrummaxi.cz</a></p>
-            <p>Email: <a href="mailto:autocentrummaxi@seznam.cz" className="text-blue-600 hover:underline">autocentrummaxi@seznam.cz</a></p>
-            <p>Phone number: +420702198267</p>
+            <p>Česká republika</p>
+            <p>Web: <a href="https://autocentrummaxi.cz" className="text-blue-600 hover:underline">https://autocentrummaxi.cz</a></p>
+            <p>E-mail: <a href="mailto:autocentrummaxi@seznam.cz" className="text-blue-600 hover:underline">autocentrummaxi@seznam.cz</a></p>
+            <p>Telefon: +420 702 198 267</p>
           </div>
           <p className="mt-4 text-sm text-gray-500">
-            This Cookie Policy was synchronized with cookiedatabase.org on 10. 11. 2024.
+            Tyto zásady používání cookies byly synchronizovány s cookiedatabase.org dne 10. 11. 2024.
           </p>
         </section>
       </div>

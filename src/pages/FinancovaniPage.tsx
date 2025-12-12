@@ -8,7 +8,7 @@ const FinancovaniPage: React.FC = () => {
       <div className="container mx-auto px-4 py-12 max-w-4xl font-montserrat text-gray-800">
         
         <section className="mb-12">
-          <h2 className="text-3xl font-bold font-jost mb-6">Nákup na splátky</h2>
+          <h2 className="text-3xl font-bold font-exo mb-6">Nákup na splátky</h2>
           <ul className="list-disc ml-6 space-y-4 text-lg">
             <li>Možnost nákupu vozidla již s 0% akontací.</li>
             <li>Schválení na místě na počkání.</li>
@@ -38,7 +38,7 @@ const FinancovaniPage: React.FC = () => {
         </section>
 
         <section>
-          <h3 className="text-2xl font-bold font-jost mb-6">Spolupracujeme</h3>
+          <h3 className="text-2xl font-bold font-exo mb-6">Spolupracujeme</h3>
           <div className="flex flex-wrap gap-8 items-center">
              {/* Placeholders for logos, can be added later */}
              <div className="text-gray-500 italic">Essox, Moneta, Home Credit...</div>

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MiniHero from '../components/MiniHero';
 
 const KontaktPage: React.FC = () => {
+  const [mapInteractive, setMapInteractive] = useState(false);
+
   return (
     <div className="min-h-screen bg-white">
       <MiniHero title="KONTAKT" />
@@ -12,7 +14,7 @@ const KontaktPage: React.FC = () => {
             <div className="space-y-8 font-montserrat">
               
               <div>
-                <h2 className="text-2xl font-bold mb-4 font-jost text-black">Autocentrum Maxi .cz</h2>
+                <h2 className="text-2xl font-bold mb-4 font-exo text-black">Autocentrum Maxi .cz</h2>
                 
                 <div className="mb-6">
                    <h4 className="font-semibold text-lg uppercase tracking-wide text-gray-500 mb-1">telefon</h4>
@@ -80,18 +82,31 @@ const KontaktPage: React.FC = () => {
             </div>
           </div>
           
-          {/* Right Column - Map or Image */}
-          <div className="rounded-lg overflow-hidden shadow-lg min-h-[400px]">
-             {/* Integrating Google Maps iframe if possible, or using a static image placeholder */}
-             <iframe 
-               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2573.086367373809!2d18.2778143!3d49.8407886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47115d74c0f3a61f%3A0x6b8a8b8b8b8b8b8b!2sIbsenova%201167%2F31%2C%20702%2000%20Moravsk%C3%A1%20Ostrava%20a%20P%C5%99%C3%ADvoz!5e0!3m2!1scs!2scz!4v1620000000000!5m2!1scs!2scz" 
-               width="100%" 
-               height="100%" 
-               style={{ border: 0, minHeight: '400px' }} 
-               allowFullScreen={true} 
+          {/* Right Column - Map */}
+          <div className="rounded-lg overflow-hidden shadow-lg min-h-[400px] relative">
+             <iframe
+               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2572.8!2d18.26555!3d49.8466421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4713e31c98cd8651%3A0xeb942615888194!2sAutocentrum%20Maxi%20.cz!5e0!3m2!1scs!2scz!4v1702000000000!5m2!1scs!2scz"
+               width="100%"
+               height="100%"
+               style={{ border: 0, minHeight: '600px' }}
+               allowFullScreen={true}
                loading="lazy"
-               title="Map"
+               referrerPolicy="no-referrer-when-downgrade"
+               title="Autocentrum Maxi - Mapa"
              ></iframe>
+             {/* Overlay to prevent scroll interference with Lenis */}
+             {!mapInteractive && (
+               <div
+                 className="absolute inset-0 bg-transparent cursor-pointer"
+                 onClick={() => setMapInteractive(true)}
+               >
+                 <div className="absolute bottom-4 left-0 right-0 text-center">
+                   <span className="bg-black/70 text-white px-4 py-2 rounded-full text-sm font-medium">
+                     Pro interakci s mapou prosím klikněte
+                   </span>
+                 </div>
+               </div>
+             )}
           </div>
         </div>
       </div>

@@ -36,7 +36,7 @@ export const AnnouncementPopup: React.FC = () => {
           ×
         </button>
 
-        <h2 className="text-xl font-semibold mb-2 font-jost">{popup.title}</h2>
+        <h2 className="text-xl font-semibold mb-2 font-exo">{popup.title}</h2>
         <p className="text-sm text-gray-700 whitespace-pre-line font-montserrat">
           {popup.description}
         </p>

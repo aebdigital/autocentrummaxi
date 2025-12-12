@@ -8,14 +8,14 @@ const Footer: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-left border-b border-gray-800 pb-8 mb-8">
           <div>
-            <h3 className="text-2xl font-bold mb-6 font-jost">Autocentrum Maxi .cz</h3>
+            <h3 className="text-2xl font-bold mb-6 font-exo">Autocentrum Maxi .cz</h3>
             <p className="text-gray-400 font-montserrat text-sm leading-relaxed">
               Prodejem a dovozem ojetých osobních a užitkových vozidel se pro vás zabýváme již 30 let. Máme stálou prodejnu v Ostravě. Blízko dálnice D1.
             </p>
           </div>
           
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-white font-jost">Menu</h3>
+            <h3 className="text-xl font-semibold mb-4 text-white font-exo">Menu</h3>
             <ul className="space-y-2 font-montserrat text-gray-400">
               <li><Link to="/" className="hover:text-white transition-colors">Úvod</Link></li>
               <li><Link to="/ponuka" className="hover:text-white transition-colors">Nabídka</Link></li>
@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
           </div>
           
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-white font-jost">Kontakt</h3>
+            <h3 className="text-xl font-semibold mb-4 text-white font-exo">Kontakt</h3>
             <div className="space-y-2 text-gray-400 font-montserrat">
               <p>Lukáš Neuwirth</p>
               <p>Ibsenova 1167/31 Ostrava 702 00</p>
@@ -37,9 +37,9 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-white font-jost">Právní</h3>
+            <h3 className="text-xl font-semibold mb-4 text-white font-exo">Právní</h3>
             <ul className="space-y-2 font-montserrat text-gray-400">
-              <li><Link to="/cookies" className="hover:text-white transition-colors">Cookie Policy</Link></li>
+              <li><Link to="/cookies" className="hover:text-white transition-colors">Zásady cookies</Link></li>
               <li><Link to="/cookies" className="hover:text-white transition-colors">Ochrana osobních údajů</Link></li>
             </ul>
           </div>

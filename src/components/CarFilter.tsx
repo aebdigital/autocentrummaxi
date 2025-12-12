@@ -108,7 +108,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
       {/* Filter Panel */}
       <div className={`bg-white rounded-lg shadow-lg p-6 ${isExpanded ? 'block' : 'hidden'} lg:block`}>
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold font-jost">Filtry</h3>
+          <h3 className="text-xl font-bold font-exo">Filtry</h3>
           <button
             onClick={resetFilters}
             className="text-sm text-blue-600 hover:text-blue-800 font-montserrat"
@@ -120,7 +120,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
         <div className="space-y-6">
           {/* Price Range */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-jost">
+            <label className="block text-sm font-semibold mb-3 font-exo">
               Cena (€): {filters.priceRange[0].toLocaleString()} - {filters.priceRange[1].toLocaleString()}
             </label>
             <div className="space-y-3">
@@ -208,7 +208,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
 
           {/* Year Range */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-jost">
+            <label className="block text-sm font-semibold mb-3 font-exo">
               Rok: {filters.yearRange[0]} - {filters.yearRange[1]}
             </label>
             <div className="space-y-3">
@@ -296,7 +296,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
 
           {/* Brands */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-jost">Značka</label>
+            <label className="block text-sm font-semibold mb-3 font-exo">Značka</label>
             <div className="grid grid-cols-2 gap-1 max-h-40 overflow-y-auto">
               {allBrands.map(brand => (
                 <label key={brand} className="flex items-center font-montserrat text-sm">
@@ -314,7 +314,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
 
           {/* Fuel Types */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-jost">Palivo</label>
+            <label className="block text-sm font-semibold mb-3 font-exo">Palivo</label>
             <div className="space-y-2">
               {allFuelTypes.map(fuel => (
                 <label key={fuel} className="flex items-center font-montserrat">
@@ -332,7 +332,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
 
           {/* Transmission */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-jost">Převodovka</label>
+            <label className="block text-sm font-semibold mb-3 font-exo">Převodovka</label>
             <div className="space-y-2">
               {allTransmissions.map(transmission => (
                 <label key={transmission} className="flex items-center font-montserrat">
