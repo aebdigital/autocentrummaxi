@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -14,13 +14,44 @@ import ZarukaPage from './pages/ZarukaPage';
 import FinancovaniPage from './pages/FinancovaniPage';
 import PojisteniPage from './pages/PojisteniPage';
 import { initialCars } from './data/initialCars';
+import { getCarsForPonuka } from './lib/publicCars';
+import { Car } from './types/car';
 
 function AppContent() {
-  // Use initialCars directly for now to ensure the user sees the requested data
-  // In a real app, you might merge this with Supabase data or fetch exclusively from Supabase
-  const cars = initialCars;
-  const isLoading = false;
+  const [cars, setCars] = useState<Car[]>(initialCars);
+  const [isLoading, setIsLoading] = useState(true);
   const [announcements] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function loadCars() {
+      try {
+        const supabaseCars = await getCarsForPonuka();
+        // Convert Supabase cars to Car type and merge with hardcoded cars
+        const convertedCars: Car[] = supabaseCars.map(car => ({
+          id: car.id,
+          brand: car.brand.trim(),
+          model: car.model,
+          year: car.year ?? 0,
+          price: car.price ?? 0,
+          mileage: car.mileage ?? 0,
+          fuel: car.fuel ?? '',
+          transmission: car.transmission ?? '',
+          image: car.image,
+          power: car.power ?? undefined,
+          showOnHomepage: car.showOnHomepage,
+        }));
+        // Supabase cars first, then hardcoded cars
+        setCars([...convertedCars, ...initialCars]);
+      } catch (error) {
+        console.error('Failed to load cars from Supabase:', error);
+        // Fall back to hardcoded cars only
+        setCars(initialCars);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadCars();
+  }, []);
 
   const handleCarClick = () => {
     // This function is handled by routing

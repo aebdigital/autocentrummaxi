@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import MiniHero from '../components/MiniHero';
 import { Car } from '../types/car';
+import { getCarById } from '../lib/publicCars';
 
 // Import local SVG icons
 import pohonIcon from '../images/pohon.svg';
@@ -21,16 +22,73 @@ interface CarDetailPageProps {
 const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   const { slug } = useParams<{ slug: string }>();
   const [car, setCar] = useState<Car | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
   useEffect(() => {
-    if (!slug) return;
-    const slugParts = slug.split('-');
-    const carId = slugParts[slugParts.length - 1];
-    const foundCar = cars.find(c => c.id === carId);
-    if (foundCar) setCar(foundCar);
+    async function loadCar() {
+      if (!slug) {
+        setIsLoading(false);
+        return;
+      }
+
+      const slugParts = slug.split('-');
+      const carId = slugParts[slugParts.length - 1];
+
+      // First check if it's a hardcoded car (numeric ID like '1', '2', etc.)
+      const foundCar = cars.find(c => c.id === carId);
+      if (foundCar) {
+        setCar(foundCar);
+        setIsLoading(false);
+        return;
+      }
+
+      // If not found in hardcoded cars, try to fetch from Supabase (UUID format)
+      try {
+        const supabaseCar = await getCarById(carId);
+        if (supabaseCar) {
+          setCar({
+            id: supabaseCar.id,
+            brand: supabaseCar.brand.trim(),
+            model: supabaseCar.model,
+            year: supabaseCar.year ?? 0,
+            price: supabaseCar.price ?? 0,
+            mileage: supabaseCar.mileage ?? 0,
+            fuel: supabaseCar.fuel ?? '',
+            transmission: supabaseCar.transmission ?? '',
+            image: supabaseCar.image,
+            images: supabaseCar.images ?? undefined,
+            features: supabaseCar.features ?? undefined,
+            engine: supabaseCar.engine ?? undefined,
+            power: supabaseCar.power ?? undefined,
+            bodyType: supabaseCar.bodyType ?? undefined,
+            drivetrain: supabaseCar.drivetrain ?? undefined,
+            vin: supabaseCar.vin ?? undefined,
+            description: supabaseCar.description ?? undefined,
+            showOnHomepage: supabaseCar.showOnHomepage,
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load car from Supabase:', error);
+      }
+
+      setIsLoading(false);
+    }
+
+    loadCar();
   }, [slug, cars]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-dark-900">
+        <MiniHero title="Načítám..." />
+        <div className="flex justify-center items-center py-20">
+          <div className="text-2xl font-montserrat text-white">Načítám vozidlo...</div>
+        </div>
+      </div>
+    );
+  }
 
   if (!car) {
     return (
