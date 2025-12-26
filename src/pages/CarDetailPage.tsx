@@ -33,10 +33,21 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
         return;
       }
 
-      const slugParts = slug.split('-');
-      const carId = slugParts[slugParts.length - 1];
+      // UUID pattern: 8-4-4-4-12 hex characters
+      const uuidPattern = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const uuidMatch = slug.match(uuidPattern);
 
-      // First check if it's a hardcoded car (numeric ID like '1', '2', etc.)
+      let carId: string;
+      if (uuidMatch) {
+        // It's a Supabase car with UUID
+        carId = uuidMatch[0];
+      } else {
+        // It's a hardcoded car with simple numeric ID
+        const slugParts = slug.split('-');
+        carId = slugParts[slugParts.length - 1];
+      }
+
+      // First check if it's a hardcoded car
       const foundCar = cars.find(c => c.id === carId);
       if (foundCar) {
         setCar(foundCar);
@@ -44,7 +55,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
         return;
       }
 
-      // If not found in hardcoded cars, try to fetch from Supabase (UUID format)
+      // If not found in hardcoded cars, try to fetch from Supabase
       try {
         const supabaseCar = await getCarById(carId);
         if (supabaseCar) {
