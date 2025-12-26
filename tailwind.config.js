@@ -5,8 +5,23 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        'lime': {
+          400: '#addf59',
+          500: '#9dd14a',
+          600: '#8bc43a',
+          700: '#7ab32e',
+        },
+        'dark': {
+          900: '#0a0a0a',
+          800: '#121212',
+          700: '#1a1a1a',
+          600: '#242424',
+          500: '#2e2e2e',
+        }
+      },
       fontFamily: {
-        'exo': ['"Exo 2"', 'sans-serif'],
+        'exo': ['"SF Pro Display"', 'sans-serif'],
         'inter': ['Montserrat', 'sans-serif'],
         'montserrat': ['Montserrat', 'sans-serif'],
         sans: ['Montserrat', 'sans-serif'],

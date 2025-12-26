@@ -239,7 +239,7 @@ const CarModal: React.FC<CarModalProps> = ({ isOpen, onClose, onSubmit }) => {
                 id="showOnHomepage"
                 checked={formData.showOnHomepage}
                 onChange={(e) => setFormData({...formData, showOnHomepage: e.target.checked})}
-                className="w-4 h-4 text-blue-600 rounded"
+                className="w-4 h-4 text-green-600 rounded"
               />
               <label htmlFor="showOnHomepage" className="ml-2 text-sm font-medium">
                 Zobraziť na domovskej stránke (Najnovšie vozidlá)
@@ -269,7 +269,7 @@ const CarModal: React.FC<CarModalProps> = ({ isOpen, onClose, onSubmit }) => {
                             type="checkbox"
                             checked={selectedFeatures.includes(option)}
                             onChange={() => toggleFeature(option)}
-                            className="rounded text-blue-600"
+                            className="rounded text-green-600"
                           />
                           <span>{option}</span>
                         </label>
@@ -280,19 +280,19 @@ const CarModal: React.FC<CarModalProps> = ({ isOpen, onClose, onSubmit }) => {
               ))}
             </div>
             {selectedFeatures.length > 0 && (
-              <div className="mt-3 p-3 bg-blue-50 rounded">
+              <div className="mt-3 p-3 bg-green-50 rounded">
                 <p className="text-sm font-medium mb-2">Vybraných: {selectedFeatures.length}</p>
                 <div className="flex flex-wrap gap-1">
                   {selectedFeatures.map((feature) => (
                     <span
                       key={feature}
-                      className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
+                      className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs rounded"
                     >
                       {feature}
                       <button
                         type="button"
                         onClick={() => toggleFeature(feature)}
-                        className="ml-1 hover:text-blue-600"
+                        className="ml-1 hover:text-green-600"
                       >
                         ×
                       </button>
@@ -313,7 +313,7 @@ const CarModal: React.FC<CarModalProps> = ({ isOpen, onClose, onSubmit }) => {
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700"
             >
               Pridať vozidlo
             </button>

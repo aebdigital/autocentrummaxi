@@ -71,11 +71,11 @@ const reviews = [
 
 const Reviews: React.FC = () => {
   return (
-    <section className="py-16 bg-white overflow-hidden">
+    <section className="py-16 bg-dark-900 overflow-hidden">
       <div className="container mx-auto px-4 mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold text-center font-exo mb-2">RECENZE</h2>
-        <div className="w-20 h-1 bg-red-600 mx-auto rounded-full"></div>
-        <p className="text-center text-gray-500 mt-4 font-montserrat">
+        <h2 className="text-4xl md:text-5xl font-bold text-center font-exo mb-2 text-white">RECENZE</h2>
+        <div className="w-20 h-1 bg-lime-400 mx-auto rounded-full"></div>
+        <p className="text-center text-gray-400 mt-4 font-montserrat">
           Co o nás říkají naši spokojení zákazníci na Google
         </p>
         <div className="text-center mt-8">
@@ -83,7 +83,7 @@ const Reviews: React.FC = () => {
             href="https://www.google.com/maps/place/Autocentrum+Maxi+.cz/@49.8471066,18.2639703,17z/data=!4m7!3m6!1s0x4713e31c98cd8651:0xeb942615888194!8m2!3d49.8471066!4d18.266159!9m1!1b1"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition-colors font-montserrat"
+            className="inline-block bg-lime-400 hover:bg-lime-500 text-dark-900 font-bold py-3 px-6 rounded-full transition-colors font-montserrat"
           >
             Napsat recenzi
           </a>
@@ -92,23 +92,23 @@ const Reviews: React.FC = () => {
 
       <div className="relative">
         {/* Gradient Overlays for smooth fade effect */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10"></div>
+        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-dark-900 to-transparent z-10"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-dark-900 to-transparent z-10"></div>
 
         <div className="flex w-[200%] animate-scroll hover:pause">
           {/* First Set */}
           <div className="flex gap-6 pr-6 w-1/2">
             {reviews.map((review, index) => (
-              <div 
+              <div
                 key={`review-1-${index}`}
-                className="flex-shrink-0 w-[300px] md:w-[400px] bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+                className="flex-shrink-0 w-[300px] md:w-[400px] bg-dark-800 p-6 rounded-xl shadow-sm border border-dark-600 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-center mb-4">
-                   <div className="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold text-xl mr-3 font-exo">
+                   <div className="w-10 h-10 bg-dark-700 text-lime-400 rounded-full flex items-center justify-center font-bold text-xl mr-3 font-exo">
                      {review.name.charAt(0)}
                    </div>
                    <div>
-                     <h4 className="font-bold font-exo text-gray-900">{review.name}</h4>
+                     <h4 className="font-bold font-exo text-white">{review.name}</h4>
                      <p className="text-xs text-gray-500 font-montserrat">{review.date}</p>
                    </div>
                 </div>
@@ -117,7 +117,7 @@ const Reviews: React.FC = () => {
                     <span key={i}>★</span>
                   ))}
                 </div>
-                <p className="text-gray-700 font-montserrat text-sm leading-relaxed italic">
+                <p className="text-gray-300 font-montserrat text-sm leading-relaxed italic">
                   "{review.text}"
                 </p>
               </div>
@@ -127,16 +127,16 @@ const Reviews: React.FC = () => {
           {/* Second Set (Duplicate for smooth infinite loop) */}
           <div className="flex gap-6 pr-6 w-1/2">
             {reviews.map((review, index) => (
-              <div 
+              <div
                 key={`review-2-${index}`}
-                className="flex-shrink-0 w-[300px] md:w-[400px] bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+                className="flex-shrink-0 w-[300px] md:w-[400px] bg-dark-800 p-6 rounded-xl shadow-sm border border-dark-600 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-center mb-4">
-                   <div className="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold text-xl mr-3 font-exo">
+                   <div className="w-10 h-10 bg-dark-700 text-lime-400 rounded-full flex items-center justify-center font-bold text-xl mr-3 font-exo">
                      {review.name.charAt(0)}
                    </div>
                    <div>
-                     <h4 className="font-bold font-exo text-gray-900">{review.name}</h4>
+                     <h4 className="font-bold font-exo text-white">{review.name}</h4>
                      <p className="text-xs text-gray-500 font-montserrat">{review.date}</p>
                    </div>
                 </div>
@@ -145,7 +145,7 @@ const Reviews: React.FC = () => {
                     <span key={i}>★</span>
                   ))}
                 </div>
-                <p className="text-gray-700 font-montserrat text-sm leading-relaxed italic">
+                <p className="text-gray-300 font-montserrat text-sm leading-relaxed italic">
                   "{review.text}"
                 </p>
               </div>

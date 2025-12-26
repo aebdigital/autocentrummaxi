@@ -55,34 +55,34 @@ const HomePage: React.FC<HomePageProps> = ({ cars, isLoading, onCarClick, announ
     <>
       <Hero />
       
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-dark-900">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold font-exo text-center mb-4">NEJNOVĚJŠÍ VOZIDLA</h2>
-            <div className="w-24 h-1 bg-red-600 rounded-full"></div>
+            <h2 className="text-4xl md:text-5xl font-bold font-exo text-center mb-4 text-white">NEJNOVĚJŠÍ VOZIDLA</h2>
+            <div className="w-24 h-1 bg-lime-400 rounded-full"></div>
           </div>
-          
+
           {isLoading ? (
             <div className="flex justify-center items-center py-20">
-              <div className="text-2xl font-montserrat">Načítám vozidla...</div>
+              <div className="text-2xl font-montserrat text-white">Načítám vozidla...</div>
             </div>
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {displayCars.map((car) => (
-                  <CarCard 
-                    key={car.id} 
-                    car={car} 
+                  <CarCard
+                    key={car.id}
+                    car={car}
                     onClick={() => handleCarClick(car)}
                   />
                 ))}
               </div>
-              
+
               {cars.length > 4 && (
                 <div className="text-center mt-12">
-                  <Link 
+                  <Link
                     to="/ponuka"
-                    className="inline-block bg-transparent border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white px-10 py-3 rounded-full font-bold text-lg transition-all font-exo tracking-wide uppercase"
+                    className="inline-block bg-transparent border-2 border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-dark-900 px-10 py-3 rounded-full font-bold text-lg transition-all font-exo tracking-wide uppercase"
                   >
                     Zobrazit všechna vozidla
                   </Link>
@@ -99,23 +99,23 @@ const HomePage: React.FC<HomePageProps> = ({ cars, isLoading, onCarClick, announ
 
       {/* Announcement Popup */}
       {showAnnouncement && currentAnnouncement && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-2xl max-w-md w-full p-6 relative animate-fade-in">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+          <div className="bg-dark-800 rounded-lg shadow-2xl max-w-md w-full p-6 relative animate-fade-in border border-dark-600">
             <button
               onClick={() => setShowAnnouncement(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+              className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl font-bold"
             >
               ×
             </button>
-            <h2 className="text-2xl font-bold mb-4 font-exo text-gray-900">
+            <h2 className="text-2xl font-bold mb-4 font-exo text-white">
               {currentAnnouncement.title}
             </h2>
-            <p className="text-gray-700 font-montserrat whitespace-pre-wrap mb-6">
+            <p className="text-gray-300 font-montserrat whitespace-pre-wrap mb-6">
               {currentAnnouncement.message}
             </p>
             <button
               onClick={() => setShowAnnouncement(false)}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-montserrat font-semibold transition-colors"
+              className="w-full bg-lime-400 hover:bg-lime-500 text-dark-900 py-2 px-4 rounded-lg font-montserrat font-semibold transition-colors"
             >
               Zavřít
             </button>

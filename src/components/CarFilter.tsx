@@ -96,7 +96,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
       <div className="lg:hidden mb-6">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 flex items-center justify-between font-montserrat"
+          className="w-full bg-dark-800 border border-dark-600 rounded-lg px-4 py-3 flex items-center justify-between font-montserrat text-white"
         >
           <span className="font-semibold">Filtry vozidel</span>
           <span className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
@@ -106,12 +106,12 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
       </div>
 
       {/* Filter Panel */}
-      <div className={`bg-white rounded-lg shadow-lg p-6 ${isExpanded ? 'block' : 'hidden'} lg:block`}>
+      <div className={`bg-dark-800 rounded-lg shadow-lg p-6 ${isExpanded ? 'block' : 'hidden'} lg:block`}>
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold font-exo">Filtry</h3>
+          <h3 className="text-xl font-bold font-exo text-white">Filtry</h3>
           <button
             onClick={resetFilters}
-            className="text-sm text-blue-600 hover:text-blue-800 font-montserrat"
+            className="text-sm text-lime-400 hover:text-lime-500 font-montserrat"
           >
             Vymazat
           </button>
@@ -120,21 +120,21 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
         <div className="space-y-6">
           {/* Price Range */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-exo">
+            <label className="block text-sm font-semibold mb-3 font-exo text-white">
               Cena (€): {filters.priceRange[0].toLocaleString()} - {filters.priceRange[1].toLocaleString()}
             </label>
             <div className="space-y-3">
-              <div className="flex items-center justify-between text-xs text-gray-600 font-montserrat">
+              <div className="flex items-center justify-between text-xs text-gray-400 font-montserrat">
                 <span>{minPrice.toLocaleString()} €</span>
                 <span>{maxPrice.toLocaleString()} €</span>
               </div>
               <div className="relative h-2">
                 {/* Track background */}
-                <div className="absolute w-full h-2 bg-gray-200 rounded-full"></div>
-                
+                <div className="absolute w-full h-2 bg-dark-600 rounded-full"></div>
+
                 {/* Active range */}
-                <div 
-                  className="absolute h-2 bg-blue-500 rounded-full"
+                <div
+                  className="absolute h-2 bg-lime-400 rounded-full"
                   style={{
                     left: `${((filters.priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%`,
                     right: `${100 - ((filters.priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%`
@@ -185,7 +185,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
                       priceRange: [Math.min(value, filters.priceRange[1]), filters.priceRange[1]]
                     });
                   }}
-                  className="w-20 px-2 py-1 text-xs border border-gray-300 rounded font-montserrat"
+                  className="w-20 px-2 py-1 text-xs border border-dark-600 rounded font-montserrat bg-dark-700 text-white"
                 />
                 <span className="text-gray-400 font-montserrat">-</span>
                 <input
@@ -200,7 +200,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
                       priceRange: [filters.priceRange[0], Math.max(value, filters.priceRange[0])]
                     });
                   }}
-                  className="w-20 px-2 py-1 text-xs border border-gray-300 rounded font-montserrat"
+                  className="w-20 px-2 py-1 text-xs border border-dark-600 rounded font-montserrat bg-dark-700 text-white"
                 />
               </div>
             </div>
@@ -208,21 +208,21 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
 
           {/* Year Range */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-exo">
+            <label className="block text-sm font-semibold mb-3 font-exo text-white">
               Rok: {filters.yearRange[0]} - {filters.yearRange[1]}
             </label>
             <div className="space-y-3">
-              <div className="flex items-center justify-between text-xs text-gray-600 font-montserrat">
+              <div className="flex items-center justify-between text-xs text-gray-400 font-montserrat">
                 <span>{minYear}</span>
                 <span>{maxYear}</span>
               </div>
               <div className="relative h-2">
                 {/* Track background */}
-                <div className="absolute w-full h-2 bg-gray-200 rounded-full"></div>
-                
+                <div className="absolute w-full h-2 bg-dark-600 rounded-full"></div>
+
                 {/* Active range */}
-                <div 
-                  className="absolute h-2 bg-blue-500 rounded-full"
+                <div
+                  className="absolute h-2 bg-lime-400 rounded-full"
                   style={{
                     left: `${((filters.yearRange[0] - minYear) / (maxYear - minYear)) * 100}%`,
                     right: `${100 - ((filters.yearRange[1] - minYear) / (maxYear - minYear)) * 100}%`
@@ -273,7 +273,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
                       yearRange: [Math.min(value, filters.yearRange[1]), filters.yearRange[1]]
                     });
                   }}
-                  className="w-16 px-2 py-1 text-xs border border-gray-300 rounded font-montserrat"
+                  className="w-16 px-2 py-1 text-xs border border-dark-600 rounded font-montserrat bg-dark-700 text-white"
                 />
                 <span className="text-gray-400 font-montserrat">-</span>
                 <input
@@ -288,7 +288,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
                       yearRange: [filters.yearRange[0], Math.max(value, filters.yearRange[0])]
                     });
                   }}
-                  className="w-16 px-2 py-1 text-xs border border-gray-300 rounded font-montserrat"
+                  className="w-16 px-2 py-1 text-xs border border-dark-600 rounded font-montserrat bg-dark-700 text-white"
                 />
               </div>
             </div>
@@ -296,15 +296,15 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
 
           {/* Brands */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-exo">Značka</label>
+            <label className="block text-sm font-semibold mb-3 font-exo text-white">Značka</label>
             <div className="grid grid-cols-2 gap-1 max-h-40 overflow-y-auto">
               {allBrands.map(brand => (
-                <label key={brand} className="flex items-center font-montserrat text-sm">
+                <label key={brand} className="flex items-center font-montserrat text-sm text-gray-300">
                   <input
                     type="checkbox"
                     checked={filters.brands.includes(brand)}
                     onChange={() => handleBrandChange(brand)}
-                    className="mr-2 scale-75"
+                    className="mr-2 scale-75 accent-lime-400"
                   />
                   <span className="truncate">{brand}</span>
                 </label>
@@ -314,15 +314,15 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
 
           {/* Fuel Types */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-exo">Palivo</label>
+            <label className="block text-sm font-semibold mb-3 font-exo text-white">Palivo</label>
             <div className="space-y-2">
               {allFuelTypes.map(fuel => (
-                <label key={fuel} className="flex items-center font-montserrat">
+                <label key={fuel} className="flex items-center font-montserrat text-gray-300">
                   <input
                     type="checkbox"
                     checked={filters.fuelTypes.includes(fuel)}
                     onChange={() => handleFuelChange(fuel)}
-                    className="mr-2"
+                    className="mr-2 accent-lime-400"
                   />
                   {fuel}
                 </label>
@@ -332,15 +332,15 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
 
           {/* Transmission */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-exo">Převodovka</label>
+            <label className="block text-sm font-semibold mb-3 font-exo text-white">Převodovka</label>
             <div className="space-y-2">
               {allTransmissions.map(transmission => (
-                <label key={transmission} className="flex items-center font-montserrat">
+                <label key={transmission} className="flex items-center font-montserrat text-gray-300">
                   <input
                     type="checkbox"
                     checked={filters.transmissionTypes.includes(transmission)}
                     onChange={() => handleTransmissionChange(transmission)}
-                    className="mr-2"
+                    className="mr-2 accent-lime-400"
                   />
                   {transmission}
                 </label>

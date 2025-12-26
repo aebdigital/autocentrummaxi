@@ -3,13 +3,13 @@ import MiniHero from '../components/MiniHero';
 
 const ZarukaPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-dark-900">
       <MiniHero title="Záruka" />
-      <div className="container mx-auto px-4 py-12 max-w-6xl font-sans text-gray-800">
-        
+      <div className="container mx-auto px-4 py-12 max-w-6xl font-sans text-gray-300">
+
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold font-exo mb-4">Záruka Autocheck GOLD, SILVER a BRONZE</h2>
-          <h3 className="text-xl text-gray-600">Záruka pro ojeté vozy</h3>
+          <h2 className="text-3xl font-bold font-exo mb-4 text-white">Záruka Autocheck GOLD, SILVER a BRONZE</h2>
+          <h3 className="text-xl text-gray-400">Záruka pro ojeté vozy</h3>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
@@ -21,11 +21,11 @@ const ZarukaPage: React.FC = () => {
               Máme pro Vás řešení v podobě tří pojistných programů – prodloužených záruk, které poskytují různý rozsah pojistného krytí dle stáří vozidla a počtu najetých kilometrů v době uzavření pojistné smlouvy.
             </p>
           </div>
-          
-          <div className="rounded-xl overflow-hidden shadow-2xl">
-            <img 
-              src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&q=80&w=800" 
-              alt="Záruka a servis" 
+
+          <div className="rounded-xl overflow-hidden shadow-2xl border border-dark-600">
+            <img
+              src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&q=80&w=800"
+              alt="Záruka a servis"
               className="w-full h-full object-cover min-h-[300px]"
             />
           </div>
@@ -35,35 +35,35 @@ const ZarukaPage: React.FC = () => {
         <div className="overflow-x-auto mb-12">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-100">
-                <th className="p-4 border font-exo">Program</th>
-                <th className="p-4 border font-exo">Maximální stáří vozu (vstupní)</th>
-                <th className="p-4 border font-exo">Max. počet najetých km (vstupní)</th>
+              <tr className="bg-dark-700">
+                <th className="p-4 border border-dark-600 font-exo text-white">Program</th>
+                <th className="p-4 border border-dark-600 font-exo text-white">Maximální stáří vozu (vstupní)</th>
+                <th className="p-4 border border-dark-600 font-exo text-white">Max. počet najetých km (vstupní)</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="p-4 border font-bold text-yellow-600">Gold</td>
-                <td className="p-4 border">5</td>
-                <td className="p-4 border">160.000</td>
+              <tr className="bg-dark-800">
+                <td className="p-4 border border-dark-600 font-bold text-yellow-400">Gold</td>
+                <td className="p-4 border border-dark-600">5</td>
+                <td className="p-4 border border-dark-600">160.000</td>
               </tr>
-              <tr>
-                <td className="p-4 border font-bold text-gray-500">Silver</td>
-                <td className="p-4 border">10</td>
-                <td className="p-4 border">200.000</td>
+              <tr className="bg-dark-800">
+                <td className="p-4 border border-dark-600 font-bold text-gray-400">Silver</td>
+                <td className="p-4 border border-dark-600">10</td>
+                <td className="p-4 border border-dark-600">200.000</td>
               </tr>
-              <tr>
-                <td className="p-4 border font-bold text-orange-700">Bronze</td>
-                <td className="p-4 border">15</td>
-                <td className="p-4 border">250.000</td>
+              <tr className="bg-dark-800">
+                <td className="p-4 border border-dark-600 font-bold text-orange-400">Bronze</td>
+                <td className="p-4 border border-dark-600">15</td>
+                <td className="p-4 border border-dark-600">250.000</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <section className="mb-12">
-          <h3 className="text-2xl font-bold font-exo mb-6">Výhody</h3>
-          <ul className="list-disc ml-6 space-y-2">
+          <h3 className="text-2xl font-bold font-exo mb-6 text-white">Výhody</h3>
+          <ul className="list-disc ml-6 space-y-2 marker:text-lime-400">
             <li>Až 100% pokrytí nákladů za pozáruční opravy (materíál + práce).</li>
             <li>Transparentní seznamy krytých součástek.</li>
             <li>Neomezený počet pojistných událostí (oprav) v průběhu trvání smlouvy.</li>
@@ -76,72 +76,72 @@ const ZarukaPage: React.FC = () => {
         </section>
 
         <section className="mb-12">
-          <h3 className="text-2xl font-bold font-exo mb-6">Příklad krytých součástek</h3>
+          <h3 className="text-2xl font-bold font-exo mb-6 text-white">Příklad krytých součástek</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-gray-100">
-                  <th className="p-4 border font-exo">Součástka</th>
-                  <th className="p-4 border font-exo text-center">GOLD</th>
-                  <th className="p-4 border font-exo text-center">SILVER</th>
-                  <th className="p-4 border font-exo text-center">BRONZE</th>
+                <tr className="bg-dark-700">
+                  <th className="p-4 border border-dark-600 font-exo text-white">Součástka</th>
+                  <th className="p-4 border border-dark-600 font-exo text-center text-white">GOLD</th>
+                  <th className="p-4 border border-dark-600 font-exo text-center text-white">SILVER</th>
+                  <th className="p-4 border border-dark-600 font-exo text-center text-white">BRONZE</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="p-4 border">Převodovka</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
+                <tr className="bg-dark-800">
+                  <td className="p-4 border border-dark-600">Převodovka</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
                 </tr>
-                <tr>
-                  <td className="p-4 border">Mazané součástky rozvodovky / diferenciálu</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
+                <tr className="bg-dark-800">
+                  <td className="p-4 border border-dark-600">Mazané součástky rozvodovky / diferenciálu</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
                 </tr>
-                <tr>
-                  <td className="p-4 border">Vinuté pružiny</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
+                <tr className="bg-dark-800">
+                  <td className="p-4 border border-dark-600">Vinuté pružiny</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
                 </tr>
-                <tr>
-                  <td className="p-4 border">Turbodmychadlo</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center"></td>
+                <tr className="bg-dark-800">
+                  <td className="p-4 border border-dark-600">Turbodmychadlo</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center"></td>
                 </tr>
-                <tr>
-                  <td className="p-4 border">Čerpadlo chladícího systému</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center"></td>
+                <tr className="bg-dark-800">
+                  <td className="p-4 border border-dark-600">Čerpadlo chladícího systému</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center"></td>
                 </tr>
-                <tr>
-                  <td className="p-4 border">Startér motoru</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center"></td>
+                <tr className="bg-dark-800">
+                  <td className="p-4 border border-dark-600">Startér motoru</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center"></td>
                 </tr>
-                <tr>
-                  <td className="p-4 border">Klimatizace</td>
-                  <td className="p-4 border text-center text-green-600">✔</td>
-                  <td className="p-4 border text-center"></td>
-                  <td className="p-4 border text-center"></td>
+                <tr className="bg-dark-800">
+                  <td className="p-4 border border-dark-600">Klimatizace</td>
+                  <td className="p-4 border border-dark-600 text-center text-lime-400">✔</td>
+                  <td className="p-4 border border-dark-600 text-center"></td>
+                  <td className="p-4 border border-dark-600 text-center"></td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p className="mt-4 italic">
+          <p className="mt-4 italic text-gray-400">
             Úplný seznam krytých součástek v jednotlivých pojistných programech naleznete v pojistných podmínkách zde.
           </p>
         </section>
 
         <section className="mb-12">
-          <h3 className="text-2xl font-bold font-exo mb-6">Parametry záruky</h3>
+          <h3 className="text-2xl font-bold font-exo mb-6 text-white">Parametry záruky</h3>
           <p className="mb-4">Lze uzavřít pro vozidla, která ke dni sjednání pojistné smlouvy AutoCheck splňují následující kritéria:</p>
-          <ul className="list-disc ml-6 space-y-2">
+          <ul className="list-disc ml-6 space-y-2 marker:text-lime-400">
             <li>Maximální stáří vozidla od data první registrace: 5, 7 nebo 15 let dle pojistného programu.</li>
             <li>Maximální celkový počet najetých kilometrů: 120.000 / 160.000 / 200.000 km.</li>
             <li>Začíná datem uvedeným v pojistné smlouvě jako datum počátku pojištění (zpravidla datum sjednání pojištění/ datum pořízení vozu).</li>
@@ -153,11 +153,11 @@ const ZarukaPage: React.FC = () => {
         </section>
 
         <section className="mb-12">
-          <h3 className="text-2xl font-bold font-exo mb-6">Výpočet sazby pojištění</h3>
+          <h3 className="text-2xl font-bold font-exo mb-6 text-white">Výpočet sazby pojištění</h3>
           <p className="mb-4">
             Sazba pojištění AutoCheck je kalkulována individuálně tak, aby co nejlépe odpovídala vašim potřebám. Výše pojistného se odvíjí od objemu motoru vozidla, pojistného programu a dále od Vámi zvolených vstupních parametrů, kterými jsou především:
           </p>
-          <ul className="list-disc ml-6 space-y-2">
+          <ul className="list-disc ml-6 space-y-2 marker:text-lime-400">
             <li>Doba pojištění</li>
             <li>Limit najetých km</li>
             <li>Limit pojistného plnění</li>
@@ -166,11 +166,11 @@ const ZarukaPage: React.FC = () => {
         </section>
 
         <section>
-          <h3 className="text-2xl font-bold font-exo mb-6">Pojistné podmínky</h3>
+          <h3 className="text-2xl font-bold font-exo mb-6 text-white">Pojistné podmínky</h3>
           <ul className="space-y-2">
-            <li><a href="/" className="text-blue-600 hover:underline">Všeobecné pojistné podmínky</a></li>
-            <li><a href="/" className="text-blue-600 hover:underline">Pojistný program AutoCheck Platinum</a></li>
-            <li><a href="/" className="text-blue-600 hover:underline">Pojistný program AutoCheck Gold, Silver, Bronze</a></li>
+            <li><a href="/" className="text-lime-400 hover:text-lime-500 hover:underline">Všeobecné pojistné podmínky</a></li>
+            <li><a href="/" className="text-lime-400 hover:text-lime-500 hover:underline">Pojistný program AutoCheck Platinum</a></li>
+            <li><a href="/" className="text-lime-400 hover:text-lime-500 hover:underline">Pojistný program AutoCheck Gold, Silver, Bronze</a></li>
           </ul>
         </section>
 

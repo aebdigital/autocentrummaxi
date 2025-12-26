@@ -39,9 +39,9 @@ const Hero: React.FC = () => {
         <p className="text-lg md:text-2xl font-montserrat max-w-3xl mb-10 text-gray-100 animate-fade-in-up delay-100 drop-shadow-md">
           Naše rodinná firma je na českém trhu již 30 let a má více jak 15.000 spokojených zákazníku.
         </p>
-        <Link 
-          to="/ponuka" 
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider font-exo"
+        <Link
+          to="/ponuka"
+          className="bg-lime-400 hover:bg-lime-500 text-dark-900 font-bold py-4 px-10 rounded-full transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider font-exo"
         >
           Nabídka
         </Link>

@@ -34,10 +34,10 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
 
   if (!car) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-dark-900">
         <MiniHero title="Vozidlo nenalezeno" />
         <div className="text-center py-20">
-          <Link to="/ponuka" className="text-blue-600 hover:underline">Zpět na nabídku</Link>
+          <Link to="/ponuka" className="text-lime-400 hover:text-lime-500 hover:underline">Zpět na nabídku</Link>
         </div>
       </div>
     );
@@ -75,20 +75,20 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-dark-900">
       <MiniHero title={`${car.brand} ${car.model}`} />
 
       <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
+
           {/* LEFT COLUMN: Gallery & Specs */}
           <div className="lg:col-span-2 space-y-8">
-            
+
             {/* Main Gallery Display */}
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden p-2">
+            <div className="bg-dark-800 rounded-2xl shadow-sm overflow-hidden p-2 border border-dark-600">
                <div className="relative h-[400px] md:h-[500px] mb-2 cursor-pointer" onClick={() => openLightbox(0)}>
                  <img src={images[0]} alt="Main" className="w-full h-full object-cover rounded-xl" />
-                 <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                 <div className="absolute bottom-4 right-4 bg-dark-900/80 text-white px-3 py-1 rounded-full text-sm font-montserrat">
                    + {images.length} fotografií
                  </div>
                </div>
@@ -103,17 +103,17 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             </div>
 
             {/* Technical Specs */}
-            <div className="bg-white rounded-2xl shadow-sm p-8">
-              <h2 className="text-2xl font-bold font-exo mb-6 border-b pb-4">Technické parametry</h2>
+            <div className="bg-dark-800 rounded-2xl shadow-sm p-8 border border-dark-600">
+              <h2 className="text-2xl font-bold font-exo mb-6 border-b border-dark-600 pb-4 text-white">Technické parametry</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 {basicData.map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3">
-                    <div className="p-2 bg-gray-100 rounded-lg">
-                      <img src={item.icon} alt={item.label} className="w-6 h-6 opacity-70" />
+                    <div className="p-2 bg-dark-700 rounded-lg">
+                      <img src={item.icon} alt={item.label} className="w-6 h-6 icon-lime" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 uppercase font-bold">{item.label}</p>
-                      <p className="text-gray-900 font-semibold">{item.value}</p>
+                      <p className="text-xs text-gray-500 uppercase font-bold font-montserrat">{item.label}</p>
+                      <p className="text-white font-semibold font-montserrat">{item.value}</p>
                     </div>
                   </div>
                 ))}
@@ -122,12 +122,12 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
 
             {/* Features */}
             {car.features && car.features.length > 0 && (
-              <div className="bg-white rounded-2xl shadow-sm p-8">
-                <h2 className="text-2xl font-bold font-exo mb-6 border-b pb-4">Výbava vozidla</h2>
+              <div className="bg-dark-800 rounded-2xl shadow-sm p-8 border border-dark-600">
+                <h2 className="text-2xl font-bold font-exo mb-6 border-b border-dark-600 pb-4 text-white">Výbava vozidla</h2>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {car.features.map((feature, i) => (
-                    <li key={i} className="flex items-center text-gray-700">
-                      <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                    <li key={i} className="flex items-center text-gray-300 font-montserrat">
+                      <span className="w-2 h-2 bg-lime-400 rounded-full mr-3"></span>
                       {feature}
                     </li>
                   ))}
@@ -139,37 +139,37 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
           {/* RIGHT COLUMN: Sticky Info Card */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
-              
+
               {/* Price Card */}
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                <h1 className="text-2xl font-bold font-exo mb-2">{car.brand} {car.model}</h1>
-                <p className="text-gray-500 mb-6">{car.year} • {car.mileage.toLocaleString()} km</p>
-                
-                <div className="text-4xl font-bold text-red-600 mb-2">
+              <div className="bg-dark-800 rounded-2xl shadow-lg p-6 border border-dark-600">
+                <h1 className="text-2xl font-bold font-exo mb-2 text-white">{car.brand} {car.model}</h1>
+                <p className="text-gray-400 mb-6 font-montserrat">{car.year} • {car.mileage.toLocaleString()} km</p>
+
+                <div className="text-4xl font-bold text-lime-400 mb-2 font-exo">
                   {car.price > 0 ? `${car.price.toLocaleString()} Kč` : 'Na dotaz'}
                 </div>
                 {car.price > 0 && (
-                   <p className="text-gray-400 text-sm mb-6">Možnost odpočtu DPH</p>
+                   <p className="text-gray-500 text-sm mb-6 font-montserrat">Možnost odpočtu DPH</p>
                 )}
 
                 <div className="space-y-3">
-                  <a href="tel:+420702198267" className="block w-full bg-black text-white text-center py-4 rounded-xl font-bold uppercase hover:bg-gray-800 transition-colors">
+                  <a href="tel:+420702198267" className="block w-full bg-lime-400 text-dark-900 text-center py-4 rounded-xl font-bold uppercase hover:bg-lime-500 transition-colors font-montserrat">
                     +420 702 198 267
                   </a>
-                  <Link to="/kontakt" className="block w-full bg-white border-2 border-black text-black text-center py-4 rounded-xl font-bold uppercase hover:bg-gray-50 transition-colors">
+                  <Link to="/kontakt" className="block w-full bg-transparent border-2 border-lime-400 text-lime-400 text-center py-4 rounded-xl font-bold uppercase hover:bg-lime-400 hover:text-dark-900 transition-colors font-montserrat">
                     Napsat prodejci
                   </Link>
                 </div>
               </div>
 
               {/* Assurance Card */}
-              <div className="bg-gray-100 rounded-2xl p-6">
-                <h3 className="font-bold mb-4 font-exo">Proč koupit u nás?</h3>
-                <ul className="space-y-3 text-sm text-gray-700">
-                  <li className="flex items-center">✓ Záruka původu vozidla</li>
-                  <li className="flex items-center">✓ Výhodné financování na místě</li>
-                  <li className="flex items-center">✓ Pojištění se slevou</li>
-                  <li className="flex items-center">✓ Technická kontrola v ceně</li>
+              <div className="bg-dark-700 rounded-2xl p-6 border border-dark-600">
+                <h3 className="font-bold mb-4 font-exo text-white">Proč koupit u nás?</h3>
+                <ul className="space-y-3 text-sm text-gray-300 font-montserrat">
+                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> Záruka původu vozidla</li>
+                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> Výhodné financování na místě</li>
+                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> Pojištění se slevou</li>
+                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> Technická kontrola v ceně</li>
                 </ul>
               </div>
 

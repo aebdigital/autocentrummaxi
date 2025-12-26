@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import AnnouncementPopup from './components/AnnouncementPopup';
 import ScrollToTop from './components/ScrollToTop';
+import FloatingCebiaButton from './components/FloatingCebiaButton';
 import HomePage from './pages/HomePage';
 import PonukaPage from './pages/PonukaPage';
 import CarDetailPage from './pages/CarDetailPage';
@@ -26,7 +27,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 font-sans">
+    <div className="min-h-screen bg-dark-900 font-sans">
       <ScrollToTop />
       <Header />
 
@@ -79,6 +80,7 @@ function AppContent() {
 
       <Footer />
 
+      <FloatingCebiaButton />
       <AnnouncementPopup />
     </div>
   );
