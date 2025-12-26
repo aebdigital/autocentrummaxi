@@ -78,6 +78,11 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             vin: supabaseCar.vin ?? undefined,
             description: supabaseCar.description ?? undefined,
             showOnHomepage: supabaseCar.showOnHomepage,
+            doors: supabaseCar.doors ?? undefined,
+            color: supabaseCar.color ?? undefined,
+            month: supabaseCar.month ?? undefined,
+            vatDeductible: supabaseCar.vatDeductible ?? undefined,
+            priceWithoutVat: supabaseCar.priceWithoutVat ?? undefined,
           });
         }
       } catch (error) {
@@ -126,8 +131,11 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
     'VIN': vinIcon,
   };
 
+  // Format year with month if available
+  const yearDisplay = car.month ? `${car.month}/${car.year}` : car.year;
+
   const basicData = [
-    { label: 'Rok výroby', value: car.year, icon: icons['Rok výroby'] },
+    { label: 'Rok výroby', value: yearDisplay, icon: icons['Rok výroby'] },
     { label: 'Kilometry', value: `${car.mileage.toLocaleString()} km`, icon: icons['Kilometry'] },
     { label: 'Palivo', value: car.fuel, icon: icons['Palivo'] },
     { label: 'Převodovka', value: car.transmission, icon: icons['Převodovka'] },
@@ -135,8 +143,65 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
     { label: 'Objem motoru', value: car.engine, icon: icons['Objem motoru'] },
     { label: 'Karoserie', value: car.bodyType, icon: icons['Karoserie'] },
     { label: 'Pohon', value: car.drivetrain, icon: icons['Pohon'] },
+    { label: 'Dveře', value: car.doors, icon: icons['Karoserie'] },
+    { label: 'Barva', value: car.color, icon: icons['Karoserie'] },
     { label: 'VIN', value: car.vin, icon: icons['VIN'] },
   ].filter(item => item.value);
+
+  // Categorize features
+  const safetyFeatures = [
+    'ABS', 'ASR', 'ESP', 'EBD', 'EBV', 'Centrálne zamykanie', 'Imobilizér',
+    'Mechanické zabezpečenie', 'Brzdový asistent', 'Airbagy', 'Isofix',
+    'Systém kontroly tlaku v pneumatikách (TPMS)', 'Varovanie o vzdialenosti (BAS Plus)',
+    'Asistent rozoznávania dopravných značiek (ISLW/ISLA)', 'Asistent diaľkových svetiel (HBA)',
+    'Systém rozoznania únavy vodiča (DAW)', 'Asistent rozjazdu do kopca'
+  ];
+
+  const comfortFeatures = [
+    'Autorádio', 'Palubný počítač', 'Klimatizácia', 'Lakťová opierka', 'Navigačný systém',
+    'Parkovacie senzory', 'Elektrické okná', 'Bluetooth handsfree', 'Dotykový displej',
+    'Vyhrievané sedadlá', 'Vyhrievané zrkadlá', 'Tempomat', 'Adaptívny tempomat',
+    'Elektrické zrkadlá', 'Bezkľúčové štartovanie', 'Kožený paket', 'Apple CarPlay',
+    'Android Auto', 'Nezávislé kúrenie', 'Elektrické ovládanie kufra', 'Adaptívny podvozok',
+    'Doťahovanie dverí', 'Stop&start systém'
+  ];
+
+  const extraFeatures = [
+    'Hmlovky', 'Svetelný senzor', 'Dažďový senzor', 'Strešné okno', 'Panoramatická strecha',
+    'Hliníkové disky', 'Tážne zariadenie', 'Sezónne prezutie'
+  ];
+
+  const additionalInfo = [
+    'Servisná knižka', 'STK', 'EK', 'Kontrola originality', 'ODO-Pass',
+    'Úplná servisná história', '1. majiteľ', 'Možná výmena', 'Ako nové kúpené v SR',
+    'Veterán', 'Tuning', 'Defektný motor alebo prevodovka'
+  ];
+
+  const categorizeFeatures = (features: string[]) => {
+    const safety: string[] = [];
+    const comfort: string[] = [];
+    const extra: string[] = [];
+    const additional: string[] = [];
+    const other: string[] = [];
+
+    features.forEach(feature => {
+      if (safetyFeatures.some(sf => feature.includes(sf) || sf.includes(feature))) {
+        safety.push(feature);
+      } else if (comfortFeatures.some(cf => feature.includes(cf) || cf.includes(feature))) {
+        comfort.push(feature);
+      } else if (extraFeatures.some(ef => feature.includes(ef) || ef.includes(feature))) {
+        extra.push(feature);
+      } else if (additionalInfo.some(ai => feature.includes(ai) || ai.includes(feature))) {
+        additional.push(feature);
+      } else {
+        other.push(feature);
+      }
+    });
+
+    return { safety, comfort, extra, additional, other };
+  };
+
+  const categorizedFeatures = car.features ? categorizeFeatures(car.features) : null;
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
@@ -189,18 +254,93 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
               </div>
             </div>
 
-            {/* Features */}
-            {car.features && car.features.length > 0 && (
+            {/* Description */}
+            {car.description && (
+              <div className="bg-dark-800 rounded-2xl shadow-sm p-8 border border-dark-600">
+                <h2 className="text-2xl font-bold font-exo mb-6 border-b border-dark-600 pb-4 text-white">Popis</h2>
+                <p className="text-gray-300 font-montserrat whitespace-pre-line">{car.description}</p>
+              </div>
+            )}
+
+            {/* Features - Categorized */}
+            {categorizedFeatures && (
               <div className="bg-dark-800 rounded-2xl shadow-sm p-8 border border-dark-600">
                 <h2 className="text-2xl font-bold font-exo mb-6 border-b border-dark-600 pb-4 text-white">Výbava vozidla</h2>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {car.features.map((feature, i) => (
-                    <li key={i} className="flex items-center text-gray-300 font-montserrat">
-                      <span className="w-2 h-2 bg-lime-400 rounded-full mr-3"></span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+
+                {/* Safety */}
+                {categorizedFeatures.safety.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">Bezpečnost</h3>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {categorizedFeatures.safety.map((feature, i) => (
+                        <li key={i} className="flex items-center text-gray-300 font-montserrat">
+                          <span className="text-lime-400 mr-2">✓</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Comfort */}
+                {categorizedFeatures.comfort.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">Komfort</h3>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {categorizedFeatures.comfort.map((feature, i) => (
+                        <li key={i} className="flex items-center text-gray-300 font-montserrat">
+                          <span className="text-lime-400 mr-2">✓</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Extra */}
+                {categorizedFeatures.extra.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">Další výbava</h3>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {categorizedFeatures.extra.map((feature, i) => (
+                        <li key={i} className="flex items-center text-gray-300 font-montserrat">
+                          <span className="text-lime-400 mr-2">✓</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Additional Info */}
+                {categorizedFeatures.additional.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">Doplňující údaje</h3>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {categorizedFeatures.additional.map((feature, i) => (
+                        <li key={i} className="flex items-center text-gray-300 font-montserrat">
+                          <span className="text-lime-400 mr-2">✓</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Other uncategorized features */}
+                {categorizedFeatures.other.length > 0 && (
+                  <div>
+                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">Ostatní</h3>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {categorizedFeatures.other.map((feature, i) => (
+                        <li key={i} className="flex items-center text-gray-300 font-montserrat">
+                          <span className="text-lime-400 mr-2">✓</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -212,14 +352,18 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
               {/* Price Card */}
               <div className="bg-dark-800 rounded-2xl shadow-lg p-6 border border-dark-600">
                 <h1 className="text-2xl font-bold font-exo mb-2 text-white">{car.brand} {car.model}</h1>
-                <p className="text-gray-400 mb-6 font-montserrat">{car.year} • {car.mileage.toLocaleString()} km</p>
+                <p className="text-gray-400 mb-6 font-montserrat">{yearDisplay} • {car.mileage.toLocaleString()} km</p>
 
                 <div className="text-4xl font-bold text-lime-400 mb-2 font-exo">
                   {car.price > 0 ? `${car.price.toLocaleString()} Kč` : 'Na dotaz'}
                 </div>
-                {car.price > 0 && (
+                {car.vatDeductible && car.priceWithoutVat && car.priceWithoutVat > 0 ? (
+                  <p className="text-gray-400 text-sm mb-6 font-montserrat">
+                    Odpočet DPH: {car.priceWithoutVat.toLocaleString()} Kč
+                  </p>
+                ) : car.price > 0 ? (
                    <p className="text-gray-500 text-sm mb-6 font-montserrat">Možnost odpočtu DPH</p>
-                )}
+                ) : null}
 
                 <div className="space-y-3">
                   <a href="tel:+420702198267" className="block w-full bg-lime-400 text-dark-900 text-center py-4 rounded-xl font-bold uppercase hover:bg-lime-500 transition-colors font-montserrat">

@@ -19,4 +19,9 @@ export interface Car {
   source?: 'xml' | 'admin'; // Track if car is from XML feed or admin-added
   reservedUntil?: string; // ISO date string for reservation expiry
   showOnHomepage?: boolean; // Flag to show in "Najnovšie vozidlá" section
+  doors?: string;
+  color?: string;
+  month?: number; // Month of manufacture
+  vatDeductible?: boolean;
+  priceWithoutVat?: number;
 }

@@ -25,6 +25,11 @@ export interface PublicCarDetail extends PublicCar {
   vin?: string | null;
   description?: string | null;
   reservedUntil?: string | null;
+  doors?: string | null;
+  color?: string | null;
+  month?: number | null;
+  vatDeductible?: boolean | null;
+  priceWithoutVat?: number | null;
 }
 
 // Helper to build full image URL from storage path
@@ -80,30 +85,7 @@ export async function getCarsForPonuka(): Promise<PublicCar[]> {
 export async function getCarById(carId: string): Promise<PublicCarDetail | null> {
   const { data, error } = await supabase
     .from("cars")
-    .select(
-      `
-      id,
-      site_id,
-      brand,
-      model,
-      year,
-      price,
-      mileage,
-      fuel,
-      transmission,
-      image,
-      images,
-      features,
-      engine,
-      power,
-      body_type,
-      drivetrain,
-      vin,
-      description,
-      reserved_until,
-      show_on_homepage
-    `
-    )
+    .select("*")
     .eq("id", carId)
     .eq("site_id", SITE_ID)
     .single();
@@ -136,6 +118,11 @@ export async function getCarById(carId: string): Promise<PublicCarDetail | null>
     description: data.description,
     reservedUntil: data.reserved_until,
     showOnHomepage: data.show_on_homepage,
+    doors: data.doors,
+    color: data.color,
+    month: data.month,
+    vatDeductible: data.vat_deductible,
+    priceWithoutVat: data.price_without_vat ? parseFloat(data.price_without_vat) : null,
   };
 }
 
