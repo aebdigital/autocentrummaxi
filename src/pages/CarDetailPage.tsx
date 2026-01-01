@@ -47,15 +47,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
         carId = slugParts[slugParts.length - 1];
       }
 
-      // First check if it's a hardcoded car
-      const foundCar = cars.find(c => c.id === carId);
-      if (foundCar) {
-        setCar(foundCar);
-        setIsLoading(false);
-        return;
-      }
-
-      // If not found in hardcoded cars, try to fetch from Supabase
+      // Always fetch full car details from Supabase to get description, features, etc.
       try {
         const supabaseCar = await getCarById(carId);
         if (supabaseCar) {
@@ -84,9 +76,17 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             vatDeductible: supabaseCar.vatDeductible ?? undefined,
             priceWithoutVat: supabaseCar.priceWithoutVat ?? undefined,
           });
+          setIsLoading(false);
+          return;
         }
       } catch (error) {
         console.error('Failed to load car from Supabase:', error);
+      }
+
+      // Fallback to cars prop if Supabase fetch failed
+      const foundCar = cars.find(c => c.id === carId);
+      if (foundCar) {
+        setCar(foundCar);
       }
 
       setIsLoading(false);
