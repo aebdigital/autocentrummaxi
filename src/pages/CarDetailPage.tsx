@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import MiniHero from '../components/MiniHero';
 import { Car } from '../types/car';
 import { getCarById } from '../lib/publicCars';
+import { useTranslation } from '../hooks/useTranslation';
 
 // Import local SVG icons
 import pohonIcon from '../images/pohon.svg';
@@ -25,6 +26,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const { t, tEquipment } = useTranslation();
 
   useEffect(() => {
     async function loadCar() {
@@ -98,9 +100,9 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-dark-900">
-        <MiniHero title="Načítám..." />
+        <MiniHero title={t('nacitam')} />
         <div className="flex justify-center items-center py-20">
-          <div className="text-2xl font-montserrat text-white">Načítám vozidlo...</div>
+          <div className="text-2xl font-montserrat text-white">{t('nacitamVozidlo')}</div>
         </div>
       </div>
     );
@@ -109,9 +111,9 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   if (!car) {
     return (
       <div className="min-h-screen bg-dark-900">
-        <MiniHero title="Vozidlo nenalezeno" />
+        <MiniHero title={t('vozidloNenajdene')} />
         <div className="text-center py-20">
-          <Link to="/ponuka" className="text-lime-400 hover:text-lime-500 hover:underline">Zpět na nabídku</Link>
+          <Link to="/ponuka" className="text-lime-400 hover:text-lime-500 hover:underline">{t('spatNaPonuku')}</Link>
         </div>
       </div>
     );
@@ -135,17 +137,17 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   const yearDisplay = car.month ? `${car.month}/${car.year}` : car.year;
 
   const basicData = [
-    { label: 'Rok výroby', value: yearDisplay, icon: icons['Rok výroby'] },
-    { label: 'Kilometry', value: `${car.mileage.toLocaleString()} km`, icon: icons['Kilometry'] },
-    { label: 'Palivo', value: car.fuel, icon: icons['Palivo'] },
-    { label: 'Převodovka', value: car.transmission, icon: icons['Převodovka'] },
-    { label: 'Výkon', value: car.power, icon: icons['Výkon'] },
-    { label: 'Objem motoru', value: car.engine, icon: icons['Objem motoru'] },
-    { label: 'Karoserie', value: car.bodyType, icon: icons['Karoserie'] },
-    { label: 'Pohon', value: car.drivetrain, icon: icons['Pohon'] },
-    { label: 'Dveře', value: car.doors, icon: icons['Karoserie'] },
-    { label: 'Barva', value: car.color, icon: icons['Karoserie'] },
-    { label: 'VIN', value: car.vin, icon: icons['VIN'] },
+    { label: t('labelRokVyroby'), value: yearDisplay, icon: icons['Rok výroby'] },
+    { label: t('labelKilometre'), value: `${car.mileage.toLocaleString()} km`, icon: icons['Kilometry'] },
+    { label: t('labelPalivo'), value: car.fuel, icon: icons['Palivo'] },
+    { label: t('labelPrevodovka'), value: car.transmission, icon: icons['Převodovka'] },
+    { label: t('labelVykon'), value: car.power, icon: icons['Výkon'] },
+    { label: t('labelObjemMotoru'), value: car.engine, icon: icons['Objem motoru'] },
+    { label: t('labelKaroseria'), value: car.bodyType, icon: icons['Karoserie'] },
+    { label: t('labelPohon'), value: car.drivetrain, icon: icons['Pohon'] },
+    { label: t('labelDvere'), value: car.doors, icon: icons['Karoserie'] },
+    { label: t('labelFarba'), value: car.color, icon: icons['Karoserie'] },
+    { label: t('labelVin'), value: car.vin, icon: icons['VIN'] },
   ].filter(item => item.value);
 
   // Categorize features
@@ -223,7 +225,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                <div className="relative h-[400px] md:h-[500px] mb-2 cursor-pointer" onClick={() => openLightbox(0)}>
                  <img src={images[0]} alt="Main" className="w-full h-full object-cover rounded-xl" />
                  <div className="absolute bottom-4 right-4 bg-dark-900/80 text-white px-3 py-1 rounded-full text-sm font-montserrat">
-                   + {images.length} fotografií
+                   + {images.length} {t('fotografii')}
                  </div>
                </div>
                {/* Thumbnails */}
@@ -238,7 +240,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
 
             {/* Technical Specs */}
             <div className="bg-dark-800 rounded-2xl shadow-sm p-8 border border-dark-600">
-              <h2 className="text-2xl font-bold font-exo mb-6 border-b border-dark-600 pb-4 text-white">Technické parametry</h2>
+              <h2 className="text-2xl font-bold font-exo mb-6 border-b border-dark-600 pb-4 text-white">{t('technickeParametre')}</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 {basicData.map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3">
@@ -257,7 +259,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             {/* Description */}
             {car.description && (
               <div className="bg-dark-800 rounded-2xl shadow-sm p-8 border border-dark-600">
-                <h2 className="text-2xl font-bold font-exo mb-6 border-b border-dark-600 pb-4 text-white">Popis</h2>
+                <h2 className="text-2xl font-bold font-exo mb-6 border-b border-dark-600 pb-4 text-white">{t('popis')}</h2>
                 <p className="text-gray-300 font-montserrat whitespace-pre-line">{car.description}</p>
               </div>
             )}
@@ -265,17 +267,17 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             {/* Features - Categorized */}
             {categorizedFeatures && (
               <div className="bg-dark-800 rounded-2xl shadow-sm p-8 border border-dark-600">
-                <h2 className="text-2xl font-bold font-exo mb-6 border-b border-dark-600 pb-4 text-white">Výbava vozidla</h2>
+                <h2 className="text-2xl font-bold font-exo mb-6 border-b border-dark-600 pb-4 text-white">{t('vybavaVozidla')}</h2>
 
                 {/* Safety */}
                 {categorizedFeatures.safety.length > 0 && (
                   <div className="mb-6">
-                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">Bezpečnost</h3>
+                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">{t('bezpecnostLabel')}</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {categorizedFeatures.safety.map((feature, i) => (
                         <li key={i} className="flex items-center text-gray-300 font-montserrat">
                           <span className="text-lime-400 mr-2">✓</span>
-                          {feature}
+                          {tEquipment(feature)}
                         </li>
                       ))}
                     </ul>
@@ -285,12 +287,12 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                 {/* Comfort */}
                 {categorizedFeatures.comfort.length > 0 && (
                   <div className="mb-6">
-                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">Komfort</h3>
+                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">{t('komfortLabel')}</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {categorizedFeatures.comfort.map((feature, i) => (
                         <li key={i} className="flex items-center text-gray-300 font-montserrat">
                           <span className="text-lime-400 mr-2">✓</span>
-                          {feature}
+                          {tEquipment(feature)}
                         </li>
                       ))}
                     </ul>
@@ -300,12 +302,12 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                 {/* Extra */}
                 {categorizedFeatures.extra.length > 0 && (
                   <div className="mb-6">
-                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">Další výbava</h3>
+                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">{t('dalsiaVybava')}</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {categorizedFeatures.extra.map((feature, i) => (
                         <li key={i} className="flex items-center text-gray-300 font-montserrat">
                           <span className="text-lime-400 mr-2">✓</span>
-                          {feature}
+                          {tEquipment(feature)}
                         </li>
                       ))}
                     </ul>
@@ -315,12 +317,12 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                 {/* Additional Info */}
                 {categorizedFeatures.additional.length > 0 && (
                   <div className="mb-6">
-                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">Doplňující údaje</h3>
+                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">{t('doplnujuceUdaje')}</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {categorizedFeatures.additional.map((feature, i) => (
                         <li key={i} className="flex items-center text-gray-300 font-montserrat">
                           <span className="text-lime-400 mr-2">✓</span>
-                          {feature}
+                          {tEquipment(feature)}
                         </li>
                       ))}
                     </ul>
@@ -330,12 +332,12 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                 {/* Other uncategorized features */}
                 {categorizedFeatures.other.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">Ostatní</h3>
+                    <h3 className="text-lg font-bold font-exo mb-4 text-lime-400">{t('ostatni')}</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {categorizedFeatures.other.map((feature, i) => (
                         <li key={i} className="flex items-center text-gray-300 font-montserrat">
                           <span className="text-lime-400 mr-2">✓</span>
-                          {feature}
+                          {tEquipment(feature)}
                         </li>
                       ))}
                     </ul>
@@ -355,14 +357,14 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                 <p className="text-gray-400 mb-6 font-montserrat">{yearDisplay} • {car.mileage.toLocaleString()} km</p>
 
                 <div className="text-4xl font-bold text-lime-400 mb-2 font-exo">
-                  {car.price > 0 ? `${car.price.toLocaleString()} Kč` : 'Na dotaz'}
+                  {car.price > 0 ? `${car.price.toLocaleString()} Kč` : t('naDotaz')}
                 </div>
                 {car.vatDeductible && car.priceWithoutVat && car.priceWithoutVat > 0 ? (
                   <p className="text-gray-400 text-sm mb-6 font-montserrat">
-                    Odpočet DPH: {car.priceWithoutVat.toLocaleString()} Kč
+                    {t('odpocetDphLabel')}: {car.priceWithoutVat.toLocaleString()} Kč
                   </p>
                 ) : car.price > 0 ? (
-                   <p className="text-gray-500 text-sm mb-6 font-montserrat">Možnost odpočtu DPH</p>
+                   <p className="text-gray-500 text-sm mb-6 font-montserrat">{t('moznostOdpoctuDph')}</p>
                 ) : null}
 
                 <div className="space-y-3">
@@ -370,19 +372,19 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                     +420 702 198 267
                   </a>
                   <Link to="/kontakt" className="block w-full bg-transparent border-2 border-lime-400 text-lime-400 text-center py-4 rounded-xl font-bold uppercase hover:bg-lime-400 hover:text-dark-900 transition-colors font-montserrat">
-                    Napsat prodejci
+                    {t('napisatPredajcovi')}
                   </Link>
                 </div>
               </div>
 
               {/* Assurance Card */}
               <div className="bg-dark-700 rounded-2xl p-6 border border-dark-600">
-                <h3 className="font-bold mb-4 font-exo text-white">Proč koupit u nás?</h3>
+                <h3 className="font-bold mb-4 font-exo text-white">{t('precoKupitUNas')}</h3>
                 <ul className="space-y-3 text-sm text-gray-300 font-montserrat">
-                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> Záruka původu vozidla</li>
-                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> Výhodné financování na místě</li>
-                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> Pojištění se slevou</li>
-                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> Technická kontrola v ceně</li>
+                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> {t('zarukaPovoduVozidla')}</li>
+                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> {t('vyhodneFinancovanie')}</li>
+                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> {t('poistenieSoZlavou')}</li>
+                  <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> {t('technickaKontrolaVCene')}</li>
                 </ul>
               </div>
 
