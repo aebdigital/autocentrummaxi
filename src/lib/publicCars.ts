@@ -27,9 +27,13 @@ export interface PublicCarDetail extends PublicCar {
   reservedUntil?: string | null;
   doors?: string | null;
   color?: string | null;
+  countryOfOrigin?: string | null;
   month?: number | null;
   vatDeductible?: boolean | null;
   priceWithoutVat?: number | null;
+  // PDF documents
+  serviceBookPdf?: string | null;
+  cebiaProtocolPdf?: string | null;
 }
 
 // Helper to build full image URL from storage path
@@ -120,9 +124,13 @@ export async function getCarById(carId: string): Promise<PublicCarDetail | null>
     showOnHomepage: data.show_on_homepage,
     doors: data.doors,
     color: data.color,
+    countryOfOrigin: data.country_of_origin,
     month: data.month,
     vatDeductible: data.vat_deductible,
     priceWithoutVat: data.price_without_vat ? parseFloat(data.price_without_vat) : null,
+    // PDF documents - return full URLs
+    serviceBookPdf: data.service_book_pdf ? getImageUrl(data.service_book_pdf) : null,
+    cebiaProtocolPdf: data.cebia_protocol_pdf ? getImageUrl(data.cebia_protocol_pdf) : null,
   };
 }
 

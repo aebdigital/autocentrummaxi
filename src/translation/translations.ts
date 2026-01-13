@@ -202,6 +202,11 @@ export const translations = {
   poistenieSoZlavou: { sk: 'Poistenie so zľavou', cs: 'Pojištění se slevou' },
   technickaKontrolaVCene: { sk: 'Technická kontrola v cene', cs: 'Technická kontrola v ceně' },
 
+  // PDF Documents section
+  dokumenty: { sk: 'Dokumenty', cs: 'Dokumenty' },
+  servisnaKnizka: { sk: 'Servisná knižka', cs: 'Servisní knížka' },
+  cebiaProtokol: { sk: 'Cebia protokol', cs: 'Cebia protokol' },
+
   // Technical parameters labels
   labelRokVyroby: { sk: 'Rok výroby', cs: 'Rok výroby' },
   labelKilometre: { sk: 'Kilometre', cs: 'Kilometry' },
@@ -214,6 +219,7 @@ export const translations = {
   labelDvere: { sk: 'Dvere', cs: 'Dveře' },
   labelFarba: { sk: 'Farba', cs: 'Barva' },
   labelVin: { sk: 'VIN', cs: 'VIN' },
+  labelKrajinaPovodu: { sk: 'Krajina pôvodu', cs: 'Země původu' },
 
   // Equipment category names
   'cat_Bezpečnosť': { sk: 'Bezpečnosť', cs: 'Bezpečnost' },

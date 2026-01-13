@@ -6,7 +6,7 @@ interface MiniHeroProps {
 
 const MiniHero: React.FC<MiniHeroProps> = ({ title }) => {
   return (
-    <section className="relative min-h-[25vh] bg-dark-900 flex items-center justify-center text-white">
+    <section className="relative min-h-[25vh] bg-dark-900 flex items-center justify-center text-white pt-[50px]">
       <div
         className="absolute inset-0 bg-cover bg-center opacity-40"
         style={{

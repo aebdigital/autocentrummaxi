@@ -74,9 +74,13 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             showOnHomepage: supabaseCar.showOnHomepage,
             doors: supabaseCar.doors ?? undefined,
             color: supabaseCar.color ?? undefined,
+            countryOfOrigin: supabaseCar.countryOfOrigin ?? undefined,
             month: supabaseCar.month ?? undefined,
             vatDeductible: supabaseCar.vatDeductible ?? undefined,
             priceWithoutVat: supabaseCar.priceWithoutVat ?? undefined,
+            // PDF documents
+            serviceBookPdf: supabaseCar.serviceBookPdf ?? undefined,
+            cebiaProtocolPdf: supabaseCar.cebiaProtocolPdf ?? undefined,
           });
           setIsLoading(false);
           return;
@@ -147,6 +151,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
     { label: t('labelPohon'), value: car.drivetrain, icon: icons['Pohon'] },
     { label: t('labelDvere'), value: car.doors, icon: icons['Karoserie'] },
     { label: t('labelFarba'), value: car.color, icon: icons['Karoserie'] },
+    { label: t('labelKrajinaPovodu'), value: car.countryOfOrigin, icon: icons['VIN'] },
     { label: t('labelVin'), value: car.vin, icon: icons['VIN'] },
   ].filter(item => item.value);
 
@@ -222,20 +227,20 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
 
             {/* Main Gallery Display */}
             <div className="bg-dark-800 rounded-2xl shadow-sm overflow-hidden p-2 border border-dark-600">
-               <div className="relative h-[400px] md:h-[500px] mb-2 cursor-pointer" onClick={() => openLightbox(0)}>
-                 <img src={images[0]} alt="Main" className="w-full h-full object-cover rounded-xl" />
-                 <div className="absolute bottom-4 right-4 bg-dark-900/80 text-white px-3 py-1 rounded-full text-sm font-montserrat">
-                   + {images.length} {t('fotografii')}
-                 </div>
-               </div>
-               {/* Thumbnails */}
-               <div className="grid grid-cols-4 gap-2">
-                 {images.slice(1, 5).map((img, i) => (
-                   <div key={i} className="h-24 cursor-pointer" onClick={() => openLightbox(i + 1)}>
-                     <img src={img} alt={`Thumb ${i}`} className="w-full h-full object-cover rounded-lg hover:opacity-80 transition-opacity" />
-                   </div>
-                 ))}
-               </div>
+              <div className="relative h-[400px] md:h-[500px] mb-2 cursor-pointer" onClick={() => openLightbox(0)}>
+                <img src={images[0]} alt="Main" className="w-full h-full object-cover rounded-xl" />
+                <div className="absolute bottom-4 right-4 bg-dark-900/80 text-white px-3 py-1 rounded-full text-sm font-montserrat">
+                  + {images.length} {t('fotografii')}
+                </div>
+              </div>
+              {/* Thumbnails */}
+              <div className="grid grid-cols-4 gap-2">
+                {images.slice(1, 5).map((img, i) => (
+                  <div key={i} className="h-24 cursor-pointer" onClick={() => openLightbox(i + 1)}>
+                    <img src={img} alt={`Thumb ${i}`} className="w-full h-full object-cover rounded-lg hover:opacity-80 transition-opacity" />
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Technical Specs */}
@@ -364,7 +369,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                     {t('odpocetDphLabel')}: {car.priceWithoutVat.toLocaleString()} Kč
                   </p>
                 ) : car.price > 0 ? (
-                   <p className="text-gray-500 text-sm mb-6 font-montserrat">{t('moznostOdpoctuDph')}</p>
+                  <p className="text-gray-500 text-sm mb-6 font-montserrat">{t('moznostOdpoctuDph')}</p>
                 ) : null}
 
                 <div className="space-y-3">
@@ -388,6 +393,57 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                 </ul>
               </div>
 
+              {/* PDF Documents */}
+              {(car.serviceBookPdf || car.cebiaProtocolPdf) && (
+                <div className="bg-dark-700 rounded-2xl p-6 border border-dark-600">
+                  <h3 className="font-bold mb-4 font-exo text-white">{t('dokumenty')}</h3>
+                  <div className="space-y-3">
+                    {car.serviceBookPdf && (
+                      <a
+                        href={car.serviceBookPdf}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 p-3 bg-dark-800 rounded-xl hover:bg-dark-600 transition-colors group"
+                      >
+                        <div className="w-10 h-10 bg-lime-400/20 rounded-lg flex items-center justify-center">
+                          <svg className="w-5 h-5 text-lime-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-white font-semibold font-montserrat">{t('servisnaKnizka')}</p>
+                          <p className="text-gray-400 text-sm font-montserrat">PDF</p>
+                        </div>
+                        <svg className="w-5 h-5 text-gray-400 group-hover:text-lime-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                      </a>
+                    )}
+                    {car.cebiaProtocolPdf && (
+                      <a
+                        href={car.cebiaProtocolPdf}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 p-3 bg-dark-800 rounded-xl hover:bg-dark-600 transition-colors group"
+                      >
+                        <div className="w-10 h-10 bg-lime-400/20 rounded-lg flex items-center justify-center">
+                          <svg className="w-5 h-5 text-lime-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-white font-semibold font-montserrat">{t('cebiaProtokol')}</p>
+                          <p className="text-gray-400 text-sm font-montserrat">PDF</p>
+                        </div>
+                        <svg className="w-5 h-5 text-gray-400 group-hover:text-lime-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+
             </div>
           </div>
 
@@ -397,20 +453,20 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
       {/* Lightbox Overlay */}
       {lightboxOpen && (
         <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4" onClick={() => setLightboxOpen(false)}>
-           <button className="absolute top-4 right-4 text-white text-4xl">&times;</button>
-           <img src={images[lightboxIndex]} alt="Full" className="max-w-full max-h-[90vh] object-contain" onClick={(e) => e.stopPropagation()} />
-           {images.length > 1 && (
-             <>
-               <button 
-                 className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl p-2"
-                 onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex - 1 + images.length) % images.length); }}
-               >←</button>
-               <button 
-                 className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl p-2"
-                 onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex + 1) % images.length); }}
-               >→</button>
-             </>
-           )}
+          <button className="absolute top-4 right-4 text-white text-4xl">&times;</button>
+          <img src={images[lightboxIndex]} alt="Full" className="max-w-full max-h-[90vh] object-contain" onClick={(e) => e.stopPropagation()} />
+          {images.length > 1 && (
+            <>
+              <button
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl p-2"
+                onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex - 1 + images.length) % images.length); }}
+              >←</button>
+              <button
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl p-2"
+                onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex + 1) % images.length); }}
+              >→</button>
+            </>
+          )}
         </div>
       )}
 

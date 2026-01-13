@@ -13,12 +13,11 @@ import CookiesPage from './pages/CookiesPage';
 import ZarukaPage from './pages/ZarukaPage';
 import FinancovaniPage from './pages/FinancovaniPage';
 import PojisteniPage from './pages/PojisteniPage';
-import { initialCars } from './data/initialCars';
 import { getCarsForPonuka } from './lib/publicCars';
 import { Car } from './types/car';
 
 function AppContent() {
-  const [cars, setCars] = useState<Car[]>(initialCars);
+  const [cars, setCars] = useState<Car[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [announcements] = useState<any[]>([]);
 
@@ -26,7 +25,7 @@ function AppContent() {
     async function loadCars() {
       try {
         const supabaseCars = await getCarsForPonuka();
-        // Convert Supabase cars to Car type and merge with hardcoded cars
+        // Convert Supabase cars to Car type
         const convertedCars: Car[] = supabaseCars.map(car => ({
           id: car.id,
           brand: car.brand.trim(),
@@ -40,12 +39,10 @@ function AppContent() {
           power: car.power ?? undefined,
           showOnHomepage: car.showOnHomepage,
         }));
-        // Supabase cars first, then hardcoded cars
-        setCars([...convertedCars, ...initialCars]);
+        setCars(convertedCars);
       } catch (error) {
         console.error('Failed to load cars from Supabase:', error);
-        // Fall back to hardcoded cars only
-        setCars(initialCars);
+        setCars([]);
       } finally {
         setIsLoading(false);
       }
