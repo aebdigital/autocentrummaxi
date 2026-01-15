@@ -14,6 +14,7 @@ export interface PublicCar {
   image: string;
   power?: string | null;
   showOnHomepage?: boolean;
+  reserved?: boolean;
 }
 
 export interface PublicCarDetail extends PublicCar {
@@ -25,6 +26,7 @@ export interface PublicCarDetail extends PublicCar {
   vin?: string | null;
   description?: string | null;
   reservedUntil?: string | null;
+  reserved?: boolean | null;
   doors?: string | null;
   color?: string | null;
   countryOfOrigin?: string | null;
@@ -60,7 +62,8 @@ export async function getCarsForPonuka(): Promise<PublicCar[]> {
       transmission,
       image,
       power,
-      show_on_homepage
+      show_on_homepage,
+      reserved
     `
     )
     .eq("site_id", SITE_ID)
@@ -83,6 +86,7 @@ export async function getCarsForPonuka(): Promise<PublicCar[]> {
     image: getImageUrl(car.image),
     power: car.power,
     showOnHomepage: car.show_on_homepage,
+    reserved: car.reserved,
   }));
 }
 
@@ -121,6 +125,7 @@ export async function getCarById(carId: string): Promise<PublicCarDetail | null>
     vin: data.vin,
     description: data.description,
     reservedUntil: data.reserved_until,
+    reserved: data.reserved,
     showOnHomepage: data.show_on_homepage,
     doors: data.doors,
     color: data.color,

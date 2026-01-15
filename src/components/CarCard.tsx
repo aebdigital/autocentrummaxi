@@ -1,5 +1,6 @@
 import React from 'react';
 import { Car } from '../types/car';
+import { useTranslation } from '../hooks/useTranslation';
 
 // Import local SVG icons
 import rokIcon from '../images/rok.svg';
@@ -13,7 +14,9 @@ interface CarCardProps {
 }
 
 const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
-  const isReserved = car.reservedUntil && new Date(car.reservedUntil) > new Date();
+  const { t } = useTranslation();
+  // Use reserved boolean field, fallback to reservedUntil date check for backwards compatibility
+  const isReserved = car.reserved || (car.reservedUntil && new Date(car.reservedUntil) > new Date());
 
   return (
     <div
@@ -31,8 +34,8 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
            {isReserved && (
-            <span className="bg-orange-500 text-white px-3 py-1 rounded-md text-xs font-bold font-montserrat shadow-sm">
-              REZERVACE
+            <span className="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold font-montserrat shadow-sm">
+              {t('rezervovane')}
             </span>
           )}
         </div>
