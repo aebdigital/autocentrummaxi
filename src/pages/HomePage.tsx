@@ -34,9 +34,12 @@ const HomePage: React.FC<HomePageProps> = ({ cars, isLoading, onCarClick, announ
       setShowAnnouncement(true);
     }
   }, [announcements]);
-  // Filter cars marked for homepage display, or fallback to latest 4 cars
+  // Filter cars marked for homepage display, prioritize them first
+  // If not enough (less than 4), fill remaining slots with other cars
   const homepageCars = cars.filter(car => car.showOnHomepage === true);
-  const displayCars = homepageCars.length > 0 ? homepageCars.slice(0, 4) : cars.slice(0, 4);
+  const otherCars = cars.filter(car => car.showOnHomepage !== true);
+  const slotsNeeded = Math.max(0, 4 - homepageCars.length);
+  const displayCars = [...homepageCars, ...otherCars.slice(0, slotsNeeded)].slice(0, 4);
 
   const createCarSlug = (car: Car) => {
     return `${car.brand}-${car.model}-${car.year}-${car.id}`
