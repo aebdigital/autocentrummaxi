@@ -26,7 +26,6 @@ export interface PublicCarDetail extends PublicCar {
   vin?: string | null;
   description?: string | null;
   reservedUntil?: string | null;
-  reserved?: boolean | null;
   doors?: string | null;
   color?: string | null;
   countryOfOrigin?: string | null;
