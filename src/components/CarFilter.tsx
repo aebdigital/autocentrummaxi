@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Car } from '../types/car';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface CarFilterProps {
   cars: Car[];
@@ -15,13 +16,14 @@ interface FilterState {
 }
 
 const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
-  
+
   // Get unique values from cars
   const allBrands = Array.from(new Set(cars.map(car => car.brand))).sort();
   const allFuelTypes = Array.from(new Set(cars.map(car => car.fuel))).sort();
   const allTransmissions = Array.from(new Set(cars.map(car => car.transmission))).sort();
-  
+
   const minPrice = Math.min(...cars.map(car => car.price));
   const maxPrice = Math.max(...cars.map(car => car.price));
   const minYear = Math.min(...cars.map(car => car.year));
@@ -40,22 +42,22 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
     const filtered = cars.filter(car => {
       // Price filter
       const priceMatch = car.price >= filters.priceRange[0] && car.price <= filters.priceRange[1];
-      
+
       // Brand filter
       const brandMatch = filters.brands.length === 0 || filters.brands.includes(car.brand);
-      
+
       // Fuel filter
       const fuelMatch = filters.fuelTypes.length === 0 || filters.fuelTypes.includes(car.fuel);
-      
+
       // Year filter
       const yearMatch = car.year >= filters.yearRange[0] && car.year <= filters.yearRange[1];
-      
+
       // Transmission filter
       const transmissionMatch = filters.transmissionTypes.length === 0 || filters.transmissionTypes.includes(car.transmission);
-      
+
       return priceMatch && brandMatch && fuelMatch && yearMatch && transmissionMatch;
     });
-    
+
     onFilter(filtered);
   }, [filters, cars, onFilter]);
 
@@ -121,12 +123,12 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
           {/* Price Range */}
           <div>
             <label className="block text-sm font-semibold mb-3 font-exo text-white">
-              Cena (€): {filters.priceRange[0].toLocaleString()} - {filters.priceRange[1].toLocaleString()}
+              Cena (Kč): {filters.priceRange[0].toLocaleString()} - {filters.priceRange[1].toLocaleString()}
             </label>
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs text-gray-400 font-montserrat">
-                <span>{minPrice.toLocaleString()} €</span>
-                <span>{maxPrice.toLocaleString()} €</span>
+                <span>{minPrice.toLocaleString()} Kč</span>
+                <span>{maxPrice.toLocaleString()} Kč</span>
               </div>
               <div className="relative h-2">
                 {/* Track background */}
@@ -140,7 +142,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
                     right: `${100 - ((filters.priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%`
                   }}
                 ></div>
-                
+
                 {/* Min slider */}
                 <input
                   type="range"
@@ -155,7 +157,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
                   }}
                   className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
                 />
-                
+
                 {/* Max slider */}
                 <input
                   type="range"
@@ -171,7 +173,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
                   className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
                 />
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <input
                   type="number"
@@ -228,7 +230,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
                     right: `${100 - ((filters.yearRange[1] - minYear) / (maxYear - minYear)) * 100}%`
                   }}
                 ></div>
-                
+
                 {/* Min slider */}
                 <input
                   type="range"
@@ -243,7 +245,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
                   }}
                   className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
                 />
-                
+
                 {/* Max slider */}
                 <input
                   type="range"
@@ -259,7 +261,7 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
                   className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
                 />
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <input
                   type="number"
@@ -332,19 +334,29 @@ const CarFilter: React.FC<CarFilterProps> = ({ cars, onFilter }) => {
 
           {/* Transmission */}
           <div>
-            <label className="block text-sm font-semibold mb-3 font-exo text-white">Převodovka</label>
+            <label className="block text-sm font-semibold mb-3 font-exo text-white">{t('labelPrevodovka')}</label>
             <div className="space-y-2">
-              {allTransmissions.map(transmission => (
-                <label key={transmission} className="flex items-center font-montserrat text-gray-300">
-                  <input
-                    type="checkbox"
-                    checked={filters.transmissionTypes.includes(transmission)}
-                    onChange={() => handleTransmissionChange(transmission)}
-                    className="mr-2 accent-lime-400"
-                  />
-                  {transmission}
-                </label>
-              ))}
+              {allTransmissions.map(transmission => {
+                // Determine display label - handle both translation keys and raw values
+                let displayLabel = transmission;
+                if (transmission.toLowerCase() === 'manualna' || transmission === 'Manuální') {
+                  displayLabel = t('manualna');
+                } else if (transmission.toLowerCase() === 'automaticka' || transmission === 'Automatická') {
+                  displayLabel = t('automaticka');
+                }
+
+                return (
+                  <label key={transmission} className="flex items-center font-montserrat text-gray-300">
+                    <input
+                      type="checkbox"
+                      checked={filters.transmissionTypes.includes(transmission)}
+                      onChange={() => handleTransmissionChange(transmission)}
+                      className="mr-2 accent-lime-400"
+                    />
+                    {displayLabel}
+                  </label>
+                );
+              })}
             </div>
           </div>
 

@@ -50,7 +50,7 @@ export const translations = {
   cng: { sk: 'CNG', cs: 'CNG' },
 
   // Transmission
-  manualna: { sk: 'Manuálna', cs: 'Manuální' },
+  manualna: { sk: 'Manuálna', cs: 'Manuál' },
   automaticka: { sk: 'Automatická', cs: 'Automatická' },
 
   // Months

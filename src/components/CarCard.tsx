@@ -33,27 +33,31 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
-           {isReserved && (
+          {isReserved && (
             <span className="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold font-montserrat shadow-sm">
               {t('rezervovane')}
             </span>
           )}
         </div>
 
-        {/* Price Tag - Floating */}
-        <div className="absolute bottom-3 right-3 bg-lime-400 text-dark-900 px-4 py-2 rounded-lg font-bold font-exo text-lg shadow-lg">
-          {car.price > 0 ? `${car.price.toLocaleString()} Kč` : 'Na dotaz'}
+        {/* Price Tag or Reservation Tag */}
+        <div className={`absolute bottom-3 right-3 px-4 py-2 rounded-lg font-bold font-exo text-lg shadow-lg ${isReserved ? 'bg-red-600 text-white' : 'bg-lime-400 text-dark-900'}`}>
+          {isReserved ? (
+            'REZERVOVÁNO'
+          ) : (
+            car.price > 0 ? `${car.price.toLocaleString()} Kč` : 'Na dotaz'
+          )}
         </div>
       </div>
 
       {/* Content */}
       <div className="p-5 flex flex-col flex-grow">
         <div className="flex justify-between items-start mb-2">
-           <div>
-             <h3 className="text-xl font-bold text-white font-exo leading-tight group-hover:text-lime-400 transition-colors">
-               {car.brand} {car.model}
-             </h3>
-           </div>
+          <div>
+            <h3 className="text-xl font-bold text-white font-exo leading-tight group-hover:text-lime-400 transition-colors">
+              {car.brand} {car.model}
+            </h3>
+          </div>
         </div>
 
         <div className="mt-auto pt-4 grid grid-cols-2 gap-y-3 gap-x-2 text-sm text-gray-400 font-montserrat">
@@ -62,16 +66,16 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
             <span>{car.year}</span>
           </div>
           <div className="flex items-center gap-2">
-             <img src={kmIcon} alt="Km" className="w-4 h-4 icon-lime" />
-             <span>{car.mileage.toLocaleString()} km</span>
+            <img src={kmIcon} alt="Km" className="w-4 h-4 icon-lime" />
+            <span>{car.mileage.toLocaleString()} km</span>
           </div>
           <div className="flex items-center gap-2">
-             <img src={palivoIcon} alt="Palivo" className="w-4 h-4 icon-lime" />
-             <span>{car.fuel}</span>
+            <img src={palivoIcon} alt="Palivo" className="w-4 h-4 icon-lime" />
+            <span>{car.fuel}</span>
           </div>
           <div className="flex items-center gap-2">
-             <img src={vykonIcon} alt="Výkon" className="w-4 h-4 icon-lime" />
-             <span>{car.power || '-'}</span>
+            <img src={vykonIcon} alt="Výkon" className="w-4 h-4 icon-lime" />
+            <span>{car.power || '-'}</span>
           </div>
         </div>
       </div>

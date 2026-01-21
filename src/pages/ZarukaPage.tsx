@@ -142,8 +142,8 @@ const ZarukaPage: React.FC = () => {
           <h3 className="text-2xl font-bold font-exo mb-6 text-white">Parametry záruky</h3>
           <p className="mb-4">Lze uzavřít pro vozidla, která ke dni sjednání pojistné smlouvy AutoCheck splňují následující kritéria:</p>
           <ul className="list-disc ml-6 space-y-2 marker:text-lime-400">
-            <li>Maximální stáří vozidla od data první registrace: 5, 7 nebo 15 let dle pojistného programu.</li>
-            <li>Maximální celkový počet najetých kilometrů: 120.000 / 160.000 / 200.000 km.</li>
+            <li>Maximální stáří vozidla od data první registrace: 5, 10 nebo 15 let dle pojistného programu.</li>
+            <li>Maximální celkový počet najetých kilometrů: 160.000 / 200.000 / 250.000 km.</li>
             <li>Začíná datem uvedeným v pojistné smlouvě jako datum počátku pojištění (zpravidla datum sjednání pojištění/ datum pořízení vozu).</li>
             <li>Lze sjednat pro ojetá vozidla do 3.500 kg.</li>
             <li>Doba pojištění: 3, 6, 12, 24 nebo 36 měsíců.</li>
@@ -167,10 +167,40 @@ const ZarukaPage: React.FC = () => {
 
         <section>
           <h3 className="text-2xl font-bold font-exo mb-6 text-white">Pojistné podmínky</h3>
-          <ul className="space-y-2">
-            <li><a href="/" className="text-lime-400 hover:text-lime-500 hover:underline">Všeobecné pojistné podmínky</a></li>
-            <li><a href="/" className="text-lime-400 hover:text-lime-500 hover:underline">Pojistný program AutoCheck Platinum</a></li>
-            <li><a href="/" className="text-lime-400 hover:text-lime-500 hover:underline">Pojistný program AutoCheck Gold, Silver, Bronze</a></li>
+          <ul className="space-y-4">
+            <li>
+              <a
+                href="https://www.colonnade.cz/cdn/65b2eb68-cf8e-0106-94e7-7fcbfbaa6c5e/2611d693-6095-4af7-88c3-24e3395f216d/V%C5%A1eobecn%C3%A9%20pojistn%C3%A9%20podm%C3%ADnky%20AutoCheck.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lime-400 hover:text-lime-500 hover:underline flex items-center gap-2"
+              >
+                <span>Všeobecné pojistné podmínky</span>
+                <span className="text-xs text-gray-400">(PDF)</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.colonnade.cz/cdn/65b2eb68-cf8e-0106-94e7-7fcbfbaa6c5e/a2fbcfaf-89d3-4390-9d05-6cf71db927f9/Pojistn%C3%BD%20program%20AutoCheck%20Platinum.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lime-400 hover:text-lime-500 hover:underline flex items-center gap-2"
+              >
+                <span>Pojistný program AutoCheck Platinum</span>
+                <span className="text-xs text-gray-400">(PDF)</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.colonnade.cz/cdn/65b2eb68-cf8e-0106-94e7-7fcbfbaa6c5e/0f1bcf0a-9bbc-4e87-a3ad-8d6843580e7b/P%C5%99ehled%20kryt%C3%BDch%20sou%C4%8D%C3%A1stek%20pro%20programy%20Gold%2C%20Silver%2C%20Bronze.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lime-400 hover:text-lime-500 hover:underline flex items-center gap-2"
+              >
+                <span>Pojistný program AutoCheck Gold, Silver, Bronze</span>
+                <span className="text-xs text-gray-400">(PDF)</span>
+              </a>
+            </li>
           </ul>
         </section>
 

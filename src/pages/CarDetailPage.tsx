@@ -137,6 +137,8 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
     'VIN': vinIcon,
   };
 
+  const isReserved = car.reserved || (car.reservedUntil && new Date(car.reservedUntil) > new Date());
+
   // Format year with month if available
   const yearDisplay = car.month ? `${car.month}/${car.year}` : car.year;
 
@@ -144,7 +146,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
     { label: t('labelRokVyroby'), value: yearDisplay, icon: icons['Rok výroby'] },
     { label: t('labelKilometre'), value: `${car.mileage.toLocaleString()} km`, icon: icons['Kilometry'] },
     { label: t('labelPalivo'), value: car.fuel, icon: icons['Palivo'] },
-    { label: t('labelPrevodovka'), value: car.transmission, icon: icons['Převodovka'] },
+    { label: t('labelPrevodovka'), value: (car.transmission.toLowerCase() === 'manualna' || car.transmission === 'Manuální') ? t('manualna') : (car.transmission.toLowerCase() === 'automaticka' || car.transmission === 'Automatická') ? t('automaticka') : car.transmission, icon: icons['Převodovka'] },
     { label: t('labelVykon'), value: car.power, icon: icons['Výkon'] },
     { label: t('labelObjemMotoru'), value: car.engine, icon: icons['Objem motoru'] },
     { label: t('labelKaroseria'), value: car.bodyType, icon: icons['Karoserie'] },
@@ -361,8 +363,8 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                 <h1 className="text-2xl font-bold font-exo mb-2 text-white">{car.brand} {car.model}</h1>
                 <p className="text-gray-400 mb-6 font-montserrat">{yearDisplay} • {car.mileage.toLocaleString()} km</p>
 
-                <div className="text-4xl font-bold text-lime-400 mb-2 font-exo">
-                  {car.price > 0 ? `${car.price.toLocaleString()} Kč` : t('naDotaz')}
+                <div className={`text-4xl font-bold mb-2 font-exo ${isReserved ? 'text-red-500' : 'text-lime-400'}`}>
+                  {isReserved ? t('rezervovane').toUpperCase() : (car.price > 0 ? `${car.price.toLocaleString()} Kč` : t('naDotaz'))}
                 </div>
                 {car.vatDeductible && car.priceWithoutVat && car.priceWithoutVat > 0 ? (
                   <p className="text-gray-400 text-sm mb-6 font-montserrat">

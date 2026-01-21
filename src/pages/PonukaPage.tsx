@@ -31,9 +31,9 @@ const PonukaPage: React.FC<PonukaPageProps> = ({ cars, isLoading }) => {
     navigate(`/vozidlo/${slug}`);
   };
 
-  const handleFilter = (filtered: Car[]) => {
+  const handleFilter = React.useCallback((filtered: Car[]) => {
     setFilteredCars(filtered);
-  };
+  }, []);
 
   return (
     <div className="min-h-screen bg-dark-900">
