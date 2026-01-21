@@ -81,6 +81,8 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             // PDF documents
             serviceBookPdf: supabaseCar.serviceBookPdf ?? undefined,
             cebiaProtocolPdf: supabaseCar.cebiaProtocolPdf ?? undefined,
+            reserved: supabaseCar.reserved,
+            reservedUntil: supabaseCar.reservedUntil ?? undefined,
           });
           setIsLoading(false);
           return;
@@ -363,8 +365,15 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                 <h1 className="text-2xl font-bold font-exo mb-2 text-white">{car.brand} {car.model}</h1>
                 <p className="text-gray-400 mb-6 font-montserrat">{yearDisplay} • {car.mileage.toLocaleString()} km</p>
 
-                <div className={`text-4xl font-bold mb-2 font-exo ${isReserved ? 'text-red-500' : 'text-lime-400'}`}>
-                  {isReserved ? t('rezervovane').toUpperCase() : (car.price > 0 ? `${car.price.toLocaleString()} Kč` : t('naDotaz'))}
+                <div className="flex flex-wrap items-center gap-3 mb-2">
+                  <div className="text-4xl font-bold text-lime-400 font-exo">
+                    {car.price > 0 ? `${car.price.toLocaleString()} Kč` : t('naDotaz')}
+                  </div>
+                  {isReserved && (
+                    <div className="bg-red-600 text-white px-3 py-1 rounded-lg font-bold font-exo text-lg shadow-lg">
+                      {t('rezervovane').toUpperCase()}
+                    </div>
+                  )}
                 </div>
                 {car.vatDeductible && car.priceWithoutVat && car.priceWithoutVat > 0 ? (
                   <p className="text-gray-400 text-sm mb-6 font-montserrat">

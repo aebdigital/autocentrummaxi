@@ -33,11 +33,6 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
-          {isReserved && (
-            <span className="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold font-montserrat shadow-sm">
-              {t('rezervovane')}
-            </span>
-          )}
         </div>
 
         {/* Price Tag or Reservation Tag */}
