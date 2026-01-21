@@ -1,6 +1,5 @@
 import React from 'react';
 import { Car } from '../types/car';
-import { useTranslation } from '../hooks/useTranslation';
 
 // Import local SVG icons
 import rokIcon from '../images/rok.svg';
@@ -14,7 +13,6 @@ interface CarCardProps {
 }
 
 const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
-  const { t } = useTranslation();
   // Use reserved boolean field, fallback to reservedUntil date check for backwards compatibility
   const isReserved = car.reserved || (car.reservedUntil && new Date(car.reservedUntil) > new Date());
 
