@@ -27,6 +27,7 @@ export interface PublicCarDetail extends PublicCar {
   description?: string | null;
   reservedUntil?: string | null;
   doors?: string | null;
+  seats?: number | null;
   color?: string | null;
   countryOfOrigin?: string | null;
   month?: number | null;
@@ -127,6 +128,7 @@ export async function getCarById(carId: string): Promise<PublicCarDetail | null>
     reserved: data.reserved,
     showOnHomepage: data.show_on_homepage,
     doors: data.doors,
+    seats: data.seats,
     color: data.color,
     countryOfOrigin: data.country_of_origin,
     month: data.month,

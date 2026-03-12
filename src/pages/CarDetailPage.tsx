@@ -15,6 +15,7 @@ import motorIcon from '../images/motor.svg';
 import rokIcon from '../images/rok.svg';
 import karoseriaIcon from '../images/karoseria.svg';
 import vinIcon from '../images/VIN.svg';
+import seatsIcon from '../images/seats.svg';
 
 interface CarDetailPageProps {
   cars: Car[];
@@ -73,6 +74,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             description: supabaseCar.description ?? undefined,
             showOnHomepage: supabaseCar.showOnHomepage,
             doors: supabaseCar.doors ?? undefined,
+            seats: supabaseCar.seats ?? undefined,
             color: supabaseCar.color ?? undefined,
             countryOfOrigin: supabaseCar.countryOfOrigin ?? undefined,
             month: supabaseCar.month ?? undefined,
@@ -137,6 +139,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
     'Rok výroby': rokIcon,
     'Karoserie': karoseriaIcon,
     'VIN': vinIcon,
+    'Počet míst': seatsIcon,
   };
 
   const isReserved = car.reserved || (car.reservedUntil && new Date(car.reservedUntil) > new Date());
@@ -154,6 +157,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
     { label: t('labelKaroseria'), value: car.bodyType, icon: icons['Karoserie'] },
     { label: t('labelPohon'), value: car.drivetrain, icon: icons['Pohon'] },
     { label: t('labelDvere'), value: car.doors, icon: icons['Karoserie'] },
+    { label: t('labelPocetMiest'), value: car.seats?.toString(), icon: icons['Počet míst'] },
     { label: t('labelFarba'), value: car.color, icon: icons['Karoserie'] },
     { label: t('labelKrajinaPovodu'), value: car.countryOfOrigin, icon: icons['VIN'] },
     { label: t('labelVin'), value: car.vin, icon: icons['VIN'] },

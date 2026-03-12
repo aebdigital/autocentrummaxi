@@ -21,6 +21,7 @@ export interface Car {
   reserved?: boolean; // Flag to show "Rezervováno" badge
   showOnHomepage?: boolean; // Flag to show in "Najnovšie vozidlá" section
   doors?: string;
+  seats?: number;
   color?: string;
   countryOfOrigin?: string; // Country code (SK, CZ, DE, etc.)
   month?: number; // Month of manufacture

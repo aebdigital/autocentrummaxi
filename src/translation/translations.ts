@@ -217,6 +217,7 @@ export const translations = {
   labelKaroseria: { sk: 'Karoséria', cs: 'Karoserie' },
   labelPohon: { sk: 'Pohon', cs: 'Pohon' },
   labelDvere: { sk: 'Dvere', cs: 'Dveře' },
+  labelPocetMiest: { sk: 'Počet miest', cs: 'Počet míst' },
   labelFarba: { sk: 'Farba', cs: 'Barva' },
   labelVin: { sk: 'VIN', cs: 'VIN' },
   labelKrajinaPovodu: { sk: 'Krajina pôvodu', cs: 'Země původu' },
