@@ -19,6 +19,7 @@ export interface Car {
   source?: 'xml' | 'admin'; // Track if car is from XML feed or admin-added
   reservedUntil?: string; // ISO date string for reservation expiry
   reserved?: boolean; // Flag to show "Rezervováno" badge
+  sold?: boolean; // Flag to show "Predané" badge
   showOnHomepage?: boolean; // Flag to show in "Najnovšie vozidlá" section
   doors?: string;
   seats?: number;
@@ -27,6 +28,7 @@ export interface Car {
   month?: number; // Month of manufacture
   vatDeductible?: boolean;
   priceWithoutVat?: number;
+  additionalFiles?: { name: string; path: string }[];
   // PDF documents
   serviceBookPdf?: string; // Path to service book PDF
   cebiaProtocolPdf?: string; // Path to Cebia protocol PDF

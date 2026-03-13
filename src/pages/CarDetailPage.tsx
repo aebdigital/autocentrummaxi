@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// Triggering rebuild
 import { useParams, Link } from 'react-router-dom';
 import MiniHero from '../components/MiniHero';
 import { Car } from '../types/car';
@@ -83,8 +84,10 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
             // PDF documents
             serviceBookPdf: supabaseCar.serviceBookPdf ?? undefined,
             cebiaProtocolPdf: supabaseCar.cebiaProtocolPdf ?? undefined,
+            additionalFiles: supabaseCar.additionalFiles ?? undefined,
             reserved: supabaseCar.reserved,
             reservedUntil: supabaseCar.reservedUntil ?? undefined,
+            sold: supabaseCar.sold,
           });
           setIsLoading(false);
           return;
@@ -143,6 +146,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
   };
 
   const isReserved = car.reserved || (car.reservedUntil && new Date(car.reservedUntil) > new Date());
+  const isSold = car.sold;
 
   // Format year with month if available
   const yearDisplay = car.month ? `${car.month}/${car.year}` : car.year;
@@ -373,9 +377,14 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                   <div className="text-4xl font-bold text-lime-400 font-exo">
                     {car.price > 0 ? `${car.price.toLocaleString()} Kč` : t('naDotaz')}
                   </div>
-                  {isReserved && (
+                  {isReserved && !isSold && (
                     <div className="bg-red-600 text-white px-3 py-1 rounded-lg font-bold font-exo text-lg shadow-lg">
                       {t('rezervovane').toUpperCase()}
+                    </div>
+                  )}
+                  {isSold && (
+                    <div className="bg-red-600 text-white px-3 py-1 rounded-lg font-bold font-exo text-lg shadow-lg">
+                      {t('predane').toUpperCase()}
                     </div>
                   )}
                 </div>
@@ -397,10 +406,9 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                 </div>
               </div>
 
-              {/* Assurance Card */}
               <div className="bg-dark-700 rounded-2xl p-6 border border-dark-600">
                 <h3 className="font-bold mb-4 font-exo text-white">{t('precoKupitUNas')}</h3>
-                <ul className="space-y-3 text-sm text-gray-300 font-montserrat">
+                <ul className="grid grid-cols-2 gap-y-3 gap-x-4 text-sm text-gray-300 font-montserrat">
                   <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> {t('zarukaPovoduVozidla')}</li>
                   <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> {t('vyhodneFinancovanie')}</li>
                   <li className="flex items-center"><span className="text-lime-400 mr-2">✓</span> {t('poistenieSoZlavou')}</li>
@@ -409,10 +417,10 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
               </div>
 
               {/* PDF Documents */}
-              {(car.serviceBookPdf || car.cebiaProtocolPdf) && (
+              {(car.serviceBookPdf || car.cebiaProtocolPdf || (car.additionalFiles && car.additionalFiles.length > 0)) && (
                 <div className="bg-dark-700 rounded-2xl p-6 border border-dark-600">
                   <h3 className="font-bold mb-4 font-exo text-white">{t('dokumenty')}</h3>
-                  <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-3">
                     {car.serviceBookPdf && (
                       <a
                         href={car.serviceBookPdf}
@@ -425,7 +433,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>
                         </div>
-                        <div className="flex-1">
+                        <div className="flex-1 text-left">
                           <p className="text-white font-semibold font-montserrat">{t('servisnaKnizka')}</p>
                           <p className="text-gray-400 text-sm font-montserrat">PDF</p>
                         </div>
@@ -446,7 +454,7 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                           </svg>
                         </div>
-                        <div className="flex-1">
+                        <div className="flex-1 text-left">
                           <p className="text-white font-semibold font-montserrat">{t('cebiaProtokol')}</p>
                           <p className="text-gray-400 text-sm font-montserrat">PDF</p>
                         </div>
@@ -455,10 +463,31 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                         </svg>
                       </a>
                     )}
+                    {car.additionalFiles && car.additionalFiles.map((file, idx) => (
+                      <a
+                        key={idx}
+                        href={file.path}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 p-3 bg-dark-800 rounded-xl hover:bg-dark-600 transition-colors group"
+                      >
+                        <div className="w-10 h-10 bg-lime-400/20 rounded-lg flex items-center justify-center">
+                          <svg className="w-5 h-5 text-lime-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1 text-left">
+                          <p className="text-white font-semibold font-montserrat truncate max-w-[150px]">{file.name}</p>
+                          <p className="text-gray-400 text-sm font-montserrat">{file.path.toLowerCase().endsWith('.pdf') ? 'PDF' : 'Súbor'}</p>
+                        </div>
+                        <svg className="w-5 h-5 text-gray-400 group-hover:text-lime-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                      </a>
+                    ))}
                   </div>
                 </div>
               )}
-
             </div>
           </div>
 

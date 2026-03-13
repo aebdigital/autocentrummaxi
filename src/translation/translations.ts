@@ -126,6 +126,7 @@ export const translations = {
   // Checkboxes
   zobrazitNaDomovskej: { sk: 'Zobraziť na domovskej stránke v sekcii "Najnovšie vozidlá"', cs: 'Zobrazit na domovské stránce v sekci "Nejnovější vozidla"' },
   rezervovane: { sk: 'Rezervované', cs: 'Rezervováno' },
+  predane: { sk: 'Predané', cs: 'Prodáno' },
 
   // Buttons
   zrusit: { sk: 'Zrušiť', cs: 'Zrušit' },
@@ -195,6 +196,7 @@ export const translations = {
   naDotaz: { sk: 'Na dopytanie', cs: 'Na dotaz' },
   odpocetDphLabel: { sk: 'Odpočet DPH', cs: 'Odpočet DPH' },
   moznostOdpoctuDph: { sk: 'Možnosť odpočtu DPH', cs: 'Možnost odpočtu DPH' },
+  subor: { sk: 'Súbor', cs: 'Soubor' },
   napisatPredajcovi: { sk: 'Napísať predajcovi', cs: 'Napsat prodejci' },
   precoKupitUNas: { sk: 'Prečo kúpiť u nás?', cs: 'Proč koupit u nás?' },
   zarukaPovoduVozidla: { sk: 'Záruka pôvodu vozidla', cs: 'Záruka původu vozidla' },

@@ -1,4 +1,5 @@
 import { supabase, SITE_ID } from "./supabaseClient";
+// Refreshing types
 
 const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL!;
 
@@ -15,6 +16,7 @@ export interface PublicCar {
   power?: string | null;
   showOnHomepage?: boolean;
   reserved?: boolean;
+  sold?: boolean;
 }
 
 export interface PublicCarDetail extends PublicCar {
@@ -36,6 +38,7 @@ export interface PublicCarDetail extends PublicCar {
   // PDF documents
   serviceBookPdf?: string | null;
   cebiaProtocolPdf?: string | null;
+  additionalFiles?: { name: string; path: string }[] | null;
 }
 
 // Helper to build full image URL from storage path
@@ -63,7 +66,8 @@ export async function getCarsForPonuka(): Promise<PublicCar[]> {
       image,
       power,
       show_on_homepage,
-      reserved
+      reserved,
+      sold
     `
     )
     .eq("site_id", SITE_ID)
@@ -87,6 +91,7 @@ export async function getCarsForPonuka(): Promise<PublicCar[]> {
     power: car.power,
     showOnHomepage: car.show_on_homepage,
     reserved: car.reserved,
+    sold: car.sold,
   }));
 }
 
@@ -134,9 +139,11 @@ export async function getCarById(carId: string): Promise<PublicCarDetail | null>
     month: data.month,
     vatDeductible: data.vat_deductible,
     priceWithoutVat: data.price_without_vat ? parseFloat(data.price_without_vat) : null,
+    sold: data.sold,
     // PDF documents - return full URLs
     serviceBookPdf: data.service_book_pdf ? getImageUrl(data.service_book_pdf) : null,
     cebiaProtocolPdf: data.cebia_protocol_pdf ? getImageUrl(data.cebia_protocol_pdf) : null,
+    additionalFiles: data.additional_files ? data.additional_files.map((f: any) => ({ name: f.name, path: getImageUrl(f.path) })) : null,
   };
 }
 
@@ -185,6 +192,8 @@ export async function getCarFullById(carId: string): Promise<PublicCarFull | nul
     description: data.description,
     reservedUntil: data.reserved_until,
     showOnHomepage: data.show_on_homepage,
+    reserved: data.reserved,
+    sold: data.sold,
     mainImageUrl,
     galleryImageUrls,
   };

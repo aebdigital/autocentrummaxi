@@ -15,6 +15,7 @@ interface CarCardProps {
 const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
   // Use reserved boolean field, fallback to reservedUntil date check for backwards compatibility
   const isReserved = car.reserved || (car.reservedUntil && new Date(car.reservedUntil) > new Date());
+  const isSold = car.sold;
 
   return (
     <div
@@ -31,15 +32,20 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
+          {isSold ? (
+            <div className="bg-red-600 text-white px-3 py-1 rounded shadow-lg text-xs font-bold uppercase">
+              PRODÁNO
+            </div>
+          ) : isReserved ? (
+            <div className="bg-red-600 text-white px-3 py-1 rounded shadow-lg text-xs font-bold uppercase">
+              REZERVOVÁNO
+            </div>
+          ) : null}
         </div>
 
-        {/* Price Tag or Reservation Tag */}
-        <div className={`absolute bottom-3 right-3 px-4 py-2 rounded-lg font-bold font-exo text-lg shadow-lg ${isReserved ? 'bg-red-600 text-white' : 'bg-lime-400 text-dark-900'}`}>
-          {isReserved ? (
-            'REZERVOVÁNO'
-          ) : (
-            car.price > 0 ? `${car.price.toLocaleString()} Kč` : 'Na dotaz'
-          )}
+        {/* Price Tag or Reservation/Sold Tag */}
+        <div className="absolute bottom-3 right-3 px-4 py-2 rounded-lg font-bold font-exo text-lg shadow-lg bg-lime-400 text-dark-900">
+          {car.price > 0 ? `${car.price.toLocaleString()} Kč` : 'Na dotaz'}
         </div>
       </div>
 

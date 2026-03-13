@@ -1,5 +1,6 @@
 import React from 'react';
 import { Car } from '../types/car';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface CarDetailModalProps {
   car: Car | null;
@@ -8,16 +9,31 @@ interface CarDetailModalProps {
 }
 
 const CarDetailModal: React.FC<CarDetailModalProps> = ({ car, isOpen, onClose }) => {
+  const { t } = useTranslation();
   if (!isOpen || !car) return null;
+
+  const isReserved = car.reserved || (car.reservedUntil && new Date(car.reservedUntil) > new Date());
+  const isSold = car.sold;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-screen overflow-y-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold">{car.brand} {car.model}</h2>
+        <div className="flex justify-between items-start mb-6">
+          <div className="flex flex-wrap items-center gap-4">
+            <h2 className="text-3xl font-bold">{car.brand} {car.model}</h2>
+            {isSold ? (
+              <span className="bg-red-600 text-white px-3 py-1 rounded text-sm font-bold uppercase">
+                {t('predane')}
+              </span>
+            ) : isReserved ? (
+              <span className="bg-orange-500 text-white px-3 py-1 rounded text-sm font-bold uppercase">
+                {t('rezervovane')}
+              </span>
+            ) : null}
+          </div>
           <button 
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-3xl"
+            className="text-gray-500 hover:text-gray-700 text-4xl leading-none"
           >
             ×
           </button>
@@ -97,8 +113,41 @@ const CarDetailModal: React.FC<CarDetailModalProps> = ({ car, isOpen, onClose })
               </div>
             </div>
 
+            {car.description && (
+              <div className="mt-6">
+                <h3 className="text-xl font-semibold mb-4">Poznámka</h3>
+                <p className="text-gray-700 whitespace-pre-line">{car.description}</p>
+              </div>
+            )}
+
+            {(car.serviceBookPdf || car.cebiaProtocolPdf || (car.additionalFiles && car.additionalFiles.length > 0)) && (
+              <div className="mt-6">
+                <h3 className="text-xl font-semibold mb-4">Dokumenty</h3>
+                <div className="space-y-2">
+                  {car.serviceBookPdf && (
+                    <a href={car.serviceBookPdf} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-blue-600">
+                      <span>📄</span>
+                      <span className="font-medium">Servisná knižka</span>
+                    </a>
+                  )}
+                  {car.cebiaProtocolPdf && (
+                    <a href={car.cebiaProtocolPdf} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-blue-600">
+                      <span>🛡️</span>
+                      <span className="font-medium">Cebia protokol</span>
+                    </a>
+                  )}
+                  {car.additionalFiles && car.additionalFiles.map((file, idx) => (
+                    <a key={idx} href={file.path} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-blue-600">
+                      <span>📎</span>
+                      <span className="font-medium truncate">{file.name}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {car.vin && (
-              <div className="mt-4">
+              <div className="mt-6"> {/* Changed mt-4 to mt-6 for consistent spacing */}
                 <div className="flex items-center">
                   <span className="text-blue-500 mr-2">🔖</span>
                   <div>
@@ -132,12 +181,6 @@ const CarDetailModal: React.FC<CarDetailModalProps> = ({ car, isOpen, onClose })
               )}
             </div>
 
-            {car.description && (
-              <div className="mt-6">
-                <h3 className="text-xl font-semibold mb-4">Poznámka</h3>
-                <p className="text-gray-700">{car.description}</p>
-              </div>
-            )}
 
             <div className="mt-8">
               <button className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold">

@@ -39,6 +39,7 @@ function AppContent() {
           power: car.power ?? undefined,
           showOnHomepage: car.showOnHomepage,
           reserved: car.reserved,
+          sold: car.sold,
         }));
         setCars(convertedCars);
       } catch (error) {
