@@ -65,7 +65,7 @@ const PonukaPage: React.FC<PonukaPageProps> = ({ cars, isLoading }) => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {filteredCars.map((car) => (
+                  {[...filteredCars].sort((a, b) => Number(a.sold) - Number(b.sold)).map((car) => (
                     <CarCard
                       key={car.id}
                       car={car}
