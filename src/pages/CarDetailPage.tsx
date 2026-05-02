@@ -388,12 +388,14 @@ const CarDetailPage: React.FC<CarDetailPageProps> = ({ cars }) => {
                     </div>
                   )}
                 </div>
-                {car.vatDeductible && car.priceWithoutVat && car.priceWithoutVat > 0 ? (
-                  <p className="text-gray-400 text-sm mb-6 font-montserrat">
-                    {t('odpocetDphLabel')}: {car.priceWithoutVat.toLocaleString()} Kč
-                  </p>
-                ) : car.price > 0 ? (
-                  <p className="text-gray-500 text-sm mb-6 font-montserrat">{t('moznostOdpoctuDph')}</p>
+                {car.price > 0 && car.vatDeductible ? (
+                  car.priceWithoutVat && car.priceWithoutVat > 0 ? (
+                    <p className="text-gray-400 text-sm mb-6 font-montserrat">
+                      {t('odpocetDphLabel')}: {car.priceWithoutVat.toLocaleString()} Kč
+                    </p>
+                  ) : (
+                    <p className="text-gray-500 text-sm mb-6 font-montserrat">{t('moznostOdpoctuDph')}</p>
+                  )
                 ) : null}
 
                 <div className="space-y-3">
