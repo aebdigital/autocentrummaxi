@@ -1,74 +1,102 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+"use client";
 
-const Header: React.FC = () => {
+import Link from "next/link";
+import { useState } from "react";
+
+const navItems = [
+  { href: "/ponuka", label: "Nabídka" },
+  { href: "/financovani", label: "Financování" },
+  { href: "/pojisteni", label: "Pojištění" },
+  { href: "/zaruka", label: "Záruka" },
+  { href: "/kontakt", label: "Kontakt" },
+];
+
+export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
   return (
-    <header className="bg-dark-900/95 backdrop-blur-md text-white fixed w-full top-0 z-50 shadow-sm border-b border-dark-700">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center h-20">
-        {/* Left Side: Logo */}
+    <header className="fixed top-0 z-50 w-full border-b border-dark-700 bg-dark-900/95 text-white shadow-sm backdrop-blur-md">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 py-4">
         <div className="flex items-center">
-          <Link to="/" className="text-2xl md:text-3xl font-bold font-exo tracking-tight text-lime-400 hover:text-lime-500 transition-colors">
+          <Link
+            href="/"
+            className="font-exo text-2xl font-bold tracking-tight text-lime-400 transition-colors hover:text-lime-500 md:text-3xl"
+          >
             Autocentrum Maxi .cz
           </Link>
         </div>
 
-        {/* Center: Desktop Nav */}
-        <nav className="hidden lg:flex items-center space-x-6">
-          <Link to="/ponuka" className="text-sm font-bold font-exo uppercase tracking-wider hover:text-lime-400 transition-colors">Nabídka</Link>
-          <Link to="/financovani" className="text-sm font-bold font-exo uppercase tracking-wider hover:text-lime-400 transition-colors">Financování</Link>
-          <Link to="/pojisteni" className="text-sm font-bold font-exo uppercase tracking-wider hover:text-lime-400 transition-colors">Pojištění</Link>
-          <Link to="/zaruka" className="text-sm font-bold font-exo uppercase tracking-wider hover:text-lime-400 transition-colors">Záruka</Link>
-          <Link to="/kontakt" className="text-sm font-bold font-exo uppercase tracking-wider hover:text-lime-400 transition-colors">Kontakt</Link>
+        <nav className="hidden items-center space-x-6 lg:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="font-exo text-sm font-bold uppercase tracking-wider transition-colors hover:text-lime-400"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
-        {/* Right Side: Contact / Mobile Toggle */}
         <div className="flex items-center">
-           <a href="tel:+420702198267" className="hidden lg:block bg-lime-400 text-dark-900 px-4 py-2 rounded-full font-bold text-sm hover:bg-lime-500 transition-colors mr-4">
-             +420 702 198 267
-           </a>
-
-          {/* Hamburger Menu Button (Mobile) */}
-          <button
-            className="lg:hidden p-2 focus:outline-none text-white"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
+          <a
+            href="tel:+420702198267"
+            className="mr-4 hidden rounded-full bg-lime-400 px-4 py-2 text-sm font-bold text-dark-900 transition-colors hover:bg-lime-500 lg:block"
           >
-             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-             </svg>
+            +420 702 198 267
+          </a>
+
+          <button
+            type="button"
+            className="p-2 text-white focus:outline-none lg:hidden"
+            onClick={() => setIsMenuOpen(true)}
+            aria-label="Otvoriť menu"
+          >
+            <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* Mobile Sidebar Overlay (Full Screen) */}
       <div
-        className={`fixed top-0 left-0 w-full h-[100dvh] bg-dark-900 z-[60] transform transition-transform duration-300 ease-in-out lg:hidden ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed left-0 top-0 z-[60] h-[100dvh] w-full transform bg-dark-900 transition-transform duration-300 ease-in-out lg:hidden ${
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center h-20 border-b border-dark-700 bg-dark-900">
-          <Link to="/" onClick={toggleMenu} className="text-2xl font-bold font-exo text-lime-400">
-             Autocentrum Maxi .cz
+        <div className="container mx-auto flex h-20 items-center justify-between border-b border-dark-700 bg-dark-900 px-4 py-4">
+          <Link
+            href="/"
+            onClick={() => setIsMenuOpen(false)}
+            className="font-exo text-2xl font-bold text-lime-400"
+          >
+            Autocentrum Maxi .cz
           </Link>
-          <button onClick={toggleMenu} className="p-2 focus:outline-none text-white">
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen(false)}
+            className="p-2 text-white focus:outline-none"
+            aria-label="Zavrieť menu"
+          >
+            <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <nav className="flex flex-col justify-start p-8 h-full bg-dark-900 space-y-6">
-           <Link to="/ponuka" className="text-white font-bold font-exo hover:text-lime-400 text-3xl" onClick={toggleMenu}>Nabídka</Link>
-           <Link to="/financovani" className="text-white font-bold font-exo hover:text-lime-400 text-3xl" onClick={toggleMenu}>Financování</Link>
-           <Link to="/pojisteni" className="text-white font-bold font-exo hover:text-lime-400 text-3xl" onClick={toggleMenu}>Pojištění</Link>
-           <Link to="/zaruka" className="text-white font-bold font-exo hover:text-lime-400 text-3xl" onClick={toggleMenu}>Záruka</Link>
-           <Link to="/kontakt" className="text-white font-bold font-exo hover:text-lime-400 text-3xl" onClick={toggleMenu}>Kontakt</Link>
+        <nav className="flex h-full flex-col space-y-6 bg-dark-900 p-8">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="font-exo text-3xl font-bold text-white hover:text-lime-400"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </header>
   );
-};
-
-export default Header;
+}

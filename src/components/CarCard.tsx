@@ -1,91 +1,86 @@
-import React from 'react';
-import { Car } from '../types/car';
+import Link from "next/link";
+import Image from "next/image";
+import type { Car } from "@/types/car";
+import { createCarSlug } from "@/lib/site";
 
-// Import local SVG icons
-import rokIcon from '../images/rok.svg';
-import palivoIcon from '../images/palivo.svg';
-import kmIcon from '../images/km.svg';
-import vykonIcon from '../images/vykon.svg';
+const iconMap = {
+  year: "/icons/rok.svg",
+  fuel: "/icons/palivo.svg",
+  mileage: "/icons/km.svg",
+  power: "/icons/vykon.svg",
+};
 
 interface CarCardProps {
   car: Car;
-  onClick: () => void;
 }
 
-const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
-  // Use reserved boolean field, fallback to reservedUntil date check for backwards compatibility
-  const isReserved = car.reserved || (car.reservedUntil && new Date(car.reservedUntil) > new Date());
+export default function CarCard({ car }: CarCardProps) {
+  const isReservedByDate = car.reservedUntil ? new Date(car.reservedUntil) > new Date() : false;
+  const isReserved = car.reserved || isReservedByDate;
   const isSold = car.sold;
+  const href = `/vozidlo/${createCarSlug(car)}`;
 
   return (
-    <div
-      className="group bg-dark-800 rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer border border-dark-600 flex flex-col h-full"
-      onClick={onClick}
+    <Link
+      href={href}
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-dark-600 bg-dark-800 shadow-md transition-all duration-300 hover:shadow-2xl"
     >
-      {/* Image Container */}
       <div className="relative h-56 overflow-hidden">
-        <img
-          src={car.image}
+        <Image
+          src={car.image || "/img/cars/1.jpg"}
           alt={`${car.brand} ${car.model}`}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
 
-        {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
+        <div className="absolute left-3 top-3 flex flex-col gap-2">
           {isSold ? (
-            <div className="bg-red-600 text-white px-3 py-1 rounded shadow-lg text-xs font-bold uppercase">
+            <div className="rounded bg-red-600 px-3 py-1 text-xs font-bold uppercase text-white shadow-lg">
               PRODÁNO
             </div>
           ) : isReserved ? (
-            <div className="bg-red-600 text-white px-3 py-1 rounded shadow-lg text-xs font-bold uppercase">
+            <div className="rounded bg-red-600 px-3 py-1 text-xs font-bold uppercase text-white shadow-lg">
               REZERVOVÁNO
             </div>
           ) : null}
         </div>
 
-        {/* Price Tag or Reservation/Sold Tag */}
-        <div className="absolute bottom-3 right-3 px-4 py-2 rounded-lg font-bold font-exo text-lg shadow-lg bg-lime-400 text-dark-900">
-          {car.price > 0 ? `${car.price.toLocaleString()} Kč` : 'Na dotaz'}
+        <div className="absolute bottom-3 right-3 rounded-lg bg-lime-400 px-4 py-2 font-exo text-lg font-bold text-dark-900 shadow-lg">
+          {car.price > 0 ? `${car.price.toLocaleString("cs-CZ")} Kč` : "Na dotaz"}
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-5 flex flex-col flex-grow">
-        <div className="flex justify-between items-start mb-2">
-          <div>
-            <h3 className="text-xl font-bold text-white font-exo leading-tight group-hover:text-lime-400 transition-colors">
-              {car.brand} {car.model}
-            </h3>
-          </div>
+      <div className="flex flex-grow flex-col p-5">
+        <div className="mb-2 flex items-start justify-between">
+          <h3 className="font-exo text-xl font-bold leading-tight text-white transition-colors group-hover:text-lime-400">
+            {car.brand} {car.model}
+          </h3>
         </div>
 
-        <div className="mt-auto pt-4 grid grid-cols-2 gap-y-3 gap-x-2 text-sm text-gray-400 font-montserrat">
-          <div className="flex items-center gap-2">
-            <img src={rokIcon} alt="Rok" className="w-4 h-4 icon-lime" />
-            <span>{car.year}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <img src={kmIcon} alt="Km" className="w-4 h-4 icon-lime" />
-            <span>{car.mileage.toLocaleString()} km</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <img src={palivoIcon} alt="Palivo" className="w-4 h-4 icon-lime" />
-            <span>{car.fuel}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <img src={vykonIcon} alt="Výkon" className="w-4 h-4 icon-lime" />
-            <span>{car.power || '-'}</span>
-          </div>
+        <div className="mt-auto grid grid-cols-2 gap-x-2 gap-y-3 pt-4 font-montserrat text-sm text-gray-400">
+          <Stat icon={iconMap.year} label="Rok" value={String(car.year)} />
+          <Stat icon={iconMap.mileage} label="Km" value={`${car.mileage.toLocaleString("cs-CZ")} km`} />
+          <Stat icon={iconMap.fuel} label="Palivo" value={car.fuel} />
+          <Stat icon={iconMap.power} label="Výkon" value={car.power || "-"} />
         </div>
       </div>
 
-      {/* Footer Action */}
-      <div className="px-5 py-3 bg-dark-700 border-t border-dark-600 flex justify-between items-center group-hover:bg-lime-400 transition-colors">
+      <div className="flex items-center justify-between border-t border-dark-600 bg-dark-700 px-5 py-3 transition-colors group-hover:bg-lime-400">
         <span className="text-sm font-semibold text-gray-300 group-hover:text-dark-900">Detail vozidla</span>
-        <span className="text-lime-400 group-hover:text-dark-900 transform group-hover:translate-x-1 transition-transform">→</span>
+        <span className="transform text-lime-400 transition-transform group-hover:translate-x-1 group-hover:text-dark-900">→</span>
       </div>
+    </Link>
+  );
+}
+
+function Stat({ icon, label, value }: { icon: string; label: string; value: string }) {
+  return (
+    <div className="flex items-center gap-2">
+      <div className="relative h-4 w-4">
+        <Image src={icon} alt={label} fill className="icon-lime" />
+      </div>
+      <span className="truncate">{value}</span>
     </div>
   );
-};
-
-export default CarCard;
+}

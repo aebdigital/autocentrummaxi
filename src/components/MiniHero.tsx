@@ -1,26 +1,27 @@
-import React from 'react';
+import Image from "next/image";
 
 interface MiniHeroProps {
   title: string;
 }
 
-const MiniHero: React.FC<MiniHeroProps> = ({ title }) => {
+export default function MiniHero({ title }: MiniHeroProps) {
   return (
-    <section className="relative min-h-[25vh] bg-dark-900 flex items-center justify-center text-white pt-[50px]">
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-40"
-        style={{
-          backgroundImage: 'url("/img/hero-main.jpg")',
-        }}
-      />
-      <div className="relative max-w-6xl mx-auto px-4 z-10">
-        <h1 className="text-4xl md:text-5xl font-bold font-exo text-center tracking-wide uppercase">
+    <section className="relative flex min-h-[25vh] items-center justify-center bg-dark-900 pt-[50px] text-white overflow-hidden">
+      <div className="absolute inset-0 opacity-40">
+        <Image
+          src="/img/hero-main.jpg"
+          alt="Hero background"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+      <div className="relative z-10 mx-auto max-w-6xl px-4">
+        <h1 className="text-center font-exo text-4xl font-bold uppercase tracking-wide md:text-5xl">
           {title}
         </h1>
-        <div className="w-20 h-1 bg-lime-400 mx-auto mt-4 rounded-full"></div>
+        <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-lime-400" />
       </div>
     </section>
   );
-};
-
-export default MiniHero;
+}

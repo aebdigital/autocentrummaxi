@@ -1,60 +1,37 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from "next/link";
+import Image from "next/image";
 
-const Services: React.FC = () => {
-  const services = [
-    {
-      title: 'Prodej',
-      image: '/img/services/predaj.jpg',
-      link: '/ponuka'
-    },
-    {
-      title: 'Dovoz',
-      image: '/img/services/dovoz.jpg',
-      link: '/kontakt'
-    },
-    {
-      title: 'Financování',
-      image: '/img/services/financovani.jpg',
-      link: '/financovani'
-    },
-    {
-      title: 'Záruka',
-      image: '/img/services/zaruka.jpg',
-      link: '/zaruka'
-    },
-    {
-      title: 'Pojištění',
-      image: '/img/services/pojisteni.jpg',
-      link: '/pojisteni'
-    }
-  ];
+const services = [
+  { title: "Prodej", image: "/img/services/predaj.jpg", link: "/ponuka" },
+  { title: "Dovoz", image: "/img/services/dovoz.jpg", link: "/kontakt" },
+  { title: "Financování", image: "/img/services/financovani.jpg", link: "/financovani" },
+  { title: "Záruka", image: "/img/services/zaruka.jpg", link: "/zaruka" },
+  { title: "Pojištění", image: "/img/services/pojisteni.jpg", link: "/pojisteni" },
+];
 
-  // We have 5 items, displaying 4 in a row is standard, or maybe flexible grid. 
-  // Let's filter or slice, or just display all. The user asked for linking to specific pages.
-  // "Dovoz" doesn't have a specific page in the requirements list, so I linked to contact or maybe it's just a service we highlight.
-  // I will use a responsive grid.
-
+export default function Services() {
   return (
-    <section className="py-20 bg-dark-800">
+    <section className="bg-dark-800 py-20">
       <div className="container mx-auto px-4">
-        <h2 className="text-5xl font-bold text-center mb-16 font-exo text-white">NAŠE SLUŽBY</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-          {services.map((service, index) => (
+        <h2 className="mb-16 text-center font-exo text-5xl font-bold text-white">NAŠE SLUŽBY</h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {services.map((service) => (
             <Link
-              to={service.link}
-              key={index}
-              className="group relative h-80 rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+              key={service.title}
+              href={service.link}
+              className="group relative h-80 transform cursor-pointer overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
-              <img
+              <Image
                 src={service.image}
                 alt={service.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 20vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 transition-opacity group-hover:opacity-90" />
               <div className="absolute bottom-0 left-0 right-0 p-6 text-center">
-                <h3 className="text-2xl font-bold font-exo text-white mb-2">{service.title}</h3>
-                <span className="inline-block px-4 py-2 border border-lime-400/50 rounded-full text-xs font-semibold text-white uppercase tracking-wider group-hover:bg-lime-400 group-hover:text-dark-900 group-hover:border-lime-400 transition-colors">
+                <h3 className="mb-2 font-exo text-2xl font-bold text-white">{service.title}</h3>
+                <span className="inline-block rounded-full border border-lime-400/50 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition-colors group-hover:border-lime-400 group-hover:bg-lime-400 group-hover:text-dark-900">
                   Více info
                 </span>
               </div>
@@ -64,6 +41,4 @@ const Services: React.FC = () => {
       </div>
     </section>
   );
-};
-
-export default Services;
+}

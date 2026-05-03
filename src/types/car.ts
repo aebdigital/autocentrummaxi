@@ -16,20 +16,60 @@ export interface Car {
   drivetrain?: string;
   vin?: string;
   description?: string;
-  source?: 'xml' | 'admin'; // Track if car is from XML feed or admin-added
-  reservedUntil?: string; // ISO date string for reservation expiry
-  reserved?: boolean; // Flag to show "Rezervováno" badge
-  sold?: boolean; // Flag to show "Predané" badge
-  showOnHomepage?: boolean; // Flag to show in "Najnovšie vozidlá" section
+  source?: "xml" | "admin";
+  reservedUntil?: string;
+  reserved?: boolean;
+  sold?: boolean;
+  showOnHomepage?: boolean;
   doors?: string;
   seats?: number;
   color?: string;
-  countryOfOrigin?: string; // Country code (SK, CZ, DE, etc.)
-  month?: number; // Month of manufacture
+  countryOfOrigin?: string;
+  month?: number;
   vatDeductible?: boolean;
   priceWithoutVat?: number;
   additionalFiles?: { name: string; path: string }[];
-  // PDF documents
-  serviceBookPdf?: string; // Path to service book PDF
-  cebiaProtocolPdf?: string; // Path to Cebia protocol PDF
+  serviceBookPdf?: string;
+  cebiaProtocolPdf?: string;
+}
+
+export interface PublicCar {
+  id: string;
+  brand: string;
+  model: string;
+  year: number | null;
+  price: number | null;
+  mileage: number | null;
+  fuel: string | null;
+  transmission: string | null;
+  image: string;
+  power?: string | null;
+  showOnHomepage?: boolean | null;
+  reserved?: boolean | null;
+  sold?: boolean | null;
+  vatDeductible?: boolean | null;
+  priceWithoutVat?: number | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+
+export interface PublicCarFull extends PublicCar {
+  images?: string[] | null;
+  features?: string[] | null;
+  engine?: string | null;
+  bodyType?: string | null;
+  drivetrain?: string | null;
+  vin?: string | null;
+  description?: string | null;
+  reservedUntil?: string | null;
+  mainImageUrl: string;
+  galleryImageUrls: string[];
+  doors?: string | null;
+  seats?: number | null;
+  color?: string | null;
+  countryOfOrigin?: string | null;
+  month?: number | null;
+  serviceBookPdf?: string | null;
+  cebiaProtocolPdf?: string | null;
+  additionalFiles?: { name: string; path: string }[] | null;
 }
