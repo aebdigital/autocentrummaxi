@@ -6,7 +6,7 @@ interface MiniHeroProps {
 
 export default function MiniHero({ title }: MiniHeroProps) {
   return (
-    <section className="relative flex min-h-[25vh] items-center justify-center bg-dark-900 pt-[50px] text-white overflow-hidden">
+    <section className="relative flex min-h-[30vh] items-center justify-center bg-dark-900 pt-[50px] text-white overflow-hidden">
       <div className="absolute inset-0 opacity-40">
         <Image
           src="/img/hero-main.jpg"
