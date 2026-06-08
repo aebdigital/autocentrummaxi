@@ -81,8 +81,33 @@ export default function CarDetailView({ car }: CarDetailViewProps) {
   const { t, tEquipment } = useTranslation();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
 
   const images = car.galleryImageUrls.length > 0 ? car.galleryImageUrls : [car.mainImageUrl];
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+    setTouchEndX(null);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+    const diff = touchStartX - touchEndX;
+    const minSwipeDistance = 50;
+
+    if (diff > minSwipeDistance) {
+      // Swipe left -> Next image
+      setLightboxIndex((prev) => (prev + 1) % images.length);
+    } else if (diff < -minSwipeDistance) {
+      // Swipe right -> Previous image
+      setLightboxIndex((prev) => (prev - 1 + images.length) % images.length);
+    }
+  };
 
   const isReserved = car.reserved || (car.reservedUntil ? new Date(car.reservedUntil) > new Date() : false);
   const isSold = car.sold;
@@ -287,42 +312,106 @@ export default function CarDetailView({ car }: CarDetailViewProps) {
 
       {lightboxOpen ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
+          className="fixed inset-0 z-50 flex flex-col bg-black/95 p-4 md:p-6"
           onClick={() => setLightboxOpen(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
-          <button type="button" className="absolute right-4 top-4 text-4xl text-white">×</button>
-          <div className="relative h-full w-full max-w-6xl p-4">
-            <Image
-              src={images[lightboxIndex]}
-              alt={`Full view of car ${lightboxIndex + 1}`}
-              fill
-              className="object-contain"
-              onClick={(e) => e.stopPropagation()}
-            />
+          {/* Top Header */}
+          <div className="flex h-12 items-center justify-between px-4 text-white">
+            <div className="font-montserrat text-sm font-semibold">
+              {lightboxIndex + 1} / {images.length}
+            </div>
+            <button
+              type="button"
+              className="z-50 text-4xl font-light hover:text-lime-400 transition-colors duration-200"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxOpen(false);
+              }}
+            >
+              ×
+            </button>
           </div>
+
+          {/* Main Image Container */}
+          <div className="relative flex-grow w-full flex items-center justify-center min-h-0">
+            <div 
+              className="relative h-full w-full max-w-5xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={images[lightboxIndex]}
+                alt={`Full view of car ${lightboxIndex + 1}`}
+                fill
+                className="object-contain select-none transition-all duration-300"
+                priority
+                sizes="(max-width: 1280px) 100vw, 1280px"
+              />
+            </div>
+
+            {/* Navigation Arrows (visible on desktop) */}
+            {images.length > 1 ? (
+              <>
+                <button
+                  type="button"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-dark-800/60 text-2xl text-white backdrop-blur-sm transition-all hover:bg-lime-400 hover:text-dark-900 md:flex hidden"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightboxIndex((lightboxIndex - 1 + images.length) % images.length);
+                  }}
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-dark-800/60 text-2xl text-white backdrop-blur-sm transition-all hover:bg-lime-400 hover:text-dark-900 md:flex hidden"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightboxIndex((lightboxIndex + 1) % images.length);
+                  }}
+                >
+                  →
+                </button>
+              </>
+            ) : null}
+          </div>
+
+          {/* Thumbnails list at the bottom */}
           {images.length > 1 ? (
-            <>
-              <button
-                type="button"
-                className="absolute left-4 top-1/2 -translate-y-1/2 p-2 text-4xl text-white"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setLightboxIndex((lightboxIndex - 1 + images.length) % images.length);
-                }}
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-4xl text-white"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setLightboxIndex((lightboxIndex + 1) % images.length);
-                }}
-              >
-                →
-              </button>
-            </>
+            <div 
+              className="mt-4 w-full flex justify-center py-2 min-h-0"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex gap-2 overflow-x-auto pb-2 px-4 max-w-full justify-start md:justify-center no-scrollbar">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    ref={(el) => {
+                      if (idx === lightboxIndex && el) {
+                        el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+                      }
+                    }}
+                    className={`relative h-12 w-16 md:h-16 md:w-24 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200 ${
+                      idx === lightboxIndex 
+                        ? "border-lime-400 scale-105 opacity-100" 
+                        : "border-transparent opacity-40 hover:opacity-100"
+                    }`}
+                    onClick={() => setLightboxIndex(idx)}
+                  >
+                    <Image
+                      src={img}
+                      alt={`Thumbnail ${idx + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="96px"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
           ) : null}
         </div>
       ) : null}
