@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -20,9 +21,17 @@ export default function Header() {
         <div className="flex items-center">
           <Link
             href="/"
-            className="font-exo text-2xl font-bold tracking-tight text-lime-400 transition-colors hover:text-lime-500 md:text-3xl"
+            aria-label="Autocentrum Maxi – domov"
+            className="block transition-opacity hover:opacity-90"
           >
-            Autocentrum Maxi .cz
+            <Image
+              src="/autocentrum-maxi-logo.png"
+              alt="Autocentrum Maxi"
+              width={1159}
+              height={382}
+              priority
+              className="h-12 w-auto mix-blend-screen sm:h-14"
+            />
           </Link>
         </div>
 
@@ -68,9 +77,16 @@ export default function Header() {
           <Link
             href="/"
             onClick={() => setIsMenuOpen(false)}
-            className="font-exo text-2xl font-bold text-lime-400"
+            aria-label="Autocentrum Maxi – domov"
+            className="block transition-opacity hover:opacity-90"
           >
-            Autocentrum Maxi .cz
+            <Image
+              src="/autocentrum-maxi-logo.png"
+              alt="Autocentrum Maxi"
+              width={1159}
+              height={382}
+              className="h-12 w-auto mix-blend-screen"
+            />
           </Link>
           <button
             type="button"
